@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../autenticacion/pages/login';
-import ListaVuelos from '../modulos/Vuelo/pages/ListaVuelos';
 import Inicio from '../paginas/Inicio';
 import Dashboard from '../Dashboard/pages/Dashboard';
+import ListaVuelos from '../modulos/gestion de vuelos/pages/ListaVuelos';
 
 export default function DefinicionRutas() {
   const isAuthenticated = !!localStorage.getItem('token'); // Verifica si hay un token en el localStorage
