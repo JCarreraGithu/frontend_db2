@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaLock, FaPlaneDeparture } from 'react-icons/fa';
+import './login.css'; 
 
 const Login = () => {
   const [correo, setCorreo] = useState('');
@@ -7,76 +9,79 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
 
     try {
-      const respuesta = await fetch('http://localhost:3000/api/usuarios/login', {
+      const response = await fetch('http://localhost:3000/api/usuarios/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo, contrasena }),
       });
 
-      const data = await respuesta.json();
+      const data = await response.json();
 
-      if (!respuesta.ok) {
-        setError(data.message || 'Error al iniciar sesión');
-        return;
-      }
+      if (!response.ok) throw new Error(data.message || 'Error en el login');
 
-      // Guardar token y datos de sesión
       localStorage.setItem('token', data.token);
-
-      // Decodificar token para extraer rol (solo para mostrar, puedes usar jwt-decode si quieres)
-      const payload = JSON.parse(atob(data.token.split('.')[1]));
-      const rol = payload.tipo_usuario;
-
-      localStorage.setItem('usuario', JSON.stringify({ correo, rol }));
-
-      // Redirigir al panel principal
-      navigate('/inicio');
-    } catch (err) {
-      setError('Error de conexión con el servidor');
+      navigate('/');
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
   return (
-    <div style={{
-      backgroundColor: '#f0f0f0',
-      height: '100vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <form
-        onSubmit={handleSubmit}
-        style={{ background: 'white', padding: '2rem', borderRadius: '10px', boxShadow: '0 0 10px #ccc' }}
-      >
-        <h2>Iniciar Sesión</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <input
-          type="email"
-          placeholder="Correo"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-          style={{ display: 'block', marginBottom: '1rem', width: '100%' }}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
-          required
-          style={{ display: 'block', marginBottom: '1rem', width: '100%' }}
-        />
-        <button type="submit" style={{ width: '100%' }}>Entrar</button>
-      </form>
+    <div className="login-container">
+      <div className="login-box">
+        <div className="login-title">
+          <FaPlaneDeparture className="login-icon" />
+          Aeropuerto
+        </div>
+
+        {error && (
+          <div className="login-error">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleLogin}>
+          <div className="relative">
+            <FaUser className="input-icon" />
+            <input
+              type="email"
+              placeholder="Correo electrónico"
+              value={correo}
+              onChange={(e) => setCorreo(e.target.value)}
+              required
+              className="login-input"
+            />
+          </div>
+
+          <div className="relative">
+            <FaLock className="input-icon" />
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+              required
+              className="login-input"
+            />
+          </div>
+
+          <button type="submit" className="login-button">
+            Entrar
+          </button>
+        </form>
+
+        <div className="login-links">
+          <a href="#">¿Olvidaste tu contraseña?</a>
+          <a href="#">Crear cuenta</a>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Login;
+

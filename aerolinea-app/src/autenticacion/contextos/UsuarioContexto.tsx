@@ -1,42 +1,29 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 interface Usuario {
-  id_usuario: number;
   nombre: string;
-  correo: string;
-  tipo_usuario: string;
+  rol: string;
 }
 
-interface UsuarioContextType {
+interface UsuarioContextoTipo {
   usuario: Usuario | null;
-  setUsuario: React.Dispatch<React.SetStateAction<Usuario | null>>;
+  setUsuario: (usuario: Usuario | null) => void;
 }
 
-export const UsuarioContext = createContext<UsuarioContextType>({
-  usuario: null,
-  setUsuario: () => {},
-});
+const UsuarioContext = createContext<UsuarioContextoTipo | null>(null);
 
 export const UsuarioProvider = ({ children }: { children: React.ReactNode }) => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-
-  // 👉 Simulación de inicio de sesión
-  useEffect(() => {
-    const usuarioSimulado = {
-      id_usuario: 1,
-      nombre: "Usuario Prueba",
-      correo: "prueba@correo.com",
-      tipo_usuario: "admin", // puedes probar con: "operador", "tecnico", etc.
-    };
-
-    localStorage.setItem('token', 'simulado-token');
-    localStorage.setItem('usuario', JSON.stringify(usuarioSimulado));
-    setUsuario(usuarioSimulado);
-  }, []);
 
   return (
     <UsuarioContext.Provider value={{ usuario, setUsuario }}>
       {children}
     </UsuarioContext.Provider>
   );
+};
+
+export const useUsuario = () => {
+  const contexto = useContext(UsuarioContext);
+  if (!contexto) throw new Error("useUsuario debe usarse dentro de UsuarioProvider");
+  return contexto;
 };
