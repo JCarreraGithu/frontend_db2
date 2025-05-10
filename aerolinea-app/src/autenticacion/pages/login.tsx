@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaPlaneDeparture } from 'react-icons/fa';
 import './login.css'; 
 
+
 const Login = () => {
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
@@ -35,7 +36,7 @@ const Login = () => {
       <div className="login-box">
         <div className="login-title">
           <FaPlaneDeparture className="login-icon" />
-          Aeropuerto
+          Inicio Sesion
         </div>
 
         {error && (
@@ -70,7 +71,7 @@ const Login = () => {
           </div>
 
           <button type="submit" className="login-button">
-            Entrar
+            <a href="#"></a>Entrar
           </button>
         </form>
 
@@ -80,7 +81,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
+);
 };
 
 export default Login;
