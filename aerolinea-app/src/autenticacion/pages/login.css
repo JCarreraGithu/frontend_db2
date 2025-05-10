@@ -1,101 +1,89 @@
 .login-container {
     min-height: 100vh;
-    background-image: url('/fondo-aeropuerto.jpg');
+    background: linear-gradient(rgba(179, 187, 206, 0.7), rgba(0, 0, 0, 0.9)), 
+                url('https://www.airportgurus.com/wp-content/uploads/2023/02/airport-at-the-colorful-sunset-2022-02-02-05-06-41-utc-scaled-e1671720802460.jpeg');
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 1rem;
-  }
-  
-  .login-box {
-    background-color: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    padding: 2rem;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  .login-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: #2563eb;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  .login-icon {
+}
+
+.login-box {
+    background: linear-gradient(135deg, rgba(0, 150, 255, 0.2) 0%, rgba(37, 99, 235, 0.9) 100%);
+    backdrop-filter: blur(30px);
+    border-radius: 2rem;
+    padding: 3rem;
+    width: 80%;
+    max-width: 300px;
+    box-shadow: 0 0 40px rgba(37, 99, 235, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-parrafo {
+    background: linear-gradient(135deg, rgba(0, 150, 255, 0.2) 0%, rgba(37, 99, 235, 0.9) 100%);
+    backdrop-filter: blur(30px);
+    border-radius: 2rem;
+    padding: 3rem;
+    width: 80%;
+    max-width: 300px;
+    box-shadow: 0 0 40px rgba(37, 99, 235, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    justify-content: flex-start;
+}
+.login-title {
+    text-align: center;
     font-size: 2rem;
-    margin-right: 0.5rem;
-  }
-  
-  .input-icon {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
-  }
-  
-  .login-input {
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.login-input {
     width: 100%;
-    padding: 0.6rem 0.8rem 0.6rem 2.5rem;
+    padding: 0.75rem 1rem;
     margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-  }
-  
-  .login-input:focus {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #fdfdfd;
+    font-size: 1rem;
+    border-radius: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.login-input:focus {
     border-color: #2563eb;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
-  }
-  
-  .login-button {
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.7);
+}
+
+.login-button {
     width: 100%;
-    padding: 0.6rem;
-    background-color: #2563eb;
+    padding: 0.75rem;
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0.8), rgba(0, 150, 255, 0.8));
     color: white;
-    font-weight: 600;
+    font-weight: bold;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .login-button:hover {
-    background-color: #1e40af;
-  }
-  
-  .login-links {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    color: #555;
-  }
-  
-  .login-links a {
-    color: #2563eb;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 150, 255, 0.7);
+}
+
+.login-links a {
+    color: #00d9ff;
     text-decoration: none;
-  }
-  
-  .login-links a:hover {
-    text-decoration: underline;
-  }
-  
-  .login-error {
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border: 1px solid #fca5a5;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-  }
-  
+    transition: color 0.3s;
+}
+
+.login-links a:hover {
+    color: #2563eb;
+    text-shadow: 0 0 5px #2563eb;
+}
