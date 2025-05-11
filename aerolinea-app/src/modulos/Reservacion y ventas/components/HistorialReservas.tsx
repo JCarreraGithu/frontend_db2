@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getAllReservas } from '../../services/reservasService';
+import { obtenerReservas } from '../services/reservaService';
 
 const HistorialReservas = () => {
   const [reservas, setReservas] = useState([]);
 
   useEffect(() => {
-    getAllReservas().then(setReservas).catch(console.error);
+    obtenerReservas().then(setReservas).catch(console.error);
   }, []);
 
   return (

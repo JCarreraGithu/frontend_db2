@@ -3,7 +3,7 @@ import TablaVuelosDisponibles from './TablaVuelosDisponibles';
 import FormularioEquipaje from './FormularioEquipaje';
 import FormularioPago from './FormularioPago';
 import ComprobanteReserva from './ComprobanteReserva';
-import { createReserva } from '../../services/reservasService';
+import { crearReserva } from '../services/reservaService';
 
 const FormularioReservasYVentas = () => {
   const [reserva, setReserva] = useState({
@@ -21,7 +21,7 @@ const FormularioReservasYVentas = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createReserva(reserva);
+      await crearReserva(reserva);
       alert('Reserva creada correctamente');
     } catch (error) {
       console.error(error);

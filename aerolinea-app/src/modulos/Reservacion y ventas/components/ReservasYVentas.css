@@ -1,0 +1,66 @@
+.reservas-container {
+  min-height: 100vh;
+  background: linear-gradient(rgba(179, 187, 206, 0.7), rgba(0, 0, 0, 0.9)), 
+              url('https://www.airportgurus.com/wp-content/uploads/2023/02/airport-at-the-colorful-sunset-2022-02-02-05-06-41-utc-scaled-e1671720802460.jpeg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.reservas-box {
+  background: linear-gradient(135deg, rgba(0, 150, 255, 0.2) 0%, rgba(37, 99, 235, 0.9) 100%);
+  backdrop-filter: blur(30px);
+  border-radius: 2rem;
+  padding: 3rem;
+  width: 90%;
+  max-width: 3000px;
+  box-shadow: 0 0 40px rgba(37, 99, 235, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.reservas-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.reservas-description {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+}
+
+.reservas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.reservas-card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 0.95rem;
+  transition: transform 0.2s, background 0.3s;
+  cursor: pointer;
+}
+
+.reservas-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.03);
+}
