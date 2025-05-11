@@ -1,38 +1,63 @@
 .login-container {
     min-height: 100vh;
-    background: linear-gradient(rgba(179, 187, 206, 0.7), rgba(0, 0, 0, 0.9)), 
+    background: linear-gradient(rgba(179, 187, 206, 0.7), rgba(0, 0, 0, 0.9)),
                 url('https://www.airportgurus.com/wp-content/uploads/2023/02/airport-at-the-colorful-sunset-2022-02-02-05-06-41-utc-scaled-e1671720802460.jpeg');
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding: 1rem;
+    justify-content: center;
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  
+.login-left {
+    flex: 1;
+    padding: 2rem;
+    color: white;
+    font-family: 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Centra los elementos */
+    text-align: center; /* Centra el texto */
+}
+
+.login-left-title {
+    font-size: 4.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.login-left-description {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    max-width: 900x;
+    margin-top: 1rem; /* Asegura que la descripción tenga un pequeño margen después del título */
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .login-box {
-    background: linear-gradient(135deg, rgba(0, 150, 255, 0.2) 0%, rgba(37, 99, 235, 0.9) 100%);
-    backdrop-filter: blur(30px);
+    background: rgba(255, 255, 255, 0.3); /* Fondo blanco con 30% de opacidad */
+    backdrop-filter: blur(30px); /* Mantiene el desenfoque de fondo */
     border-radius: 2rem;
     padding: 3rem;
-    width: 80%;
+    width: 100%;
     max-width: 300px;
-    box-shadow: 0 0 40px rgba(37, 99, 235, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.5); /* Sombra más suave para un contraste ligero */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Bordes blancos y semi-transparentes */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos dentro del formulario */
 }
 
-.login-parrafo {
-    background: linear-gradient(135deg, rgba(0, 150, 255, 0.2) 0%, rgba(37, 99, 235, 0.9) 100%);
-    backdrop-filter: blur(30px);
-    border-radius: 2rem;
-    padding: 3rem;
-    width: 80%;
-    max-width: 300px;
-    box-shadow: 0 0 40px rgba(37, 99, 235, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    justify-content: flex-start;
-}
-.login-title {
+  
+  .login-title {
     text-align: center;
     font-size: 2rem;
     color: #ffffff;
@@ -40,27 +65,27 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 1.5rem;
-}
-
-.login-input {
+  }
+  
+  .login-input {
     width: 100%;
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
     border: 2px solid rgba(255, 255, 255, 0.3);
     background: transparent;
-    color: #fdfdfd;
+    color: #ffffff;
     font-size: 1rem;
     border-radius: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.login-input:focus {
+  }
+  
+  .login-input:focus {
     border-color: #2563eb;
     outline: none;
     box-shadow: 0 0 15px rgba(37, 99, 235, 0.7);
-}
-
-.login-button {
+  }
+  
+  .login-button {
     width: 100%;
     padding: 0.75rem;
     background: linear-gradient(90deg, rgba(37, 99, 235, 0.8), rgba(0, 150, 255, 0.8));
@@ -70,20 +95,36 @@
     border-radius: 1rem;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.login-button:hover {
+  }
+  
+  .login-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(0, 150, 255, 0.7);
-}
-
-.login-links a {
+  }
+  
+  .login-links {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .login-links a {
     color: #00d9ff;
     text-decoration: none;
     transition: color 0.3s;
-}
-
-.login-links a:hover {
+  }
+  
+  .login-links a:hover {
     color: #2563eb;
     text-shadow: 0 0 5px #2563eb;
+  }
+  
+  .login-input::placeholder {
+    color: white; /* Color blanco para los placeholders (texto en gris claro dentro del campo) */
 }
+.login-icon-container {
+    margin-bottom: 10px; /* Ajusta este valor para controlar el espacio entre el icono y el texto */
+  }
+  
+  .login-text {
+    display: block; /* Esto asegura que el texto se muestre en una nueva línea */
+  }

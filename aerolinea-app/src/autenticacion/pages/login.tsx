@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaPlaneDeparture } from 'react-icons/fa';
-import './login.css'; 
-
+import './login.css';
 
 const Login = () => {
   const [correo, setCorreo] = useState('');
@@ -33,10 +32,21 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {/* Lado izquierdo con título y descripción */}
+      <div className="login-left">
+        <div className="login-left-title">AEROPUERTO INTERNACIONAL LA AURORA</div>
+        <p className="login-left-description">
+          El Aeropuerto Internacional La Aurora es el principal aeropuerto de Guatemala, ubicado en la zona 13 de la Ciudad de Guatemala. Este aeropuerto sirve como una importante puerta de entrada al país, ofreciendo conexiones a destinos nacionales e internacionales.
+        </p>
+      </div>
+
+      {/* Lado derecho con formulario de login */}
       <div className="login-box">
         <div className="login-title">
-          <FaPlaneDeparture className="login-icon" />
-          Inicio Sesion
+        <div className="login-icon-container">
+    <FaPlaneDeparture className="login-icon" />
+  </div>
+  <div className="login-text">Inicio Sesión</div>
         </div>
 
         {error && (
@@ -70,9 +80,7 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="login-button">
-            <a href="#"></a>Entrar
-          </button>
+          <button type="submit" className="login-button">Entrar</button>
         </form>
 
         <div className="login-links">
@@ -81,8 +89,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-);
+  );
 };
 
 export default Login;
-
