@@ -20,14 +20,13 @@ const Dashboard = () => {
       {/* NAVBAR */}
       <nav className="navbar">
         <ul className="navbar-list">
-          <li><Link to="/gestion-usuarios" className="navbar-link">Gestión de usuarios</Link></li>
-          <li><Link to="/aeropuertos-aerolineas" className="navbar-link">Aeropuertos y aerolíneas</Link></li>
-          <li><Link to="/gestion-vuelos" className="navbar-link">Gestión de vuelos</Link></li>
-          <li><Link to="/reservas-clientes" className="navbar-link">Reservas y clientes</Link></li>
-          <li><Link to="/facturacion-pagos" className="navbar-link">Facturación y pagos</Link></li>
-          <li><Link to="/mantenimiento-personal" className="navbar-link">Mantenimiento y personal</Link></li>
-          <li><Link to="/operaciones-soporte" className="navbar-link">Operaciones y soporte</Link></li>
-          <li><Link to="/simulacion-analisis" className="navbar-link">Simulación y análisis</Link></li>
+          <li><Link to="/gestion-usuarios" className="navbar-link">Gestión de Usuarios y Control de Identidad</Link></li>
+          <li><Link to="/aeropuertos-aerolineas" className="navbar-link">Operaciones de Vuelo</Link></li>
+          <li><Link to="/gestion-vuelos" className="navbar-link">Reservas y Ventas</Link></li>
+          <li><Link to="/reservas-clientes" className="navbar-link">Facturación y Pagos</Link></li>
+          <li><Link to="/facturacion-pagos" className="navbar-link">Infraestructura Aeroportuaria</Link></li>
+          <li><Link to="/mantenimiento-personal" className="navbar-link">peraciones y Servicios</Link></li>
+          <li><Link to="/operaciones-soporte" className="navbar-link">Reportes y Simulación</Link></li>
         </ul>
       </nav>
 
