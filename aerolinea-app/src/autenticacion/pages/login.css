@@ -1,105 +1,112 @@
 .login-container {
     min-height: 100vh;
-    background: linear-gradient(rgba(179, 187, 206, 0.7), rgba(0, 0, 0, 0.9)),
-                url('https://www.airportgurus.com/wp-content/uploads/2023/02/airport-at-the-colorful-sunset-2022-02-02-05-06-41-utc-scaled-e1671720802460.jpeg');
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(63, 60, 60, 0.6)),
+                url('../src/images/imglogin.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    gap: 2rem;
+    gap: 4rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
-  
-.login-left {
+  .login-left {
     flex: 1;
     padding: 2rem;
-    color: white;
-    font-family: 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
+    color: #ffffff;
+    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; /* Centra los elementos */
-    text-align: center; /* Centra el texto */
-}
-
-.login-left-title {
-    font-size: 4.5rem;
-    font-weight: bold;
-    line-height: 1.2;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-    text-align: center;
+  }
+  
+  .login-left-title {
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
     margin-bottom: 1rem;
-}
-
-.login-left-description {
-    font-size: 1.5rem;
-    line-height: 1.6;
-    max-width: 900x;
-    margin-top: 1rem; /* Asegura que la descripción tenga un pequeño margen después del título */
-    text-align: center;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.login-box {
-    background: rgba(255, 255, 255, 0.3); /* Fondo blanco con 30% de opacidad */
-    backdrop-filter: blur(30px); /* Mantiene el desenfoque de fondo */
-    border-radius: 2rem;
+  }
+  
+  .login-left-description {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #ffffff;
+  }
+  
+  .login-box {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
     padding: 3rem;
+    max-width: 350px;
     width: 100%;
-    max-width: 300px;
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.5); /* Sombra más suave para un contraste ligero */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Bordes blancos y semi-transparentes */
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra los elementos dentro del formulario */
-}
-
+    align-items: center;
+  }
   
   .login-title {
     text-align: center;
-    font-size: 2rem;
-    color: #ffffff;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    font-weight: 600;
     margin-bottom: 1.5rem;
+  }
+  
+  .login-icon-container {
+    margin-bottom: 10px;
+    font-size: 2rem;
+    color: #007aff;
+  }
+  
+  .login-text {
+    display: block;
   }
   
   .login-input {
     width: 100%;
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background: transparent;
-    color: #ffffff;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    color: #1a1a1a;
     font-size: 1rem;
-    border-radius: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
   }
   
   .login-input:focus {
-    border-color: #2563eb;
+    border-color: #007aff;
     outline: none;
-    box-shadow: 0 0 15px rgba(37, 99, 235, 0.7);
+    box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
+  }
+  
+  .login-input::placeholder {
+    color: #999;
   }
   
   .login-button {
     width: 100%;
     padding: 0.75rem;
-    background: linear-gradient(90deg, rgba(37, 99, 235, 0.8), rgba(0, 150, 255, 0.8));
+    background: linear-gradient(to right, #007aff, #00b0ff);
     color: white;
-    font-weight: bold;
+    font-weight: 500;
     border: none;
-    border-radius: 1rem;
+    border-radius: 12px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s ease;
   }
   
   .login-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(0, 150, 255, 0.7);
+    box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3);
+    transform: translateY(-2px);
   }
   
   .login-links {
@@ -108,23 +115,24 @@
   }
   
   .login-links a {
-    color: #00d9ff;
+    color: #007aff;
     text-decoration: none;
-    transition: color 0.3s;
+    font-size: 0.9rem;
   }
   
   .login-links a:hover {
-    color: #2563eb;
-    text-shadow: 0 0 5px #2563eb;
+    text-decoration: underline;
   }
   
-  .login-input::placeholder {
-    color: white; /* Color blanco para los placeholders (texto en gris claro dentro del campo) */
-}
-.login-icon-container {
-    margin-bottom: 10px; /* Ajusta este valor para controlar el espacio entre el icono y el texto */
+  .input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    pointer-events: none;
+  }
+  .relative {
+    position: relative;
   }
   
-  .login-text {
-    display: block; /* Esto asegura que el texto se muestre en una nueva línea */
-  }

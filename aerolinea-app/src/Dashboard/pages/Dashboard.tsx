@@ -1,3 +1,4 @@
+// src/pages/Dashboard.tsx
 import { Outlet, NavLink } from 'react-router-dom';
 import './Dashboard.css';
 
@@ -11,17 +12,15 @@ const Dashboard = () => {
       </div>
 
       {/* NAVBAR */}
-      <nav className="navbar">
-        <ul className="navbar-list">
-          <li><NavLink to="gestion-usuarios" className="navbar-link">Gestión de Usuarios y Control de Identidad</NavLink></li>
-          <li><NavLink to="aeropuertos-aerolineas" className="navbar-link">Operaciones de Vuelo</NavLink></li>
-          <li><NavLink to="reservas" className="navbar-link">Reservas y Ventas</NavLink></li>
-          <li><NavLink to="facturacion" className="navbar-link">Facturación y Pagos</NavLink></li>
-          <li><NavLink to="infraestructura" className="navbar-link">Infraestructura Aeroportuaria</NavLink></li>
-          <li><NavLink to="servicios" className="navbar-link">Operaciones y Servicios</NavLink></li>
-          <li><NavLink to="reportes" className="navbar-link">Reportes y Simulación</NavLink></li>
-        </ul>
-      </nav>
+      <div className="filter-bar">
+        <NavLink to="/consultas-frecuentes" className="filter-item">Gestión de Usuarios y Control de Identidad</NavLink>
+        <NavLink to="/contribuyentes" className="filter-item">Aeropuertos y Aerolíneas</NavLink>
+        <NavLink to="/Reservas" className="filter-item">Reservas y Ventas</NavLink>
+        <NavLink to="/mis-documentos" className="filter-item">Facturación y Pagos</NavLink>
+        <NavLink to="/requisitos" className="filter-item">Infraestructura Aeroportuaria</NavLink>
+        <NavLink to="/solicitudes-y-avisos" className="filter-item">Operaciones y Servicios</NavLink>
+        <NavLink to="/vehiculos" className="filter-item">Reportes y Simulación</NavLink>
+      </div>
 
       {/* ÁREA DINÁMICA */}
       <div className="main-content">

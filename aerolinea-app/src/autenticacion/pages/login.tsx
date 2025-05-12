@@ -11,20 +11,18 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      const response = await fetch('http://localhost:3000/api/usuarios/login', {
+      const response = await fetch('http://192.168.0.38:3000/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo, contrasena }),
       });
 
       const data = await response.json();
-
       if (!response.ok) throw new Error(data.message || 'Error en el login');
 
       localStorage.setItem('token', data.token);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.message);
     }
@@ -32,32 +30,26 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      {/* Lado izquierdo con título y descripción */}
       <div className="login-left">
         <div className="login-left-title">AEROPUERTO INTERNACIONAL LA AURORA</div>
         <p className="login-left-description">
-          El Aeropuerto Internacional La Aurora es el principal aeropuerto de Guatemala, ubicado en la zona 13 de la Ciudad de Guatemala. Este aeropuerto sirve como una importante puerta de entrada al país, ofreciendo conexiones a destinos nacionales e internacionales.
+        Bienvenido al Aeropuerto Internacional La Aurora, el principal punto de conexión aérea de Guatemala. Desde aquí, gestionamos vuelos, pasajeros y servicios con eficiencia y seguridad para ofrecerte una experiencia de viaje confiable y moderna.
         </p>
       </div>
 
-      {/* Lado derecho con formulario de login */}
       <div className="login-box">
         <div className="login-title">
-        <div className="login-icon-container">
-    <FaPlaneDeparture className="login-icon" />
-  </div>
-  <div className="login-text">Inicio Sesión</div>
+          <div className="login-icon-container">
+            <FaPlaneDeparture className="login-icon" />
+          </div>
+          <div className="login-text">Inicio Sesión</div>
         </div>
 
-        {error && (
-          <div className="login-error">
-            {error}
-          </div>
-        )}
+        {error && <div className="login-error">{error}</div>}
 
         <form onSubmit={handleLogin}>
           <div className="relative">
-            <FaUser className="input-icon" />
+           
             <input
               type="email"
               placeholder="Correo electrónico"
@@ -69,7 +61,7 @@ const Login = () => {
           </div>
 
           <div className="relative">
-            <FaLock className="input-icon" />
+           
             <input
               type="password"
               placeholder="Contraseña"

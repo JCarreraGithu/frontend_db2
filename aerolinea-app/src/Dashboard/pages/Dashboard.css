@@ -1,98 +1,87 @@
-/* Fondo dividido */
+/* Estructura general */
 .dashboard-container {
-    font-family: 'Arial', sans-serif;
-    min-height: 100vh;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    color: #1c1c1e;
+  }
+  
+  /* Encabezado con imagen */
+  .header-section {
+    position: relative;
+    background-image: url('../src/images/imgbarra.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 250px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.header-section {
-    background-color: #f5f5f5; /* color claro */
-    width: 100%;
-    padding: 30px 0;
-    text-align: center;
-}
-
-.header-title {
-    background-color: #333;
-    color: white;
-    padding: 20px 30px;
-    border-radius: 12px;
-    font-size: 2rem;
-    max-width: 600px;
-    margin: auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.header-subtitle {
-    color: #888;
-    margin-top: 10px;
-}
-
-/* Nav conservado */
-.navbar {
-    background-color: #005bbb;
-    padding: 10px 20px;
-    width: 100%;
-    display: flex;
     justify-content: center;
-}
-
-.navbar-list {
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    color: white;
+    overflow: hidden;
+  }
+  
+  .header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+  }
+  
+  .header-title,
+  .header-subtitle {
+    z-index: 1;
+    position: relative;
+  }
+  
+  .header-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .header-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #f0f0f0;
+  }
+  
+  /* Navbar minimalista */
+  .filter-bar {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    list-style: none;
-}
-
-.navbar-link {
-    color: white;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .filter-item {
+    color: #1c1c1e;
     text-decoration: none;
-    font-weight: bold;
-    padding: 10px 15px;
-    transition: background 0.3s;
-}
-
-.navbar-link:hover {
-    background-color: #004199;
-    border-radius: 6px;
-}
-
-/* Desde aquí hacia abajo el fondo es gradiente */
-.main-content {
-    background: linear-gradient(to right, #4facfe, #00f2fe);
-    width: 100%;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Galería de imágenes */
-.image-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
-    margin-top: 40px;
-    width: 100%;
-}
-
-.gallery-card {
-    background-color: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
-}
-
-.gallery-card:hover {
-    transform: translateY(-5px);
-}
-
-.gallery-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  
+  .filter-item:hover,
+  .filter-item.active {
+    background-color: #e5e5ea;
+    color: #000;
+  }
+  
+  /* Contenido dinámico */
+  .main-content {
+    padding: 2rem;
+  }
+  
