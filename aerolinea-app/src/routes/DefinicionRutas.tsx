@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../autenticacion/pages/login';
 //import ComponenteReservasYVentas from '../modulos/Reservacion y ventas/components/ComponenteReservasYVentas';
 import Dashboard from '../Dashboard/pages/Dashboard';
-import GestionUsuarios from '../modulos/Aeropuertos_aerolineas/GestionUsuarios';
+import GestionUsuarios from '../modulos/Gestion_Usuarios/GestionUsuarios';
 
 
 export default function DefinicionRutas() {
