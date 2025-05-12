@@ -4,10 +4,10 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background-color: #ffffff;
     color: #1c1c1e;
-  }
-  
-  /* Encabezado con imagen */
-  .header-section {
+}
+
+/* Encabezado con imagen */
+.header-section {
     position: relative;
     background-image: url('../src/images/imgbarra.jpg');
     background-size: cover;
@@ -23,9 +23,9 @@
     border-bottom: 1px solid #e0e0e0;
     color: white;
     overflow: hidden;
-  }
-  
-  .header-section::before {
+}
+
+.header-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -34,28 +34,28 @@
     left: 0;
     background: rgba(0, 0, 0, 0.4);
     z-index: 0;
-  }
-  
-  .header-title,
-  .header-subtitle {
+}
+
+.header-title,
+.header-subtitle {
     z-index: 1;
     position: relative;
-  }
-  
-  .header-title {
-    font-size: 2rem;
+}
+
+.header-title {
+    font-size: 3rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
-  }
-  
-  .header-subtitle {
-    font-size: 1rem;
+}
+
+.header-subtitle {
+    font-size: 1.5rem;
     font-weight: 400;
     color: #f0f0f0;
-  }
-  
-  /* Navbar minimalista */
-  .filter-bar {
+}
+
+/* Navbar minimalista */
+.filter-bar {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -63,25 +63,103 @@
     padding: 1rem;
     background-color: #f9f9f9;
     border-bottom: 1px solid #eaeaea;
-  }
-  
-  .filter-item {
+}
+
+.filter-item {
     color: #1c1c1e;
     text-decoration: none;
     font-weight: 500;
     padding: 0.4rem 1rem;
     border-radius: 8px;
     transition: background-color 0.25s ease, color 0.25s ease;
-  }
-  
-  .filter-item:hover,
-  .filter-item.active {
+}
+
+.filter-item:hover,
+.filter-item.active {
     background-color: #e5e5ea;
     color: #000;
-  }
-  
-  /* Contenido dinámico */
-  .main-content {
+}
+
+/* Contenido dinámico */
+.main-content {
     padding: 2rem;
-  }
-  
+}
+
+/* Botón de Cerrar Sesión */
+.logout-button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.logout-button {
+    padding: 10px 20px;
+    background-color: #ff837d;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #ff1f12;
+}
+
+/* Modal de Confirmación */
+.logout-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.logout-modal-content {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.cancel-btn, .confirm-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-btn {
+    background-color: #f0f0f5;
+    color: #333;
+}
+
+.confirm-btn {
+    background-color: #ff918d;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.confirm-btn:hover {
+    background-color: #ff1f12;
+}
