@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../autenticacion/pages/login';
-//import ComponenteReservasYVentas from '../modulos/Reservacion y ventas/components/ComponenteReservasYVentas';
 import Dashboard from '../Dashboard/pages/Dashboard';
 import GestionUsuarios from '../modulos/Gestion_Usuarios/GestionUsuarios';
 import GestionOperaciones from '../modulos/Operacion_vuelos/GestionOperaciones';
@@ -9,6 +8,7 @@ import GestionFacturacionPagos from '../modulos/facturacion_pagos/GestionFactura
 import GestionInfraestructura from '../modulos/infraestructura/GestionInfraestructura';
 import GestionOperacionesServicios from '../modulos/Operaciones_servicios/GestionOperacionesServicios';
 import GestionReportesSimulacion from '../modulos/reporte y simulacion/GestionReportesSimulacion';
+import Reservas from '../modulos/Reservacion y ventas/Reservas';
 
 
 export default function DefinicionRutas() {
@@ -28,6 +28,7 @@ export default function DefinicionRutas() {
         <Route path="gestion-usuarios" element={<GestionUsuarios />} />
         <Route path="contribuyentes" element={<GestionOperaciones/>} />     
         <Route path="reservas" element={<GestionReservasVentas/>} />
+        <Route path="reservas/reservas" element={<Reservas/>} />
         <Route path="requisitos" element={<GestionInfraestructura/>} />
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />

@@ -8,7 +8,7 @@ const GestionReservasVentas = () => {
     {
       titulo: 'Reservas',
       descripcion: 'Administra las reservas de vuelos de pasajeros y carga, con opción de modificar, cancelar o confirmar según disponibilidad.',
-      ruta: '/reservas/reservas',
+      ruta: '/dashboard/reservas/reservas',
     },
     {
       titulo: 'Equipajes',
