@@ -1,62 +1,78 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import axios from "axios";
 
-interface Reserva {
-  id: number;
-  id_usuario: number;
-  id_vuelo: number;
-  asiento: string;
-  modalidad_venta: string;
-  estado_reserva: string;
-  fecha_reserva: string;
-}
-
 export default function Reservas() {
-  const [reservas, setReservas] = useState<Reserva[]>([]);
-  const [mostrarReservas, setMostrarReservas] = useState(false);
+  const [reservas, setReservas] = useState([]);
+  const [error, setError] = useState("");
 
-  const obtenerReservas = async () => {
+  const fetchReservas = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/reservas"); // Ajusta el puerto si es necesario
+      const response = await axios.get("http://0.0.0.0:3000/api/reservas");
       setReservas(response.data);
-      setMostrarReservas(true);
     } catch (error) {
       console.error("Error al obtener reservas:", error);
+      setError("No se pudieron obtener las reservas.");
     }
+  };
+
+  useEffect(() => {
+    fetchReservas();
+  }, []);
+
+  const handleModificar = (id: number) => {
+    console.log("Modificar reserva con ID:", id);
+  };
+
+  const handleCancelar = (id: number) => {
+    console.log("Cancelar reserva con ID:", id);
+  };
+
+  const handleConfirmar = (id: number) => {
+    console.log("Confirmar reserva con ID:", id);
   };
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Panel de Reservas</h1>
+      <h1 className="text-2xl font-bold mb-6">Lista de Reservas</h1>
 
-      <div className="flex gap-4 mb-6">
-        <Button onClick={obtenerReservas}>Ver Reservas</Button>
-        <Button variant="outline">Modificar Reserva</Button>
-        <Button variant="destructive">Cancelar Reserva</Button>
-        <Button variant="default">Confirmar Disponibilidad</Button>
-      </div>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {mostrarReservas && (
-        <div className="border rounded-lg p-4 shadow-md bg-white">
-          <h2 className="text-xl font-semibold mb-2">Listado de Reservas</h2>
-          {reservas.length === 0 ? (
-            <p>No hay reservas registradas.</p>
-          ) : (
-            <ul className="divide-y">
-              {reservas.map((reserva) => (
-                <li key={reserva.id} className="py-2">
-                  <p><strong>Usuario:</strong> {reserva.id_usuario}</p>
-                  <p><strong>Vuelo:</strong> {reserva.id_vuelo}</p>
-                  <p><strong>Asiento:</strong> {reserva.asiento}</p>
-                  <p><strong>Modalidad:</strong> {reserva.modalidad_venta}</p>
-                  <p><strong>Estado:</strong> {reserva.estado_reserva}</p>
-                  <p><strong>Fecha:</strong> {new Date(reserva.fecha_reserva).toLocaleString()}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      {reservas.length === 0 && !error ? (
+        <p className="text-gray-500">No hay reservas registradas.</p>
+      ) : (
+        reservas.map((reserva: any) => (
+          <div
+            key={reserva.id}
+            className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-4"
+          >
+            <div>
+              <p className="text-lg font-semibold">Reserva #{reserva.id}</p>
+              <p className="text-sm text-gray-600">Vuelo: {reserva.id_vuelo}</p>
+              <p className="text-sm text-gray-600">Usuario: {reserva.id_usuario}</p>
+              <p className="text-sm text-gray-600">Estado: {reserva.estado_reserva}</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleModificar(reserva.id)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
+              >
+                Modificar
+              </button>
+              <button
+                onClick={() => handleCancelar(reserva.id)}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => handleConfirmar(reserva.id)}
+                className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        ))
       )}
     </div>
   );
