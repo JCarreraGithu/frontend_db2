@@ -8,7 +8,7 @@ const GestionOperaciones = () => {
     {
       titulo: 'Aeropuertos',
       descripcion: 'Administra los aeropuertos disponibles para operaciones nacionales e internacionales. Puedes agregar nuevos, editar detalles o eliminar aeropuertos no operativos.',
-      ruta: '/operaciones/aeropuertos',
+      ruta: '/dashboard/contribuyentes/Aeropuertos',
     },
     {
       titulo: 'Aerolíneas',

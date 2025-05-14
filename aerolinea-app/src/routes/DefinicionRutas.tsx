@@ -9,6 +9,7 @@ import GestionInfraestructura from '../modulos/infraestructura/GestionInfraestru
 import GestionOperacionesServicios from '../modulos/Operaciones_servicios/GestionOperacionesServicios';
 import GestionReportesSimulacion from '../modulos/reporte y simulacion/GestionReportesSimulacion';
 import Reservas from '../modulos/Reservacion y ventas/Reservas';
+import Aeropuertos from '../modulos/Operacion_vuelos/Aeropuertos';
 
 
 export default function DefinicionRutas() {
@@ -26,9 +27,10 @@ export default function DefinicionRutas() {
       >
         {/* Subrutas dentro del Dashboard */}
         <Route path="gestion-usuarios" element={<GestionUsuarios />} />
-        <Route path="contribuyentes" element={<GestionOperaciones/>} />     
-        <Route path="reservas" element={<GestionReservasVentas/>} />
-        <Route path="reservas/reservas" element={<Reservas/>} />
+        <Route path="contribuyentes" element={<GestionOperaciones/>} />  
+        <Route path="contribuyentes/Aeropuertos" element={<Aeropuertos/>} />   
+        <Route path="Reservas" element={<GestionReservasVentas/>} />
+        <Route path="Reservas/Reservas" element={<Reservas/>} />
         <Route path="requisitos" element={<GestionInfraestructura/>} />
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
