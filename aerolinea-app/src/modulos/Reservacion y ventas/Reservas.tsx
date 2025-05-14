@@ -7,8 +7,22 @@ export default function Reservas() {
 
   const fetchReservas = async () => {
     try {
-      const response = await axios.get("http://0.0.0.0:3000/api/reservas");
-      setReservas(response.data);
+      const response = await axios.get("http://localhost:3000/api/reservas");
+
+      // Transformar array de arrays a array de objetos
+      const data = response.data.map((item: any[]) => ({
+        id: item[0],
+        id_usuario: item[1],
+        id_vuelo: item[2],
+        asiento: item[3],
+        estado_reserva: item[4],
+        fecha_reserva: item[5],
+        id_pago: item[6],
+        metodo_pago: item[7],
+        // puedes agregar los campos que necesites aquí
+      }));
+
+      setReservas(data);
     } catch (error) {
       console.error("Error al obtener reservas:", error);
       setError("No se pudieron obtener las reservas.");
