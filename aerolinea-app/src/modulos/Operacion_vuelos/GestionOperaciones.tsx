@@ -13,7 +13,7 @@ const GestionOperaciones = () => {
     {
       titulo: 'Aerolíneas',
       descripcion: 'Gestiona la información de las aerolíneas registradas, incluyendo sus códigos, países de origen, alianzas y permisos de operación.',
-      ruta: '/operaciones/aerolineas',
+      ruta: '/dashboard/contribuyentes/Aerolineas',
     },
     {
       titulo: 'Aviones',

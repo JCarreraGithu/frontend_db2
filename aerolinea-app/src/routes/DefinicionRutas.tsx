@@ -10,6 +10,7 @@ import GestionOperacionesServicios from '../modulos/Operaciones_servicios/Gestio
 import GestionReportesSimulacion from '../modulos/reporte y simulacion/GestionReportesSimulacion';
 import Reservas from '../modulos/Reservacion y ventas/Reservas';
 import Aeropuertos from '../modulos/Operacion_vuelos/Aeropuertos';
+import Aerolineas from '../modulos/Operacion_vuelos/Aerolineas';
 
 
 export default function DefinicionRutas() {
@@ -29,6 +30,7 @@ export default function DefinicionRutas() {
         <Route path="gestion-usuarios" element={<GestionUsuarios />} />
         <Route path="contribuyentes" element={<GestionOperaciones/>} />  
         <Route path="contribuyentes/Aeropuertos" element={<Aeropuertos/>} />   
+        <Route path="contribuyentes/Aerolineas" element={<Aerolineas/>} /> 
         <Route path="Reservas" element={<GestionReservasVentas/>} />
         <Route path="Reservas/Reservas" element={<Reservas/>} />
         <Route path="requisitos" element={<GestionInfraestructura/>} />

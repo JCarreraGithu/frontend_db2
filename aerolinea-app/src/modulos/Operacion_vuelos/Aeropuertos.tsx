@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import '../Gestion_Usuarios/GestionUsuarios.css';
 
-// Definir un tipo para los aeropuertos
+
 type Aeropuerto = {
   id: number;
   nombre: string;
@@ -14,6 +14,9 @@ const GestionOperaciones = () => {
     { id: 1, nombre: "Aeropuerto Internacional", tipo: "Internacional", activo: true },
     { id: 2, nombre: "Aeropuerto Nacional", tipo: "Nacional", activo: true },
   ]);
+
+  const [editandoId, setEditandoId] = useState<number | null>(null);
+  const [datosEditados, setDatosEditados] = useState<Partial<Aeropuerto>>({});
 
   const agregarAeropuerto = (nuevoAeropuerto: Omit<Aeropuerto, 'id'>) => {
     setAeropuertos([...aeropuertos, { id: Date.now(), ...nuevoAeropuerto }]);
@@ -33,13 +36,46 @@ const GestionOperaciones = () => {
       <div className="tarjetas-container">
         {aeropuertos.map(aeropuerto => (
           <div key={aeropuerto.id} className="tarjeta">
-            <h3>{aeropuerto.nombre}</h3>
-            <p>Tipo: {aeropuerto.tipo}</p>
-            <p>Estado: {aeropuerto.activo ? "Operativo" : "No operativo"}</p>
-            <button onClick={() => editarAeropuerto(aeropuerto.id, { activo: !aeropuerto.activo })}>
-              {aeropuerto.activo ? "Desactivar" : "Activar"}
-            </button>
-            <button onClick={() => eliminarAeropuerto(aeropuerto.id)}>Eliminar</button>
+            {editandoId === aeropuerto.id ? (
+              <div>
+                <input
+                  type="text"
+                  value={datosEditados.nombre || aeropuerto.nombre}
+                  onChange={(e) => setDatosEditados({ ...datosEditados, nombre: e.target.value })}
+                  placeholder="Nuevo nombre"
+                />
+                <select
+                  value={datosEditados.tipo || aeropuerto.tipo}
+                  onChange={(e) => setDatosEditados({ ...datosEditados, tipo: e.target.value as "Nacional" | "Internacional" })}
+                >
+                  <option value="Nacional">Nacional</option>
+                  <option value="Internacional">Internacional</option>
+                </select>
+                <button onClick={() => {
+                  editarAeropuerto(aeropuerto.id, datosEditados);
+                  setEditandoId(null);
+                  setDatosEditados({});
+                }}>
+                  Guardar
+                </button>
+              </div>
+            ) : (
+              <>
+                <h3>{aeropuerto.nombre}</h3>
+                <p>Tipo: {aeropuerto.tipo}</p>
+                <p>Estado: {aeropuerto.activo ? "Operativo" : "No operativo"}</p>
+                <button onClick={() => editarAeropuerto(aeropuerto.id, { activo: !aeropuerto.activo })}>
+                  {aeropuerto.activo ? "Desactivar" : "Activar"}
+                </button>
+                <button onClick={() => eliminarAeropuerto(aeropuerto.id)}>Eliminar</button>
+                <button onClick={() => {
+                  setEditandoId(aeropuerto.id);
+                  setDatosEditados(aeropuerto);
+                }}>
+                  Editar
+                </button>
+              </>
+            )}
           </div>
         ))}
       </div>
