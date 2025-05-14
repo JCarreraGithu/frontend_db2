@@ -18,27 +18,27 @@ const GestionOperaciones = () => {
     {
       titulo: 'Aviones',
       descripcion: 'Controla la flota de aeronaves incluyendo su matrícula, modelo, capacidad y estado técnico para asegurar vuelos seguros.',
-      ruta: '/operaciones/aviones',
+      ruta: '/dashboard/contribuyentes/Aviones',
     },
     {
       titulo: 'Programas de Vuelo',
       descripcion: 'Organiza los planes de vuelo de cada aerolínea, programaciones regulares y especiales con todos los detalles necesarios.',
-      ruta: '/operaciones/programas-vuelo',
+      ruta: '/dashboard/contribuyentes/ProgramasVuelos',
     },
     {
       titulo: 'Vuelos',
       descripcion: 'Monitorea todos los vuelos programados, en curso o finalizados. Accede a su estado, itinerario, y asignaciones.',
-      ruta: '/operaciones/vuelos',
+      ruta: '/dashboard/contribuyentes/Vuelos',
     },
     {
       titulo: 'Horarios de Vuelo',
       descripcion: 'Gestiona los horarios de salida y llegada, franjas horarias asignadas y ventanas de mantenimiento aeroportuario.',
-      ruta: '/operaciones/horarios-vuelos',
+      ruta: '/dashboard/contribuyentes/HorariosVuelos',
     },
     {
       titulo: 'Escalas Técnicas',
       descripcion: 'Registra y supervisa las escalas técnicas que requieren mantenimiento, abastecimiento o inspección en vuelos de largo recorrido.',
-      ruta: '/operaciones/escalas-tecnicas',
+      ruta: '/dashboard/contribuyentes/Escalas',
     },
   ];
 

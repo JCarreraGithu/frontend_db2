@@ -11,6 +11,11 @@ import GestionReportesSimulacion from '../modulos/reporte y simulacion/GestionRe
 import Reservas from '../modulos/Reservacion y ventas/Reservas';
 import Aeropuertos from '../modulos/Operacion_vuelos/Aeropuertos';
 import Aerolineas from '../modulos/Operacion_vuelos/Aerolineas';
+import Aviones from '../modulos/Operacion_vuelos/Aviones';
+import ProgramaVuelos from '../modulos/Operacion_vuelos/ProgramasVuelos';
+import Vuelos from '../modulos/Operacion_vuelos/Vuelos';
+import HorariosVuelos from '../modulos/Operacion_vuelos/HorariosVuelos';
+import Escalas from '../modulos/Operacion_vuelos/Escalas';
 
 
 export default function DefinicionRutas() {
@@ -31,6 +36,11 @@ export default function DefinicionRutas() {
         <Route path="contribuyentes" element={<GestionOperaciones/>} />  
         <Route path="contribuyentes/Aeropuertos" element={<Aeropuertos/>} />   
         <Route path="contribuyentes/Aerolineas" element={<Aerolineas/>} /> 
+        <Route path="contribuyentes/Aviones" element={<Aviones/>} />
+        <Route path="contribuyentes/ProgramasVuelos" element={<ProgramaVuelos/>} />       
+        <Route path="contribuyentes/Vuelos" element={<Vuelos/>} />
+        <Route path="contribuyentes/HorariosVuelos" element={<HorariosVuelos/>} />        
+        <Route path="contribuyentes/Escalas" element={<Escalas/>} /> 
         <Route path="Reservas" element={<GestionReservasVentas/>} />
         <Route path="Reservas/Reservas" element={<Reservas/>} />
         <Route path="requisitos" element={<GestionInfraestructura/>} />
