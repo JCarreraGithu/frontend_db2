@@ -18,7 +18,7 @@ const GestionReservasVentas = () => {
     {
       titulo: 'Portales',
       descripcion: 'Configura y supervisa los portales digitales para reservas, compras y consultas en línea.',
-      ruta: '/reservas/portales',
+      ruta: '/dashboard/reservas/portales',
     },
     {
       titulo: 'Check-In',

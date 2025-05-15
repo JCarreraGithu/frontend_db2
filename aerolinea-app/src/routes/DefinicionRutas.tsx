@@ -17,6 +17,7 @@ import Vuelos from '../modulos/Operacion_vuelos/Vuelos';
 import HorariosVuelos from '../modulos/Operacion_vuelos/HorariosVuelos';
 import Escalas from '../modulos/Operacion_vuelos/Escalas';
 import Equipaje from '../modulos/Reservacion y ventas/Equipaje';
+import Portales from '../modulos/Reservacion y ventas/Portales';
 
 
 export default function DefinicionRutas() {
@@ -45,6 +46,7 @@ export default function DefinicionRutas() {
         <Route path="Reservas" element={<GestionReservasVentas/>} />
         <Route path="Reservas/Reservas" element={<Reservas/>} />
         <Route path="reservas/equipajes" element={<Equipaje/>} />
+        <Route path="reservas/portales" element={<Portales/>} />
         <Route path="requisitos" element={<GestionInfraestructura/>} />
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
