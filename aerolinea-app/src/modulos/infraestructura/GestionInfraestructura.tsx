@@ -1,4 +1,4 @@
-import '../Gestion_Usuarios/GestionUsuarios.css';
+import './GestionInfraestructura.css';
 import { useNavigate } from 'react-router-dom';
 
 const GestionInfraestructura = () => {
@@ -28,11 +28,11 @@ const GestionInfraestructura = () => {
   ];
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Infraestructura Aeroportuaria</h2>
-      <div className="tarjetas-container">
+    <div className="infraestructura-wrapper">
+      <h2 className="infraestructura-titulo">Infraestructura Aeroportuaria</h2>
+      <div className="infraestructura-grid">
         {opciones.map((opcion, idx) => (
-          <div key={idx} className="tarjeta" onClick={() => navigate(opcion.ruta)}>
+          <div key={idx} className="tarjeta-infraestructura" onClick={() => navigate(opcion.ruta)}>
             <h3>{opcion.titulo}</h3>
             <p>{opcion.descripcion}</p>
           </div>

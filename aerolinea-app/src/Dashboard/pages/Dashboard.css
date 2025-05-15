@@ -1,165 +1,224 @@
-/* Estructura general */
-.dashboard-container {
+/* Reset básico */
+body, html, div, h1, h2, h3, h4, h5, h6, p, ul, ol, li, button {
+    margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #ffffff;
-    color: #1c1c1e;
-}
-
-/* Encabezado con imagen */
-.header-section {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+                 Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  
+  /* CONTENEDOR PRINCIPAL */
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    color: #1f1d1d;
+  }
+  
+  /* ENCABEZADO CON IMAGEN */
+  .header-section {
     position: relative;
     background-image: url('../src/images/imgbarra.jpg');
     background-size: cover;
     background-position: center;
-    height: 250px;
+    padding: 6rem 2rem;
+    text-align: center;
+    color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 2rem;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    color: white;
-    overflow: hidden;
-}
-
-.header-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 0;
-}
-
-.header-title,
-.header-subtitle {
     z-index: 1;
-    position: relative;
-}
-
-.header-title {
-    font-size: 3rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-}
-
-.header-subtitle {
+    overflow: hidden;
+    isolation: isolate;
+  }
+  
+  .header-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.466);
+    backdrop-filter: blur(3px);
+    z-index: -1;
+  }
+  
+  .logout-top-right {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    z-index: 2;
+  }
+  
+  .header-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+  
+  .header-subtitle {
     font-size: 1.5rem;
     font-weight: 400;
-    color: #f0f0f0;
-}
-
-/* Navbar minimalista */
-.filter-bar {
+    color: #f1f1f1;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    margin-top: 0.5rem;
+  }
+  
+  /* NAVBAR */
+  .filter-bar {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #eaeaea;
-}
-
-.filter-item {
-    color: #1c1c1e;
+    padding: 1rem 2rem;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #dcdcdc;
+  }
+  
+  .filter-item {
     text-decoration: none;
-    font-weight: 500;
-    padding: 0.4rem 1rem;
-    border-radius: 8px;
-    transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-.filter-item:hover,
-.filter-item.active {
+    color: #333;
+    background-color: #ffffff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    border: 1px solid #e5e5ea;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+  }
+  
+  .filter-item:hover,
+  .filter-item.active {
     background-color: #e5e5ea;
     color: #000;
-}
-
-/* Contenido dinámico */
-.main-content {
-    padding: 2rem;
-}
-
-/* Botón de Cerrar Sesión */
-.logout-button-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-}
-
-.logout-button {
-    padding: 10px 20px;
-    background-color: #ff837d;
-    color: white;
+  }
+  
+  /* ÁREA DINÁMICA */
+  .main-content {
+    flex: 1;
+    padding: 2rem 3rem;
+  }
+  
+  /* BOTÓN DE CERRAR SESIÓN */
+  .logout-button {
+    background-color: #fc655d;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 1rem;
-    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-    background-color: #ff1f12;
-}
-
-/* Modal de Confirmación */
-.logout-modal {
+    transition: background-color 0.2s ease;
+  }
+  
+  .logout-button:hover {
+    background-color: #ff362b;
+  }
+  
+  /* MODAL DE CERRAR SESIÓN */
+  .logout-modal {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-}
-
-.logout-modal-content {
-    background-color: white;
-    border-radius: 12px;
+    z-index: 999;
+  }
+  
+  .logout-modal-content {
+    background-color: #ffffff;
     padding: 2rem;
-    width: 300px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.modal-actions {
+  }
+  
+  .logout-modal-content p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modal-actions {
     display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-}
-
-.cancel-btn, .confirm-btn {
-    padding: 8px 16px;
-    border: none;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .cancel-btn,
+  .confirm-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
     border-radius: 8px;
-    font-weight: 600;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.cancel-btn {
-    background-color: #f0f0f5;
+    transition: background-color 0.2s ease;
+  }
+  
+  .cancel-btn {
+    background-color: #f2f2f2;
     color: #333;
-}
-
-.confirm-btn {
-    background-color: #ff918d;
-    color: white;
-}
-
-.cancel-btn:hover {
-    background-color: #e0e0e0;
-}
-
-.confirm-btn:hover {
-    background-color: #ff1f12;
-}
+  }
+  
+  .cancel-btn:hover {
+    background-color: #dcdcdc;
+  }
+  
+  .confirm-btn {
+    background-color: #007aff;
+    color: #fff;
+  }
+  
+  .confirm-btn:hover {
+    background-color: #005fcc;
+  }
+  
+  /* RESPONSIVE DESIGN */
+  @media (max-width: 768px) {
+    .header-title {
+      font-size: 2rem;
+    }
+  
+    .header-subtitle {
+      font-size: 1rem;
+      padding: 0 1rem;
+    }
+  
+    .filter-bar {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .filter-item {
+      width: 90%;
+      text-align: center;
+    }
+  
+    .main-content {
+      padding: 1rem;
+    }
+  
+    .logout-modal-content {
+      width: 90%;
+      padding: 1.5rem;
+    }
+  
+    .logout-top-right {
+      top: 0.5rem;
+      right: 1rem;
+    }
+  
+    .logout-button {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+  

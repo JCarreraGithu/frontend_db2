@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {  FaPlaneDeparture } from 'react-icons/fa';
+import { FaPlaneDeparture } from 'react-icons/fa';
 import './login.css';
 
 const Login = () => {
@@ -22,6 +22,8 @@ const Login = () => {
       if (!response.ok) throw new Error(data.message || 'Error en el login');
 
       localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.usuario.nombre); // Guardar nombre del usuario
+
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.message);
@@ -33,7 +35,7 @@ const Login = () => {
       <div className="login-left">
         <div className="login-left-title">AEROPUERTO INTERNACIONAL LA AURORA</div>
         <p className="login-left-description">
-        Bienvenido al Aeropuerto Internacional La Aurora, el principal punto de conexión aérea de Guatemala. Desde aquí, gestionamos vuelos, pasajeros y servicios con eficiencia y seguridad para ofrecerte una experiencia de viaje confiable y moderna.
+          Bienvenido al Aeropuerto Internacional La Aurora, el principal punto de conexión aérea de Guatemala. Desde aquí, gestionamos vuelos, pasajeros y servicios con eficiencia y seguridad para ofrecerte una experiencia de viaje confiable y moderna.
         </p>
       </div>
 
@@ -49,7 +51,6 @@ const Login = () => {
 
         <form onSubmit={handleLogin}>
           <div className="relative">
-           
             <input
               type="email"
               placeholder="Correo electrónico"
@@ -61,7 +62,6 @@ const Login = () => {
           </div>
 
           <div className="relative">
-           
             <input
               type="password"
               placeholder="Contraseña"
@@ -77,7 +77,6 @@ const Login = () => {
 
         <div className="login-links">
           <a href="#">Crear Usuario</a>
-       
         </div>
       </div>
     </div>

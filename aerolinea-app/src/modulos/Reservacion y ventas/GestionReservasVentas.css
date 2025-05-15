@@ -1,10 +1,10 @@
-/* Fondo general tipo Apple */
-.gestion-wrapper {
+/* Fondo general para Reservas y Ventas */
+.reservas-wrapper {
   min-height: 100vh;
   padding: 4rem 2rem;
   background: 
-  linear-gradient(120deg, rgba(255, 255, 255, 0.568), rgba(255, 255, 255, 0.568)),
-    url('../src/images/imgus.jpg'); /* Imagen estilo Apple */
+    linear-gradient(120deg, rgba(255, 255, 255, 0.568), rgba(255, 255, 255, 0.568)),
+    url('../src/images/imgvent.jpg'); /* Imagen de fondo específica para reservas */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -14,9 +14,8 @@
   backdrop-filter: blur(8px);
 }
 
-
-/* Título centrado con tipografía elegante */
-.gestion-titulo {
+/* Título elegante para la sección de reservas */
+.reservas-titulo {
   font-size: 2rem;
   font-weight: 600;
   color: #1c1c1e;
@@ -26,8 +25,8 @@
   line-height: 1.4;
 }
 
-/* Grid de tarjetas */
-.tarjetas-grid {
+/* Grid de tarjetas responsive */
+.reservas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
@@ -35,8 +34,8 @@
   max-width: 1000px;
 }
 
-/* Tarjeta estilo glassmorphism */
-.tarjeta-glass {
+/* Tarjeta tipo glassmorphism adaptada a reservas */
+.tarjeta-reserva {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -47,18 +46,18 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.tarjeta-glass:hover {
+.tarjeta-reserva:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
-.tarjeta-glass h3 {
+.tarjeta-reserva h3 {
   font-size: 1.3rem;
   margin-bottom: 0.6rem;
   color: #1c1c1e;
 }
 
-.tarjeta-glass p {
+.tarjeta-reserva p {
   font-size: 0.95rem;
   color: #3a3a3c;
   line-height: 1.4;

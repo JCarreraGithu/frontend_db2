@@ -1,5 +1,5 @@
-import '../Gestion_Usuarios/GestionUsuarios.css';
 import { useNavigate } from 'react-router-dom';
+import './GestionOperaciones.css'; // Cambia el nombre del archivo CSS también
 
 const GestionOperaciones = () => {
   const navigate = useNavigate();
@@ -43,13 +43,13 @@ const GestionOperaciones = () => {
   ];
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Gestión de Operaciones de Vuelo</h2>
-      <div className="tarjetas-container">
+    <div className="operaciones-wrapper">
+      <h2 className="operaciones-titulo">Gestión de Operaciones de Vuelo</h2>
+      <div className="operaciones-grid">
         {opciones.map((opcion, idx) => (
           <div
             key={idx}
-            className="tarjeta"
+            className="operaciones-tarjeta"
             onClick={() => navigate(opcion.ruta)}
           >
             <h3>{opcion.titulo}</h3>

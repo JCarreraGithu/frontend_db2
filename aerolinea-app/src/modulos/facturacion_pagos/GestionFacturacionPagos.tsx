@@ -1,4 +1,4 @@
-import '../Gestion_Usuarios/GestionUsuarios.css';
+import './GestionFacturacionPagos.css';
 import { useNavigate } from 'react-router-dom';
 
 const GestionFacturacionPagos = () => {
@@ -23,11 +23,11 @@ const GestionFacturacionPagos = () => {
   ];
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Facturación y Pagos</h2>
-      <div className="tarjetas-container">
+    <div className="facturacion-wrapper">
+      <h2 className="facturacion-titulo">Facturación y Pagos</h2>
+      <div className="facturacion-grid">
         {opciones.map((opcion, idx) => (
-          <div key={idx} className="tarjeta" onClick={() => navigate(opcion.ruta)}>
+          <div key={idx} className="tarjeta-factura" onClick={() => navigate(opcion.ruta)}>
             <h3>{opcion.titulo}</h3>
             <p>{opcion.descripcion}</p>
           </div>

@@ -1,4 +1,4 @@
-import '../Gestion_Usuarios/GestionUsuarios.css';
+import './GestionReservasVentas.css'; // Asegúrate de tener este archivo
 import { useNavigate } from 'react-router-dom';
 
 const GestionReservasVentas = () => {
@@ -28,11 +28,15 @@ const GestionReservasVentas = () => {
   ];
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Gestión de Reservas y Ventas</h2>
-      <div className="tarjetas-container">
+    <div className="reservas-wrapper">
+      <h2 className="reservas-titulo">Gestión de Reservas y Ventas</h2>
+      <div className="reservas-grid">
         {opciones.map((opcion, idx) => (
-          <div key={idx} className="tarjeta" onClick={() => navigate(opcion.ruta)}>
+          <div
+            key={idx}
+            className="tarjeta-reserva"
+            onClick={() => navigate(opcion.ruta)}
+          >
             <h3>{opcion.titulo}</h3>
             <p>{opcion.descripcion}</p>
           </div>

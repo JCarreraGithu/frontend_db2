@@ -1,0 +1,65 @@
+/* Fondo general para Infraestructura */
+.infraestructura-wrapper {
+    min-height: 100vh;
+    padding: 4rem 2rem;
+    background: 
+    linear-gradient(120deg, rgba(255, 255, 255, 0.568), rgba(255, 255, 255, 0.568)),
+      url('../src/images/imginfra.jpg'); /* Cambia esta imagen según tu diseño */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Título de Infraestructura */
+  .infraestructura-titulo {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1c1c1e;
+    margin-bottom: 2rem;
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.4;
+  }
+  
+  /* Contenedor de tarjetas de infraestructura */
+  .infraestructura-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+  }
+  
+  /* Tarjetas estilo glassmorphism para infraestructura */
+  .tarjeta-infraestructura {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .tarjeta-infraestructura:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+  
+  .tarjeta-infraestructura h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+    color: #1c1c1e;
+  }
+  
+  .tarjeta-infraestructura p {
+    font-size: 0.95rem;
+    color: #3a3a3c;
+    line-height: 1.4;
+  }
+  

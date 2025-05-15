@@ -8,34 +8,38 @@ const GestionUsuarios = () => {
   const opciones = [
     {
       titulo: 'Usuarios',
-      descripcion: 'Gestiona los datos personales, roles y estados de todos los usuarios del sistema. Puedes crear, editar, desactivar o eliminar usuarios según el perfil de acceso.',
+      descripcion:
+        'Gestiona los datos personales, roles y estados de todos los usuarios del sistema.',
       ruta: '/usuarios/crear',
     },
     {
       titulo: 'Visas',
-      descripcion: 'Registra y controla las visas otorgadas a pasajeros, personal o visitantes, asegurando el cumplimiento de los requisitos migratorios para vuelos internacionales.',
+      descripcion:
+        'Registra y controla las visas otorgadas a pasajeros, personal o visitantes.',
       ruta: '/usuarios/listar',
     },
     {
       titulo: 'Cuentas',
-      descripcion: 'Administra las cuentas vinculadas a usuarios: credenciales de acceso, seguridad, recuperación de contraseñas y configuración de doble autenticación si aplica.',
+      descripcion:
+        'Administra las cuentas, credenciales, y opciones de seguridad de acceso.',
       ruta: '/usuarios/roles',
     },
     {
       titulo: 'Licencias',
-      descripcion: 'Controla las licencias asociadas al personal operativo del aeropuerto (pilotos, técnicos, operadores, etc.). Asegura que las certificaciones estén vigentes y asociadas a los usuarios correspondientes.',
-      ruta: '/usuarios/roles',
+      descripcion:
+        'Controla las licencias y certificaciones del personal operativo.',
+      ruta: '/usuarios/licencias',
     },
   ];
 
   return (
-    <div className="gestion-container">
+    <div className="gestion-wrapper">
       <h2 className="gestion-titulo">Gestión de Usuarios y Control de Identidad</h2>
-      <div className="tarjetas-container">
+      <div className="tarjetas-grid">
         {opciones.map((opcion, idx) => (
           <div
             key={idx}
-            className="tarjeta"
+            className="tarjeta-glass"
             onClick={() => navigate(opcion.ruta)}
           >
             <h3>{opcion.titulo}</h3>

@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const navigate = useNavigate(); // Hook para redirigir al login
+  const [username, setUsername] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Obtener el nombre de usuario del localStorage
+    const storedName = localStorage.getItem('username');
+    if (storedName) {
+      setUsername(storedName);
+    }
+  }, []);
 
   const handleLogoutClick = () => {
     setShowLogoutModal(true);
@@ -15,27 +24,33 @@ const Dashboard = () => {
   };
 
   const handleConfirmLogout = () => {
-    // Eliminar datos de sesión (puedes agregar tu lógica de logout aquí)
-    localStorage.removeItem('authToken'); // Ejemplo: Eliminando un token de sesión del localStorage
-    console.log("Sesión cerrada");
-
-    // Redirigir a la página de login
-    navigate('/login'); // Esto redirige a la página de login
-
-    setShowLogoutModal(false); // Cerrar el modal después de confirmar el logout
+    localStorage.removeItem('token');
+    localStorage.removeItem('username'); // Limpiar también el nombre
+    console.log('Sesión cerrada');
+    navigate('/login');
+    setShowLogoutModal(false);
   };
 
   return (
     <div className="dashboard-container">
       {/* ENCABEZADO */}
       <div className="header-section">
-        <div className="header-title">Bienvenido al Aeropuerto La Aurora</div>
-        <p className="header-subtitle">Gestiona vuelos, usuarios y más desde esta plataforma</p>
+        <div className="logout-top-right">
+          <button className="logout-button" onClick={handleLogoutClick}>
+            Cerrar sesión
+          </button>
+        </div>
+        <div className="header-title">
+          Bienvenido {username ? `  ${username}` : ''} al Aeropuerto La Aurora
+        </div>
+        <p className="header-subtitle">
+          Gestiona vuelos, usuarios y más desde esta plataforma
+        </p>
       </div>
 
       {/* NAVBAR */}
       <div className="filter-bar">
-      <NavLink to="/consultas-frecuentes" className="filter-item">Inicio</NavLink>
+        <NavLink to="/consultas-frecuentes" className="filter-item">Inicio</NavLink>
         <NavLink to="/dashboard/gestion-usuarios" className="filter-item">Gestión de Usuarios y Control de Identidad</NavLink>
         <NavLink to="/dashboard/Contribuyentes" className="filter-item">Aeropuertos y Aerolíneas</NavLink>
         <NavLink to="/dashboard/Reservas" className="filter-item">Reservas y Ventas</NavLink>
@@ -48,11 +63,6 @@ const Dashboard = () => {
       {/* ÁREA DINÁMICA */}
       <div className="main-content">
         <Outlet />
-      </div>
-
-      {/* BOTÓN DE CERRAR SESIÓN */}
-      <div className="logout-button-container">
-        <button className="logout-button" onClick={handleLogoutClick}>Cerrar sesión</button>
       </div>
 
       {/* MODAL DE CONFIRMACIÓN */}

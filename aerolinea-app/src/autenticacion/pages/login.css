@@ -136,3 +136,32 @@
     position: relative;
   }
   
+  @media (max-width: 768px) {
+    .login-container {
+      flex-direction: column;
+      padding: 1rem;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .login-left {
+      text-align: center;
+      padding: 1rem;
+    }
+  
+    .login-left-title {
+      font-size: 2rem;
+    }
+  
+    .login-left-description {
+      font-size: 1rem;
+    }
+  
+    .login-box {
+      width: 100%;
+      max-width: 90%;
+      padding: 2rem;
+    }
+  }
+  
