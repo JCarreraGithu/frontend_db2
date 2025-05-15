@@ -1,147 +1,209 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react';
 
-export default function Equipaje() {
-  const [equipajes, setEquipajes] = useState([]);
-  const [idReserva, setIdReserva] = useState("");
-  const [peso, setPeso] = useState("");
-  const [dimensiones, setDimensiones] = useState("");
-  const [estado, setEstado] = useState("En tránsito");
-  const [error, setError] = useState("");
-  const [mensaje, setMensaje] = useState("");
+type EquipajeItem = {
+  id: number;
+  id_reserva: number;
+  peso: number;
+  dimensiones: string;
+  estado: string;
+};
 
-  const fetchEquipajes = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/equipajes");
-      setEquipajes(response.data);
-    } catch (err) {
-      console.error("Error al obtener equipajes:", err);
-      setError("No se pudieron obtener los equipajes.");
-    }
-  };
+const Equipaje = () => {
+  const [equipajes, setEquipajes] = useState<EquipajeItem[]>([]);
+  const [nuevoEquipaje, setNuevoEquipaje] = useState({
+    id_reserva: '',
+    peso: '',
+    dimensiones: '',
+    estado: '',
+  });
+  const [busquedaID, setBusquedaID] = useState('');
+  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const agregarEquipaje = async () => {
-    if (!idReserva || !peso || !dimensiones) {
-      setError("Por favor completa todos los campos.");
-      return;
-    }
+  const limpiarMensaje = () => setTimeout(() => setMensaje(null), 3000);
+  const limpiarError = () => setTimeout(() => setError(null), 3000);
 
-    try {
-      await axios.post("http://localhost:3000/api/equipajes", {
-        id_reserva: Number(idReserva),
-        peso: Number(peso),
-        dimensiones,
-        estado,
+  const obtenerEquipajes = () => {
+    fetch('http://localhost:3000/api/equipajes')
+      .then(res => res.json())
+      .then(data => {
+        const formateados = data.data.map((item: any[]) => ({
+          id: item[0],
+          id_reserva: item[1],
+          peso: item[2],
+          dimensiones: item[3],
+          estado: item[4],
+        }));
+        setEquipajes(formateados);
+      })
+      .catch(() => {
+        setError('❌ Error al cargar equipajes');
+        limpiarError();
       });
-      setMensaje("Equipaje añadido correctamente.");
-      setError("");
-      setIdReserva("");
-      setPeso("");
-      setDimensiones("");
-      setEstado("En tránsito");
-      fetchEquipajes();
-    } catch (err) {
-      console.error("Error al agregar equipaje:", err);
-      setError("No se pudo agregar el equipaje.");
-    }
-  };
-
-  const eliminarEquipaje = async (id: number) => {
-    try {
-      await axios.delete(`http://localhost:3000/api/equipajes/${id}`);
-      setMensaje(`Equipaje #${id} eliminado.`);
-      fetchEquipajes();
-    } catch (err) {
-      console.error("Error al eliminar equipaje:", err);
-      setError("No se pudo eliminar el equipaje.");
-    }
   };
 
   useEffect(() => {
-    fetchEquipajes();
+    obtenerEquipajes();
   }, []);
 
+  const añadirEquipaje = () => {
+    fetch('http://localhost:3000/api/equipajes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nuevoEquipaje),
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al crear equipaje');
+        return res.json();
+      })
+      .then(() => {
+        setMensaje('✅ Equipaje insertado exitosamente');
+        setNuevoEquipaje({ id_reserva: '', peso: '', dimensiones: '', estado: '' });
+        obtenerEquipajes();
+        limpiarMensaje();
+      })
+      .catch(err => {
+        setError('❌ Error al insertar equipaje');
+        limpiarError();
+      });
+  };
+
+  const eliminarEquipaje = (id: number) => {
+    if (!confirm(`¿Eliminar equipaje con ID ${id}?`)) return;
+    fetch(`http://localhost:3000/api/equipajes/${id}`, {
+      method: 'DELETE',
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al eliminar');
+        obtenerEquipajes();
+        setMensaje('🗑️ Equipaje eliminado');
+        limpiarMensaje();
+      })
+      .catch(() => {
+        setError('❌ Error al eliminar equipaje');
+        limpiarError();
+      });
+  };
+
+  const buscarPorID = () => {
+    if (!busquedaID) {
+      obtenerEquipajes();
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/equipajes/${busquedaID}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success || !data.data || data.data.length === 0) {
+          setError('❌ Equipaje no encontrado');
+          limpiarError();
+          return;
+        }
+
+        const item = Array.isArray(data.data[0]) ? data.data[0] : data.data;
+        const equipaje = {
+          id: item[0],
+          id_reserva: item[1],
+          peso: item[2],
+          dimensiones: item[3],
+          estado: item[4],
+        };
+
+        setEquipajes([equipaje]);
+      })
+      .catch(() => {
+        setError('❌ Error al buscar equipaje');
+        limpiarError();
+      });
+  };
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Gestión de Equipajes</h1>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>🎒 Gestión de Equipajes</h1>
 
-      <div className="bg-blue-100 text-blue-800 p-3 rounded mb-6 text-sm">
-        Aquí puedes gestionar el equipaje registrado desde el check-in hasta el destino final. 
-        Puedes agregar nuevos equipajes y eliminar los que ya no correspondan. 
-        También es útil para seguimiento de objetos extraviados.
-      </div>
+      {mensaje && <p style={{ color: 'green', fontWeight: 'bold' }}>{mensaje}</p>}
+      {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
 
-      {mensaje && <p className="text-green-600 mb-4">{mensaje}</p>}
-      {error && <p className="text-red-600 mb-4">{error}</p>}
+      {/* FORMULARIO */}
+      <section style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '10px' }}>
+        <h3>➕ Añadir Equipaje</h3>
+        <input
+          type="number"
+          placeholder="ID Reserva"
+          value={nuevoEquipaje.id_reserva}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, id_reserva: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Peso (kg)"
+          value={nuevoEquipaje.peso}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, peso: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Dimensiones"
+          value={nuevoEquipaje.dimensiones}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, dimensiones: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Estado"
+          value={nuevoEquipaje.estado}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, estado: e.target.value })}
+        />
+        <button onClick={añadirEquipaje}>➕ Añadir</button>
+      </section>
 
-      {/* Formulario para agregar equipaje */}
-      <div className="bg-white p-4 rounded shadow mb-6">
-        <h2 className="text-lg font-semibold mb-2">Añadir Equipaje</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="number"
-            placeholder="ID de Reserva"
-            value={idReserva}
-            onChange={(e) => setIdReserva(e.target.value)}
-            className="border p-2 rounded"
-          />
-          <input
-            type="number"
-            placeholder="Peso (kg)"
-            value={peso}
-            onChange={(e) => setPeso(e.target.value)}
-            className="border p-2 rounded"
-          />
-          <input
-            type="text"
-            placeholder="Dimensiones (ej. 55x40x20 cm)"
-            value={dimensiones}
-            onChange={(e) => setDimensiones(e.target.value)}
-            className="border p-2 rounded"
-          />
-          <select
-            value={estado}
-            onChange={(e) => setEstado(e.target.value)}
-            className="border p-2 rounded"
-          >
-            <option value="En tránsito">En tránsito</option>
-            <option value="Entregado">Entregado</option>
-            <option value="Extraviado">Extraviado</option>
-          </select>
-        </div>
-        <button
-          onClick={agregarEquipaje}
-          className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-        >
-          Agregar
-        </button>
-      </div>
+      {/* BÚSQUEDA */}
+      <section style={{ marginBottom: '20px' }}>
+        <h3>🔍 Buscar Equipaje por ID</h3>
+        <input
+          type="number"
+          placeholder="ID"
+          value={busquedaID}
+          onChange={e => setBusquedaID(e.target.value)}
+        />
+        <button onClick={buscarPorID}>🔎 Buscar</button>
+        <button onClick={obtenerEquipajes}>🔄 Ver Todos</button>
+      </section>
 
-      {/* Lista de equipajes */}
-      <h2 className="text-lg font-semibold mb-2">Equipajes Registrados</h2>
-      {equipajes.length === 0 ? (
-        <p className="text-gray-600">No hay equipajes registrados.</p>
-      ) : (
-        equipajes.map((equipaje: any) => (
-          <div
-            key={equipaje.id}
-            className="bg-white p-4 rounded shadow mb-4 flex justify-between items-center"
-          >
-            <div>
-              <p className="font-semibold">Equipaje #{equipaje.id}</p>
-              <p className="text-sm text-gray-600">
-                Reserva: {equipaje.id_reserva} | Peso: {equipaje.peso}kg | Dimensiones: {equipaje.dimensiones} | Estado: {equipaje.estado}
-              </p>
-            </div>
-            <button
-              onClick={() => eliminarEquipaje(equipaje.id)}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-            >
-              Eliminar
-            </button>
-          </div>
-        ))
-      )}
+      {/* TABLA */}
+      <h2>📋 Lista de Equipajes</h2>
+      <table border={1} cellPadding={8} style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ID Reserva</th>
+            <th>Peso</th>
+            <th>Dimensiones</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {equipajes.map(eq => (
+            <tr key={eq.id}>
+              <td>{eq.id}</td>
+              <td>{eq.id_reserva}</td>
+              <td>{eq.peso}</td>
+              <td>{eq.dimensiones}</td>
+              <td>{eq.estado}</td>
+              <td>
+                <button onClick={() => eliminarEquipaje(eq.id)} style={{ color: 'red' }}>
+                  ❌ Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+          {equipajes.length === 0 && (
+            <tr>
+              <td colSpan={6} style={{ textAlign: 'center' }}>No hay equipajes</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
+
+export default Equipaje;
