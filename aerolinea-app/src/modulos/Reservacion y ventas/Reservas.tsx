@@ -1,65 +1,207 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import './Equipaje.css';
 
-export default function Reservas() {
-  const [reservas, setReservas] = useState([]);
-  const [error, setError] = useState("");
+type EquipajeItem = {
+  id: number;
+  id_reserva: number;
+  peso: number;
+  dimensiones: string;
+  estado: string;
+};
 
-  const fetchReservas = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/reservas");
+const Equipaje = () => {
+  const [equipajes, setEquipajes] = useState<EquipajeItem[]>([]);
+  const [nuevoEquipaje, setNuevoEquipaje] = useState({
+    id_reserva: '',
+    peso: '',
+    dimensiones: '',
+    estado: '',
+  });
+  const [busquedaID, setBusquedaID] = useState('');
+  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-      // Transformar array de arrays a array de objetos
-      const data = response.data.map((item: any[]) => ({
-        id: item[0],
-        id_usuario: item[1],
-        id_vuelo: item[2],
-        asiento: item[3],
-        estado_reserva: item[4],
-        fecha_reserva: item[5],
-        id_pago: item[6],
-        metodo_pago: item[7],
-        // puedes agregar los campos que necesites aquí
-      }));
+  const limpiarMensaje = () => setTimeout(() => setMensaje(null), 3000);
+  const limpiarError = () => setTimeout(() => setError(null), 3000);
 
-      setReservas(data);
-    } catch (error) {
-      console.error("Error al obtener reservas:", error);
-      setError("No se pudieron obtener las reservas.");
-    }
+  const obtenerEquipajes = () => {
+    fetch('http://localhost:3000/api/equipajes')
+      .then(res => res.json())
+      .then(data => {
+        const formateados = data.data.map((item: any[]) => ({
+          id: item[0],
+          id_reserva: item[1],
+          peso: item[2],
+          dimensiones: item[3],
+          estado: item[4],
+        }));
+        setEquipajes(formateados);
+      })
+      .catch(() => {
+        setError('❌ Error al cargar equipajes');
+        limpiarError();
+      });
   };
 
   useEffect(() => {
-    fetchReservas();
+    obtenerEquipajes();
   }, []);
 
+  const añadirEquipaje = () => {
+    fetch('http://localhost:3000/api/equipajes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nuevoEquipaje),
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al crear equipaje');
+        return res.json();
+      })
+      .then(() => {
+        setMensaje('✅ Equipaje insertado exitosamente');
+        setNuevoEquipaje({ id_reserva: '', peso: '', dimensiones: '', estado: '' });
+        obtenerEquipajes();
+        limpiarMensaje();
+      })
+      .catch(() => {
+        setError('❌ Error al insertar equipaje');
+        limpiarError();
+      });
+  };
+
+  const eliminarEquipaje = (id: number) => {
+    if (!confirm(`¿Eliminar equipaje con ID ${id}?`)) return;
+    fetch(`http://localhost:3000/api/equipajes/${id}`, {
+      method: 'DELETE',
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al eliminar');
+        obtenerEquipajes();
+        setMensaje('🗑️ Equipaje eliminado');
+        limpiarMensaje();
+      })
+      .catch(() => {
+        setError('❌ Error al eliminar equipaje');
+        limpiarError();
+      });
+  };
+
+  const buscarPorID = () => {
+    if (!busquedaID) {
+      obtenerEquipajes();
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/equipajes/${busquedaID}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success || !data.data || data.data.length === 0) {
+          setError('❌ Equipaje no encontrado');
+          limpiarError();
+          return;
+        }
+
+        const item = Array.isArray(data.data[0]) ? data.data[0] : data.data;
+        const equipaje = {
+          id: item[0],
+          id_reserva: item[1],
+          peso: item[2],
+          dimensiones: item[3],
+          estado: item[4],
+        };
+
+        setEquipajes([equipaje]);
+      })
+      .catch(() => {
+        setError('❌ Error al buscar equipaje');
+        limpiarError();
+      });
+  };
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Lista de Reservas</h1>
+    <div className="equipaje-wrapper">
+      <h1 className="equipaje-titulo">🎒 Gestión de Equipajes</h1>
 
-      <p className="text-sm text-blue-700 bg-blue-100 p-3 rounded mb-6">
-        ⚠️ Recuerda que una vez creada tu reserva, <strong>no podrás modificarla ni eliminarla</strong>. Asegúrate de elegir bien antes de confirmar.
-      </p>
+      {mensaje && <div className="mensaje exito">{mensaje}</div>}
+      {error && <div className="mensaje error">{error}</div>}
 
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <section className="equipaje-formulario">
+        <h3>➕ Añadir Equipaje</h3>
+        <input
+          type="number"
+          placeholder="ID Reserva"
+          value={nuevoEquipaje.id_reserva}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, id_reserva: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Peso (kg)"
+          value={nuevoEquipaje.peso}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, peso: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Dimensiones"
+          value={nuevoEquipaje.dimensiones}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, dimensiones: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Estado"
+          value={nuevoEquipaje.estado}
+          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, estado: e.target.value })}
+        />
+        <button onClick={añadirEquipaje}>➕ Añadir</button>
+      </section>
 
-      {reservas.length === 0 && !error ? (
-        <p className="text-gray-500">No hay reservas registradas.</p>
-      ) : (
-        reservas.map((reserva: any) => (
-          <div
-            key={reserva.id}
-            className="bg-white p-4 rounded-lg shadow mb-4"
-          >
-            <p className="text-lg font-semibold">Reserva #{reserva.id}</p>
-            <p className="text-sm text-gray-600">Vuelo: {reserva.id_vuelo}</p>
-            <p className="text-sm text-gray-600">Usuario: {reserva.id_usuario}</p>
-            <p className="text-sm text-gray-600">Asiento: {reserva.asiento}</p>
-            <p className="text-sm text-gray-600">Estado: {reserva.estado_reserva}</p>
-            <p className="text-sm text-gray-600">Fecha: {reserva.fecha_reserva}</p>
-          </div>
-        ))
-      )}
+      <section className="equipaje-busqueda">
+        <h3>🔍 Buscar Equipaje por ID</h3>
+        <input
+          type="number"
+          placeholder="ID"
+          value={busquedaID}
+          onChange={e => setBusquedaID(e.target.value)}
+        />
+        <button onClick={buscarPorID}>🔎 Buscar</button>
+        <button onClick={obtenerEquipajes}>🔄 Ver Todos</button>
+      </section>
+
+      <h2 style={{ marginBottom: '1rem' }}>📋 Lista de Equipajes</h2>
+      <table className="equipaje-tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ID Reserva</th>
+            <th>Peso</th>
+            <th>Dimensiones</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {equipajes.map(eq => (
+            <tr key={eq.id}>
+              <td>{eq.id}</td>
+              <td>{eq.id_reserva}</td>
+              <td>{eq.peso}</td>
+              <td>{eq.dimensiones}</td>
+              <td>{eq.estado}</td>
+              <td>
+                <button style={{ backgroundColor: '#dc3545' }} onClick={() => eliminarEquipaje(eq.id)}>
+                  ❌ Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+          {equipajes.length === 0 && (
+            <tr>
+              <td colSpan={6}>No hay equipajes</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
+
+export default Equipaje;

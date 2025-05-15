@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import './Equipaje.css';
+
 
 type EquipajeItem = {
   id: number;
@@ -118,58 +120,59 @@ const Equipaje = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <h1>🎒 Gestión de Equipajes</h1>
+  <div className="equipaje-wrapper">
+    <h1>🎒 Gestión de Equipajes</h1>
 
-      {mensaje && <p style={{ color: 'green', fontWeight: 'bold' }}>{mensaje}</p>}
-      {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
+    {mensaje && <p className="mensaje">{mensaje}</p>}
+    {error && <p className="error">{error}</p>}
 
-      {/* FORMULARIO */}
-      <section style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '10px' }}>
-        <h3>➕ Añadir Equipaje</h3>
-        <input
-          type="number"
-          placeholder="ID Reserva"
-          value={nuevoEquipaje.id_reserva}
-          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, id_reserva: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Peso (kg)"
-          value={nuevoEquipaje.peso}
-          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, peso: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Dimensiones"
-          value={nuevoEquipaje.dimensiones}
-          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, dimensiones: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Estado"
-          value={nuevoEquipaje.estado}
-          onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, estado: e.target.value })}
-        />
-        <button onClick={añadirEquipaje}>➕ Añadir</button>
-      </section>
+    {/* FORMULARIO */}
+    <div className="equipaje-card">
+      <h3>➕ Añadir Equipaje</h3>
+      <input
+        type="number"
+        placeholder="ID Reserva"
+        value={nuevoEquipaje.id_reserva}
+        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, id_reserva: e.target.value })}
+      />
+      <input
+        type="number"
+        placeholder="Peso (kg)"
+        value={nuevoEquipaje.peso}
+        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, peso: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Dimensiones"
+        value={nuevoEquipaje.dimensiones}
+        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, dimensiones: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Estado"
+        value={nuevoEquipaje.estado}
+        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, estado: e.target.value })}
+      />
+      <button onClick={añadirEquipaje}>➕ Añadir</button>
+    </div>
 
-      {/* BÚSQUEDA */}
-      <section style={{ marginBottom: '20px' }}>
-        <h3>🔍 Buscar Equipaje por ID</h3>
-        <input
-          type="number"
-          placeholder="ID"
-          value={busquedaID}
-          onChange={e => setBusquedaID(e.target.value)}
-        />
-        <button onClick={buscarPorID}>🔎 Buscar</button>
-        <button onClick={obtenerEquipajes}>🔄 Ver Todos</button>
-      </section>
+    {/* BÚSQUEDA */}
+    <div className="equipaje-card">
+      <h3>🔍 Buscar Equipaje por ID</h3>
+      <input
+        type="number"
+        placeholder="ID"
+        value={busquedaID}
+        onChange={e => setBusquedaID(e.target.value)}
+      />
+      <button onClick={buscarPorID}>🔎 Buscar</button>
+      <button onClick={obtenerEquipajes}>🔄 Ver Todos</button>
+    </div>
 
-      {/* TABLA */}
-      <h2>📋 Lista de Equipajes</h2>
-      <table border={1} cellPadding={8} style={{ width: '100%', borderCollapse: 'collapse' }}>
+    {/* TABLA */}
+    <div className="equipaje-card">
+      <h3>📋 Lista de Equipajes</h3>
+      <table className="equipaje-tabla">
         <thead>
           <tr>
             <th>ID</th>
@@ -189,7 +192,7 @@ const Equipaje = () => {
               <td>{eq.dimensiones}</td>
               <td>{eq.estado}</td>
               <td>
-                <button onClick={() => eliminarEquipaje(eq.id)} style={{ color: 'red' }}>
+                <button onClick={() => eliminarEquipaje(eq.id)} style={{ backgroundColor: '#dc3545' }}>
                   ❌ Eliminar
                 </button>
               </td>
@@ -203,7 +206,9 @@ const Equipaje = () => {
         </tbody>
       </table>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Equipaje;
