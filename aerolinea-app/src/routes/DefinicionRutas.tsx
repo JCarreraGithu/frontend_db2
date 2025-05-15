@@ -44,7 +44,7 @@ export default function DefinicionRutas() {
         <Route path="contribuyentes/HorariosVuelos" element={<HorariosVuelos/>} />        
         <Route path="contribuyentes/Escalas" element={<Escalas/>} /> 
         <Route path="Reservas" element={<GestionReservasVentas/>} />
-        <Route path="Reservas/Reservas" element={<Reservas/>} />
+        <Route path="reservas/reservas" element={<Reservas/>} />
         <Route path="reservas/equipajes" element={<Equipaje/>} />
         <Route path="reservas/portales" element={<Portales/>} />
         <Route path="requisitos" element={<GestionInfraestructura/>} />
