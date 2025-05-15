@@ -13,7 +13,7 @@ const GestionReservasVentas = () => {
     {
       titulo: 'Equipajes',
       descripcion: 'Gestiona el control de equipajes desde el check-in hasta el destino final. Incluye seguimiento de objetos extraviados.',
-      ruta: '/reservas/equipajes',
+      ruta: '/dashboard/reservas/equipajes',
     },
     {
       titulo: 'Portales',

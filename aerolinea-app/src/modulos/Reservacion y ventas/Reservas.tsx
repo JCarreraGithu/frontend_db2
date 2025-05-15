@@ -33,21 +33,13 @@ export default function Reservas() {
     fetchReservas();
   }, []);
 
-  const handleModificar = (id: number) => {
-    console.log("Modificar reserva con ID:", id);
-  };
-
-  const handleCancelar = (id: number) => {
-    console.log("Cancelar reserva con ID:", id);
-  };
-
-  const handleConfirmar = (id: number) => {
-    console.log("Confirmar reserva con ID:", id);
-  };
-
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Lista de Reservas</h1>
+      <h1 className="text-2xl font-bold mb-4">Lista de Reservas</h1>
+
+      <p className="text-sm text-blue-700 bg-blue-100 p-3 rounded mb-6">
+        ⚠️ Recuerda que una vez creada tu reserva, <strong>no podrás modificarla ni eliminarla</strong>. Asegúrate de elegir bien antes de confirmar.
+      </p>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
@@ -57,34 +49,14 @@ export default function Reservas() {
         reservas.map((reserva: any) => (
           <div
             key={reserva.id}
-            className="bg-white p-4 rounded-lg shadow flex justify-between items-center mb-4"
+            className="bg-white p-4 rounded-lg shadow mb-4"
           >
-            <div>
-              <p className="text-lg font-semibold">Reserva #{reserva.id}</p>
-              <p className="text-sm text-gray-600">Vuelo: {reserva.id_vuelo}</p>
-              <p className="text-sm text-gray-600">Usuario: {reserva.id_usuario}</p>
-              <p className="text-sm text-gray-600">Estado: {reserva.estado_reserva}</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleModificar(reserva.id)}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
-              >
-                Modificar
-              </button>
-              <button
-                onClick={() => handleCancelar(reserva.id)}
-                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => handleConfirmar(reserva.id)}
-                className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
-              >
-                Confirmar
-              </button>
-            </div>
+            <p className="text-lg font-semibold">Reserva #{reserva.id}</p>
+            <p className="text-sm text-gray-600">Vuelo: {reserva.id_vuelo}</p>
+            <p className="text-sm text-gray-600">Usuario: {reserva.id_usuario}</p>
+            <p className="text-sm text-gray-600">Asiento: {reserva.asiento}</p>
+            <p className="text-sm text-gray-600">Estado: {reserva.estado_reserva}</p>
+            <p className="text-sm text-gray-600">Fecha: {reserva.fecha_reserva}</p>
           </div>
         ))
       )}
