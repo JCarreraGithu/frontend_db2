@@ -8,17 +8,17 @@ const GestionFacturacionPagos = () => {
     {
       titulo: 'Facturación',
       descripcion: 'Emisión y gestión de facturas para pasajeros, aerolíneas y servicios especiales. Incluye validación fiscal y reportes.',
-      ruta: '/pagos/facturacion',
+      ruta: '/dashboard/pagos/facturacion',
     },
     {
       titulo: 'Pagos',
       descripcion: 'Controla los métodos de pago, transacciones, cancelaciones y devoluciones tanto en línea como presenciales.',
-      ruta: '/pagos/pagos',
+      ruta: '/dashboard/pagos/pagos',
     },
     {
       titulo: 'Mercancías',
       descripcion: 'Gestión de cobros por transporte de mercancías, almacenaje y servicios logísticos asociados.',
-      ruta: '/pagos/mercancias',
+      ruta: '/dashboard/pagos/mercancias',
     },
   ];
 
