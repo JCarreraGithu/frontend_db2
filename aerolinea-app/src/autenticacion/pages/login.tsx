@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock, FaPlaneDeparture } from 'react-icons/fa';
+import {  FaPlaneDeparture } from 'react-icons/fa';
 import './login.css';
 
 const Login = () => {
