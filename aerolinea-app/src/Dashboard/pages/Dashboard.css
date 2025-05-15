@@ -19,7 +19,8 @@ body, html, div, h1, h2, h3, h4, h5, h6, p, ul, ol, li, button {
   /* ENCABEZADO CON IMAGEN */
   .header-section {
     position: relative;
-    background-image: url('../src/images/imgbarra.jpg');
+    background: 
+  linear-gradient(120deg, rgba(255, 255, 255, 0.247), rgba(255, 255, 255, 0.247)), url('../src/images/imgbarra.jpg');
     background-size: cover;
     background-position: center;
     padding: 6rem 2rem;
