@@ -1,60 +1,102 @@
 .facturacion-wrapper {
   min-height: 100vh;
   padding: 4rem 2rem;
-  background: 
-    linear-gradient(120deg, rgba(255, 255, 255, 0.568), rgba(255, 255, 255, 0.568)),
-    url('../src/images/imgpag.jpg');
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('../images/imgvent.jpg');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
   backdrop-filter: blur(8px);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.facturacion-titulo {
-  font-size: 2rem;
-  font-weight: 600;
+.facturacion-wrapper h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
   color: #1c1c1e;
   margin-bottom: 2rem;
   text-align: center;
-  max-width: 700px;
-  line-height: 1.4;
 }
 
-.facturacion-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  max-width: 1000px;
-}
-
-.tarjeta-factura {
+.facturacion-card {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 1.5rem;
   padding: 2rem;
   backdrop-filter: blur(12px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 1500px;
+  margin-bottom: 2rem;
 }
 
-.tarjeta-factura:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+.facturacion-card input {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
 }
 
-.tarjeta-factura h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.6rem;
-  color: #1c1c1e;
+.facturacion-card button {
+  padding: 0.6rem 1.2rem;
+  margin-right: 0.5rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
 }
 
-.tarjeta-factura p {
-  font-size: 0.95rem;
-  color: #3a3a3c;
-  line-height: 1.4;
+.facturacion-card button:hover {
+  background-color: #0056b3;
+}
+
+.facturacion-tabla {
+  width: 100%;
+  max-width: 1500px;
+  background: rgba(255, 255, 255, 0.65);
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.facturacion-tabla th,
+.facturacion-tabla td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.facturacion-tabla th {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.facturacion-tabla td {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.facturacion-tabla tr:last-child td {
+  border-bottom: none;
+}
+
+.mensaje {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
