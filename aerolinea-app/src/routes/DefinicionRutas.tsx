@@ -22,6 +22,7 @@ import Facturacion from '../modulos/facturacion_pagos/Facturacion/Facturacion';
 import Pagos from '../modulos/facturacion_pagos/Pagos/Pagos';
 import Mercancias from '../modulos/facturacion_pagos/Mercancias/Mercancias';
 import Pistas from '../modulos/infraestructura/Pistas/Pistas';
+import Usuarios from '../modulos/Gestion_Usuarios/Usuarios/Usuarios';
 
 
 
@@ -61,6 +62,7 @@ export default function DefinicionRutas() {
         <Route path="mis-documentos/pagos" element={<Pagos/>} />
         <Route path="mis-documentos/mercancias" element={<Mercancias/>} />
         <Route path="infraestructura/pistas" element={<Pistas/>} />
+        <Route path="gestion_usuario/usuarios" element={<Usuarios/>} />
       </Route>
 
       {/* Ruta raíz */}
