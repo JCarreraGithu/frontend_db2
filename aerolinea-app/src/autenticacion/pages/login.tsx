@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://192.168.0.38:3000/api/usuarios/login', {
+      const response = await fetch('http://localhost:3000/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo, contrasena }),
@@ -35,7 +35,7 @@ const Login = () => {
       <div className="login-left">
         <div className="login-left-title">AEROPUERTO INTERNACIONAL LA AURORA</div>
         <p className="login-left-description">
-          Bienvenido al Aeropuerto Internacional La Aurora, el principal punto de conexión aérea de Guatemala. Desde aquí, gestionamos vuelos, pasajeros y servicios con eficiencia y seguridad para ofrecerte una experiencia de viaje confiable y moderna.
+        Bienvenido al Aeropuerto Internacional La Aurora, el principal punto de conexión aérea de Guatemala. Desde aquí, gestionamos vuelos, pasajeros y servicios con eficiencia y seguridad para ofrecerte una experiencia de viaje confiable y moderna.
         </p>
       </div>
 
@@ -51,6 +51,7 @@ const Login = () => {
 
         <form onSubmit={handleLogin}>
           <div className="relative">
+           
             <input
               type="email"
               placeholder="Correo electrónico"
@@ -62,6 +63,7 @@ const Login = () => {
           </div>
 
           <div className="relative">
+           
             <input
               type="password"
               placeholder="Contraseña"
@@ -77,6 +79,7 @@ const Login = () => {
 
         <div className="login-links">
           <a href="#">Crear Usuario</a>
+       
         </div>
       </div>
     </div>

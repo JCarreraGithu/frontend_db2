@@ -1,145 +1,195 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import "./HorariosVuelos.css";
 
 type HorarioVuelo = {
-  id: number;
-  aerolinea: string;
-  numeroVuelo: string;
-  origen: string;
-  destino: string;
-  horaSalida: string;
-  horaLlegada: string;
-  franjaHoraria: string;
-  mantenimiento: boolean;
+  id_horario: number;
+  id_vuelo: number;
+  hora_salida: string;
+  hora_llegada: string;
+  estado: string;
 };
 
-const GestionHorariosVuelo = () => {
-  const [horarios, setHorarios] = useState<HorarioVuelo[]>([
-    { id: 1, aerolinea: "Aerolínea A", numeroVuelo: "AA123", origen: "Ciudad A", destino: "Ciudad B", horaSalida: "10:00", horaLlegada: "12:30", franjaHoraria: "Mañana", mantenimiento: false },
-    { id: 2, aerolinea: "Aerolínea B", numeroVuelo: "BB456", origen: "Ciudad C", destino: "Ciudad D", horaSalida: "15:00", horaLlegada: "18:00", franjaHoraria: "Tarde", mantenimiento: true },
-  ]);
+const HorariosVuelos = () => {
+  const [horarios, setHorarios] = useState<HorarioVuelo[]>([]);
+  const [nuevoHorario, setNuevoHorario] = useState({
+    id_vuelo: 0,
+    hora_salida: "",
+    hora_llegada: "",
+    estado: "Programado",
+  });
+  const [busquedaID, setBusquedaID] = useState("");
+  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [datosEditados, setDatosEditados] = useState<Partial<HorarioVuelo>>({});
+  const limpiarMensaje = () => setTimeout(() => setMensaje(null), 3000);
+  const limpiarError = () => setTimeout(() => setError(null), 3000);
 
-  const agregarHorario = (nuevoHorario: Omit<HorarioVuelo, "id">) => {
-    setHorarios([...horarios, { id: Date.now(), ...nuevoHorario }]);
+  const obtenerHorarios = () => {
+    fetch("http://localhost:3000/api/horarios-vuelos")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formateado = data.map((arr: any[]) => ({
+            id_horario: arr[0],
+            id_vuelo: arr[1],
+            hora_salida: arr[2],
+            hora_llegada: arr[3],
+            estado: arr[4],
+          }));
+          setHorarios(formateado);
+        } else {
+          setError("❌ Error: formato inesperado de la API");
+          limpiarError();
+        }
+      })
+      .catch(() => {
+        setError("❌ Error al cargar horarios de vuelo");
+        limpiarError();
+      });
   };
 
-  const editarHorario = (id: number, datosActualizados: Partial<HorarioVuelo>) => {
-    setHorarios(horarios.map((h) => (h.id === id ? { ...h, ...datosActualizados } : h)));
+  useEffect(() => {
+    obtenerHorarios();
+  }, []);
+
+  const añadirHorario = () => {
+    const horarioData = {
+      id_vuelo: Number(nuevoHorario.id_vuelo),
+      hora_salida: nuevoHorario.hora_salida,
+      hora_llegada: nuevoHorario.hora_llegada,
+      estado: nuevoHorario.estado,
+    };
+
+    console.log("Enviando datos:", horarioData);
+
+    fetch("http://localhost:3000/api/horarios-vuelos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(horarioData),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("❌ Error al registrar horario");
+        return res.json();
+      })
+      .then(() => {
+        console.log("Horario registrado correctamente");
+        setMensaje("✅ Horario registrado exitosamente");
+        setNuevoHorario({ id_vuelo: 0, hora_salida: "", hora_llegada: "", estado: "Programado" });
+        obtenerHorarios();
+        limpiarMensaje();
+      })
+      .catch((err) => {
+        console.error("Error en la solicitud:", err);
+        setError("❌ Error al registrar horario");
+        limpiarError();
+      });
   };
 
   const eliminarHorario = (id: number) => {
-    setHorarios(horarios.filter((h) => h.id !== id));
+    if (!confirm(`¿Eliminar horario con ID ${id}?`)) return;
+    fetch(`http://localhost:3000/api/horarios-vuelos/${id}`, { method: "DELETE" })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al eliminar horario");
+        obtenerHorarios();
+        setMensaje("🗑️ Horario eliminado");
+        limpiarMensaje();
+      })
+      .catch(() => {
+        setError("❌ Error al eliminar horario");
+        limpiarError();
+      });
+  };
+
+  const buscarPorID = () => {
+    if (!busquedaID) {
+      obtenerHorarios();
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/horarios-vuelos/${busquedaID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data || !Array.isArray(data)) {
+          setError("❌ Horario no encontrado");
+          limpiarError();
+          return;
+        }
+
+        const horario = {
+          id_horario: data[0],
+          id_vuelo: data[1],
+          hora_salida: data[2],
+          hora_llegada: data[3],
+          estado: data[4],
+        };
+
+        setHorarios([horario]);
+      })
+      .catch(() => {
+        setError("❌ Error al buscar horario");
+        limpiarError();
+      });
   };
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Horarios de Vuelo</h2>
-      <p className="gestion-descripcion">
-        Gestiona los horarios de salida y llegada, franjas horarias asignadas y ventanas de mantenimiento aeroportuario.
-      </p>
-      <div className="tarjetas-container">
-        {horarios.map((horario) => (
-          <div key={horario.id} className="tarjeta">
-            {editandoId === horario.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={datosEditados.aerolinea || horario.aerolinea}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, aerolinea: e.target.value })}
-                  placeholder="Aerolínea"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.numeroVuelo || horario.numeroVuelo}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, numeroVuelo: e.target.value })}
-                  placeholder="Número de vuelo"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.origen || horario.origen}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, origen: e.target.value })}
-                  placeholder="Origen"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.destino || horario.destino}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, destino: e.target.value })}
-                  placeholder="Destino"
-                />
-                <input
-                  type="time"
-                  value={datosEditados.horaSalida || horario.horaSalida}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, horaSalida: e.target.value })}
-                  placeholder="Hora de salida"
-                />
-                <input
-                  type="time"
-                  value={datosEditados.horaLlegada || horario.horaLlegada}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, horaLlegada: e.target.value })}
-                  placeholder="Hora de llegada"
-                />
-                <select
-                  value={datosEditados.franjaHoraria || horario.franjaHoraria}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, franjaHoraria: e.target.value })}
-                >
-                  <option value="Mañana">Mañana</option>
-                  <option value="Tarde">Tarde</option>
-                  <option value="Noche">Noche</option>
-                </select>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={datosEditados.mantenimiento ?? horario.mantenimiento}
-                    onChange={(e) => setDatosEditados({ ...datosEditados, mantenimiento: e.target.checked })}
-                  />
-                  Mantenimiento programado
-                </label>
-                <button
-                  onClick={() => {
-                    editarHorario(horario.id, datosEditados);
-                    setEditandoId(null);
-                    setDatosEditados({});
-                  }}
-                >
-                  Guardar
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3>{horario.aerolinea}</h3>
-                <p>Número de vuelo: {horario.numeroVuelo}</p>
-                <p>Origen: {horario.origen}</p>
-                <p>Destino: {horario.destino}</p>
-                <p>Hora de salida: {horario.horaSalida}</p>
-                <p>Hora de llegada: {horario.horaLlegada}</p>
-                <p>Franja horaria: {horario.franjaHoraria}</p>
-                <p>Mantenimiento: {horario.mantenimiento ? "Programado" : "No programado"}</p>
-                <button onClick={() => eliminarHorario(horario.id)}>Eliminar</button>
-                <button
-                  onClick={() => {
-                    setEditandoId(horario.id);
-                    setDatosEditados(horario);
-                  }}
-                >
-                  Editar
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+    <div className="horarios-wrapper">
+      <h1>🕒 Gestión de Horarios de Vuelo</h1>
+
+      {mensaje && <p className="mensaje">{mensaje}</p>}
+      {error && <p className="error">{error}</p>}
+
+      {/* FORMULARIO */}
+      <div className="horarios-card">
+        <h3>➕ Registrar Horario</h3>
+        
+        <label htmlFor="id_vuelo">ID Vuelo</label>
+        <input id="id_vuelo" type="number" placeholder="Ejemplo: 33" value={nuevoHorario.id_vuelo} onChange={(e) => setNuevoHorario({ ...nuevoHorario, id_vuelo: Number(e.target.value) })} />
+
+        <label htmlFor="hora_salida">Hora de salida</label>
+        <input id="hora_salida" type="datetime-local" value={nuevoHorario.hora_salida} onChange={(e) => setNuevoHorario({ ...nuevoHorario, hora_salida: e.target.value })} />
+
+        <label htmlFor="hora_llegada">Hora de llegada</label>
+        <input id="hora_llegada" type="datetime-local" value={nuevoHorario.hora_llegada} onChange={(e) => setNuevoHorario({ ...nuevoHorario, hora_llegada: e.target.value })} />
+
+        <label htmlFor="estado">Estado del horario</label>
+        <select id="estado" value={nuevoHorario.estado} onChange={(e) => setNuevoHorario({ ...nuevoHorario, estado: e.target.value })}>
+          <option value="Programado">Programado</option>
+          <option value="Retrasado">Retrasado</option>
+          <option value="Cancelado">Cancelado</option>
+        </select>
+
+        <button onClick={añadirHorario}>➕ Añadir</button>
       </div>
-      <button
-        onClick={() =>
-          agregarHorario({ aerolinea: "Aerolínea C", numeroVuelo: "CC789", origen: "Madrid", destino: "Londres", horaSalida: "08:00", horaLlegada: "10:30", franjaHoraria: "Mañana", mantenimiento: false })
-        }
-      >
-        Agregar Horario de Vuelo
-      </button>
+
+      {/* TABLA */}
+      <table className="horarios-tabla">
+        <thead>
+          <tr>
+            <th>ID Horario</th>
+            <th>ID Vuelo</th>
+            <th>Hora Salida</th>
+            <th>Hora Llegada</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {horarios.map((horario) => (
+            <tr key={horario.id_horario}>
+              <td>{horario.id_horario}</td>
+              <td>{horario.id_vuelo}</td>
+              <td>{horario.hora_salida}</td>
+              <td>{horario.hora_llegada}</td>
+              <td>{horario.estado}</td>
+              <td>
+                <button className="btn-eliminar" onClick={() => eliminarHorario(horario.id_horario)}>❌ Eliminar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default GestionHorariosVuelo;
+export default HorariosVuelos;
