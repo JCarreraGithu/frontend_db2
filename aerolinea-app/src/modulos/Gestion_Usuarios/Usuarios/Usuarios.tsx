@@ -31,7 +31,7 @@ const Usuarios = () => {
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          const formateado = data.map((arr: any[]) => ({
+          const formateado = data.map((arr: [number, string, string, string]) => ({
             id_usuario: arr[0],
             nombre: arr[1],
             correo: arr[2],
@@ -76,7 +76,7 @@ const Usuarios = () => {
   };
 
   const iniciarSesion = () => {
-    fetch("http://localhost:3000/api/usuarios/login", { // Se cambió la API aquí
+    fetch("http://localhost:3000/api/usuarios/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credenciales),

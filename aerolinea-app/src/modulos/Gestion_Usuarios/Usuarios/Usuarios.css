@@ -4,7 +4,7 @@
   padding: 4rem 2rem;
   background: 
     linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-    url('../src/images/imgusuarios.jpg'); /* Usa una imagen adecuada */
+    url('../src/images/imgus.jpg'); /* Usa una imagen adecuada */
   background-size: cover;
   background-position: center;
   display: flex;

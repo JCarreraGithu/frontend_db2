@@ -10,13 +10,13 @@ const GestionUsuarios = () => {
       titulo: 'Usuarios',
       descripcion:
         'Gestiona los datos personales, roles y estados de todos los usuarios del sistema.',
-      ruta: '/usuarios/crear',
+      ruta: '/dashboard/gestion-usuarios/usuarios',
     },
     {
       titulo: 'Visas',
       descripcion:
         'Registra y controla las visas otorgadas a pasajeros, personal o visitantes.',
-      ruta: '/usuarios/listar',
+      ruta: '/dashboard/Gestion_Usuarios/Visas',
     },
     {
       titulo: 'Cuentas',
