@@ -1,95 +1,127 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import './Facturacion.css'; // Asegúrate que este CSS esté en el mismo directorio
 
-type Factura = {
+interface Factura {
   id_factura: number;
   id_reserva: number;
   monto: number;
-  fecha_factura: Date;
-};
+  fecha: string;
+}
 
-const GestionFacturacion = () => {
-  const [facturas, setFacturas] = useState<Factura[]>([
-    { id_factura: 1, id_reserva: 101, monto: 250, fecha_factura: new Date() },
-    { id_factura: 2, id_reserva: 102, monto: 400, fecha_factura: new Date() },
-  ]);
+const Facturacion: React.FC = () => {
+  const [facturas, setFacturas] = useState<Factura[]>([]);
+  const [idReserva, setIdReserva] = useState<number>(0);
+  const [monto, setMonto] = useState<number>(0);
+  const [error, setError] = useState<string>("");
 
-  const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [datosEditados, setDatosEditados] = useState<Partial<Factura>>({});
+  const obtenerFacturas = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/facturacion");
 
-  const agregarFactura = (nuevaFactura: Omit<Factura, "id_factura">) => {
-    setFacturas([...facturas, { id_factura: Date.now(), ...nuevaFactura }]);
+      const datosAdaptados: Factura[] = response.data.map((arr: any[]) => ({
+        id_factura: arr[0],
+        id_reserva: arr[1],
+        monto: arr[2],
+        fecha: arr[3],
+      }));
+
+      setFacturas(datosAdaptados);
+    } catch (err) {
+      setError("Error al obtener las facturas.");
+    }
   };
 
-  const editarFactura = (id_factura: number, datosActualizados: Partial<Factura>) => {
-    setFacturas(facturas.map((f) => (f.id_factura === id_factura ? { ...f, ...datosActualizados } : f)));
+  const agregarFactura = async () => {
+    if (idReserva <= 0 || monto <= 0) {
+      setError("Por favor ingresa un ID de reserva y un monto válidos.");
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:3000/api/facturacion", {
+        id_reserva: idReserva,
+        monto: monto,
+      });
+
+      setIdReserva(0);
+      setMonto(0);
+      setError("");
+      obtenerFacturas();
+    } catch (err) {
+      setError("Error al agregar la factura.");
+    }
   };
 
-  const eliminarFactura = (id_factura: number) => {
-    setFacturas(facturas.filter((f) => f.id_factura !== id_factura));
+  const eliminarFactura = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/facturacion/${id}`);
+      obtenerFacturas();
+    } catch (err) {
+      setError("Error al eliminar la factura.");
+    }
   };
+
+  useEffect(() => {
+    obtenerFacturas();
+  }, []);
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Facturación</h2>
-      <p className="gestion-descripcion">
-        Gestiona la información de las facturas generadas en las reservas y otros servicios.
-      </p>
-      <div className="tarjetas-container">
-        {facturas.map((factura) => (
-          <div key={factura.id_factura} className="tarjeta">
-            {editandoId === factura.id_factura ? (
-              <div>
-                <input
-                  type="number"
-                  value={datosEditados.id_reserva || factura.id_reserva}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, id_reserva: Number(e.target.value) })}
-                  placeholder="ID Reserva"
-                />
-                <input
-                  type="number"
-                  value={datosEditados.monto || factura.monto}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, monto: Number(e.target.value) })}
-                  placeholder="Monto"
-                />
-                <button
-                  onClick={() => {
-                    editarFactura(factura.id_factura, datosEditados);
-                    setEditandoId(null);
-                    setDatosEditados({});
-                  }}
-                >
-                  Guardar
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3>Factura {factura.id_factura}</h3>
-                <p>ID Reserva: {factura.id_reserva}</p>
-                <p>Monto: {factura.monto}</p>
-                <p>Fecha: {factura.fecha_factura.toLocaleDateString()}</p>
-                <button onClick={() => eliminarFactura(factura.id_factura)}>Eliminar</button>
-                <button
-                  onClick={() => {
-                    setEditandoId(factura.id_factura);
-                    setDatosEditados(factura);
-                  }}
-                >
-                  Editar
-                </button>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-      <button
-        onClick={() =>
-          agregarFactura({ id_reserva: 103, monto: 300, fecha_factura: new Date() })
-        }
-      >
-        Agregar Factura
-      </button>
+  <div className="facturacion-wrapper">
+    <h2>Facturación</h2>
+    <p className="mb-4 text-gray-700 text-center max-w-3xl">
+      Emisión y gestión de facturas para pasajeros, aerolíneas y servicios especiales. Incluye validación fiscal y reportes.
+    </p>
+
+    {error && <p className="error">{error}</p>}
+
+    <div className="facturacion-card">
+      <input
+        type="number"
+        placeholder="ID Reserva"
+        value={idReserva}
+        onChange={(e) => setIdReserva(Number(e.target.value))}
+      />
+      <input
+        type="number"
+        placeholder="Monto"
+        value={monto}
+        onChange={(e) => setMonto(Number(e.target.value))}
+      />
+      <button onClick={agregarFactura}>Agregar Factura</button>
     </div>
-  );
+
+    <table className="facturacion-tabla">
+      <thead>
+        <tr>
+          <th>ID Factura</th>
+          <th>ID Reserva</th>
+          <th>Monto</th>
+          <th>Fecha</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {facturas.map((factura) => (
+          <tr key={factura.id_factura}>
+            <td>{factura.id_factura}</td>
+            <td>{factura.id_reserva}</td>
+            <td>Q. {factura.monto.toFixed(2)}</td>
+            <td>{new Date(factura.fecha).toLocaleString()}</td>
+            <td>
+              <button
+                onClick={() => eliminarFactura(factura.id_factura)}
+                style={{ backgroundColor: '#dc3545' }}
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
 };
 
-export default GestionFacturacion;
+export default Facturacion;
