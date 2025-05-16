@@ -1,113 +1,191 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import "./Aerolineas.css"; // Crea o adapta este archivo de estilos si es necesario
 
 type Aerolinea = {
-  id: number;
+  id_aerolinea: number;
   nombre: string;
-  codigo: string;
-  pais: string;
-  alianza: string;
-  activo: boolean;
+  estado: string;
 };
 
-const GestionAerolíneas = () => {
-  const [aerolineas, setAerolineas] = useState<Aerolinea[]>([
-    { id: 1, nombre: "Aerolínea A", codigo: "AA", pais: "Estados Unidos", alianza: "Oneworld", activo: true },
-    { id: 2, nombre: "Aerolínea B", codigo: "AF", pais: "Francia", alianza: "SkyTeam", activo: true },
-  ]);
+const Aerolineas = () => {
+  const [aerolineas, setAerolineas] = useState<Aerolinea[]>([]);
+  const [nuevaAerolinea, setNuevaAerolinea] = useState({
+    nombre: "",
+    estado: "activo",
+  });
+  const [busquedaID, setBusquedaID] = useState("");
+  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [datosEditados, setDatosEditados] = useState<Partial<Aerolinea>>({});
+  const limpiarMensaje = () => setTimeout(() => setMensaje(null), 3000);
+  const limpiarError = () => setTimeout(() => setError(null), 3000);
 
-  const agregarAerolínea = (nuevaAerolínea: Omit<Aerolinea, "id">) => {
-    setAerolineas([...aerolineas, { id: Date.now(), ...nuevaAerolínea }]);
+  const obtenerAerolineas = () => {
+    fetch("http://localhost:3000/api/aerolineas")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formateado = data.map((arr: any[]) => ({
+            id_aerolinea: arr[0],
+            nombre: arr[1],
+            estado: arr[2],
+          }));
+          setAerolineas(formateado);
+        } else {
+          setError("❌ Error: formato inesperado de la API");
+          limpiarError();
+        }
+      })
+      .catch(() => {
+        setError("❌ Error al cargar aerolíneas");
+        limpiarError();
+      });
   };
 
-  const editarAerolínea = (id: number, datosActualizados: Partial<Aerolinea>) => {
-    setAerolineas(aerolineas.map((a) => (a.id === id ? { ...a, ...datosActualizados } : a)));
+  useEffect(() => {
+    obtenerAerolineas();
+  }, []);
+
+  const añadirAerolinea = () => {
+    fetch("http://localhost:3000/api/aerolineas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nuevaAerolinea),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al crear aerolínea");
+        return res.json();
+      })
+      .then(() => {
+        setMensaje("✅ Aerolínea registrada exitosamente");
+        setNuevaAerolinea({ nombre: "", estado: "activo" });
+        obtenerAerolineas();
+        limpiarMensaje();
+      })
+      .catch(() => {
+        setError("❌ Error al registrar aerolínea");
+        limpiarError();
+      });
   };
 
-  const eliminarAerolínea = (id: number) => {
-    setAerolineas(aerolineas.filter((a) => a.id !== id));
+  const eliminarAerolinea = (id: number) => {
+    if (!confirm(`¿Eliminar aerolínea con ID ${id}?`)) return;
+    fetch(`http://localhost:3000/api/aerolineas/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al eliminar aerolínea");
+        obtenerAerolineas();
+        setMensaje("🗑️ Aerolínea eliminada");
+        limpiarMensaje();
+      })
+      .catch(() => {
+        setError("❌ Error al eliminar aerolínea");
+        limpiarError();
+      });
+  };
+
+  const buscarPorID = () => {
+    if (!busquedaID) {
+      obtenerAerolineas();
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/aerolineas/${busquedaID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data || !Array.isArray(data)) {
+          setError("❌ Aerolínea no encontrada");
+          limpiarError();
+          return;
+        }
+
+        const aerolinea = {
+          id_aerolinea: data[0],
+          nombre: data[1],
+          estado: data[2],
+        };
+
+        setAerolineas([aerolinea]);
+      })
+      .catch(() => {
+        setError("❌ Error al buscar aerolínea");
+        limpiarError();
+      });
   };
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Aerolíneas</h2>
-      <p className="gestion-descripcion">
-        Gestiona la información de las aerolíneas registradas, incluyendo sus códigos, países de origen, alianzas y permisos de operación.
-      </p>
-      <div className="tarjetas-container">
-        {aerolineas.map((aerolinea) => (
-          <div key={aerolinea.id} className="tarjeta">
-            {editandoId === aerolinea.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={datosEditados.nombre || aerolinea.nombre}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, nombre: e.target.value })}
-                  placeholder="Nuevo nombre"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.codigo || aerolinea.codigo}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, codigo: e.target.value })}
-                  placeholder="Código de aerolínea"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.pais || aerolinea.pais}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, pais: e.target.value })}
-                  placeholder="País de origen"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.alianza || aerolinea.alianza}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, alianza: e.target.value })}
-                  placeholder="Alianza"
-                />
-                <button
-                  onClick={() => {
-                    editarAerolínea(aerolinea.id, datosEditados);
-                    setEditandoId(null);
-                    setDatosEditados({});
-                  }}
-                >
-                  Guardar
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3>{aerolinea.nombre}</h3>
-                <p>Código: {aerolinea.codigo}</p>
-                <p>País: {aerolinea.pais}</p>
-                <p>Alianza: {aerolinea.alianza}</p>
-                <p>Estado: {aerolinea.activo ? "Operativo" : "No operativo"}</p>
-                <button onClick={() => editarAerolínea(aerolinea.id, { activo: !aerolinea.activo })}>
-                  {aerolinea.activo ? "Desactivar" : "Activar"}
-                </button>
-                <button onClick={() => eliminarAerolínea(aerolinea.id)}>Eliminar</button>
-                <button
-                  onClick={() => {
-                    setEditandoId(aerolinea.id);
-                    setDatosEditados(aerolinea);
-                  }}
-                >
-                  Editar
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+    <div className="aerolineas-wrapper">
+      <h1>🛫 Gestión de Aerolíneas</h1>
+
+      {mensaje && <p className="mensaje">{mensaje}</p>}
+      {error && <p className="error">{error}</p>}
+
+      {/* FORMULARIO */}
+      <div className="aerolineas-card">
+        <h3>➕ Registrar Aerolínea</h3>
+        <input
+          type="text"
+          placeholder="Nombre"
+          value={nuevaAerolinea.nombre}
+          onChange={(e) =>
+            setNuevaAerolinea({ ...nuevaAerolinea, nombre: e.target.value })
+          }
+        />
+        <select
+          value={nuevaAerolinea.estado}
+          onChange={(e) =>
+            setNuevaAerolinea({ ...nuevaAerolinea, estado: e.target.value })
+          }
+        >
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+        <button onClick={añadirAerolinea}>➕ Añadir</button>
       </div>
-      <button
-        onClick={() =>
-          agregarAerolínea({ nombre: "Nueva Aerolínea", codigo: "NX", pais: "País Desconocido", alianza: "Ninguna", activo: true })
-        }
-      >
-        Agregar Aerolínea
-      </button>
+
+      {/* BUSCAR POR ID */}
+      <div className="aerolineas-card">
+        <h3>🔍 Buscar Aerolínea por ID</h3>
+        <input
+          type="text"
+          placeholder="ID de Aerolínea"
+          value={busquedaID}
+          onChange={(e) => setBusquedaID(e.target.value)}
+        />
+        <button onClick={buscarPorID}>🔍 Buscar</button>
+      </div>
+
+      {/* TABLA */}
+      <table className="aerolineas-tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {aerolineas.map((aero) => (
+            <tr key={aero.id_aerolinea}>
+              <td>{aero.id_aerolinea}</td>
+              <td>{aero.nombre}</td>
+              <td>{aero.estado}</td>
+              <td>
+                <button
+                  className="btn-eliminar"
+                  onClick={() => eliminarAerolinea(aero.id_aerolinea)}
+                >
+                  ❌ Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default GestionAerolíneas;
+export default Aerolineas;

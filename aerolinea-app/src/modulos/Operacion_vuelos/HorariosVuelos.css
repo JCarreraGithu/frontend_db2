@@ -1,0 +1,150 @@
+/* Fondo general con efecto glass */
+.horarios-wrapper {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  background: 
+    linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('../src/images/imghorarios.jpg'); /* Usa una imagen adecuada */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Título principal */
+.horarios-wrapper h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1c1c1e;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Caja glassmorphism */
+.horarios-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 2rem;
+}
+
+/* Etiquetas para los campos de entrada */
+.horarios-card label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+/* Entradas de datos */
+.horarios-card input,
+.horarios-card select {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  display: block;
+}
+
+/* Botones */
+.horarios-card button {
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.5rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.horarios-card button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabla de horarios */
+.horarios-tabla {
+  width: 100%;
+  max-width: 1500px;
+  background: rgba(255, 255, 255, 0.65);
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.horarios-tabla th, 
+.horarios-tabla td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.horarios-tabla th {
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.horarios-tabla td {
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+/* Última fila sin borde inferior */
+.horarios-tabla tr:last-child td {
+  border-bottom: none;
+}
+
+/* Mensajes */
+.mensaje {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Botón de eliminación */
+.btn-eliminar {
+  background-color: #dc3545;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-eliminar:hover {
+  background-color: #b32435;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .horarios-card {
+    padding: 1.5rem;
+  }
+
+  .horarios-tabla th,
+  .horarios-tabla td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
