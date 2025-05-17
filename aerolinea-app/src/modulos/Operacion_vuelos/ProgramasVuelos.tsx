@@ -1,109 +1,72 @@
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import './ProgramasVuelos.css';
 
-type ProgramaVuelo = {
-  id: number;
-  aerolinea: string;
-  destino: string;
-  frecuencia: string;
-  tipoVuelo: "Regular" | "Especial";
-};
+interface ProgramaVuelo {
+  id_programa: number;
+  numero_vuelo: number;
+  fecha: string;
+  duracion: number;
+  id_aeropuerto_origen: number;
+  estado: string;
+}
 
-const GestionProgramasVuelo = () => {
-  const [programasVuelo, setProgramasVuelo] = useState<ProgramaVuelo[]>([
-    { id: 1, aerolinea: "Aerolínea A", destino: "Nueva York", frecuencia: "Diario", tipoVuelo: "Regular" },
-    { id: 2, aerolinea: "Aerolínea B", destino: "París", frecuencia: "Semanal", tipoVuelo: "Especial" },
-  ]);
+const ProgramasVuelos: React.FC = () => {
+  const [programas, setProgramas] = useState<ProgramaVuelo[]>([]);
+  const [error, setError] = useState('');
 
-  const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [datosEditados, setDatosEditados] = useState<Partial<ProgramaVuelo>>({});
-
-  const agregarPrograma = (nuevoPrograma: Omit<ProgramaVuelo, "id">) => {
-    setProgramasVuelo([...programasVuelo, { id: Date.now(), ...nuevoPrograma }]);
-  };
-
-  const editarPrograma = (id: number, datosActualizados: Partial<ProgramaVuelo>) => {
-    setProgramasVuelo(programasVuelo.map((p) => (p.id === id ? { ...p, ...datosActualizados } : p)));
-  };
-
-  const eliminarPrograma = (id: number) => {
-    setProgramasVuelo(programasVuelo.filter((p) => p.id !== id));
-  };
+  useEffect(() => {
+    fetch('http://localhost:3000/api/programas-vuelo')
+      .then(res => res.json())
+      .then((data: any[][]) => {
+        const programasFormateados: ProgramaVuelo[] = data.map((fila) => ({
+          id_programa: fila[0],
+          numero_vuelo: fila[1],
+          fecha: fila[2],
+          duracion: fila[3],
+          id_aeropuerto_origen: fila[4],
+          estado: fila[5],
+        }));
+        setProgramas(programasFormateados);
+        setError('');
+      })
+      .catch((err) => {
+        console.error('Error al obtener programas:', err);
+        setError('Error al obtener los programas de vuelo.');
+      });
+  }, []);
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Programas de Vuelo</h2>
-      <p className="gestion-descripcion">
-        Organiza los planes de vuelo de cada aerolínea, programaciones regulares y especiales con todos los detalles necesarios.
-      </p>
-      <div className="tarjetas-container">
-        {programasVuelo.map((programa) => (
-          <div key={programa.id} className="tarjeta">
-            {editandoId === programa.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={datosEditados.aerolinea || programa.aerolinea}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, aerolinea: e.target.value })}
-                  placeholder="Aerolínea"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.destino || programa.destino}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, destino: e.target.value })}
-                  placeholder="Destino"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.frecuencia || programa.frecuencia}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, frecuencia: e.target.value })}
-                  placeholder="Frecuencia"
-                />
-                <select
-                  value={datosEditados.tipoVuelo || programa.tipoVuelo}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, tipoVuelo: e.target.value as "Regular" | "Especial" })}
-                >
-                  <option value="Regular">Regular</option>
-                  <option value="Especial">Especial</option>
-                </select>
-                <button
-                  onClick={() => {
-                    editarPrograma(programa.id, datosEditados);
-                    setEditandoId(null);
-                    setDatosEditados({});
-                  }}
-                >
-                  Guardar
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3>{programa.aerolinea}</h3>
-                <p>Destino: {programa.destino}</p>
-                <p>Frecuencia: {programa.frecuencia}</p>
-                <p>Tipo de vuelo: {programa.tipoVuelo}</p>
-                <button onClick={() => eliminarPrograma(programa.id)}>Eliminar</button>
-                <button
-                  onClick={() => {
-                    setEditandoId(programa.id);
-                    setDatosEditados(programa);
-                  }}
-                >
-                  Editar
-                </button>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-      <button
-        onClick={() =>
-          agregarPrograma({ aerolinea: "Aerolínea C", destino: "Tokio", frecuencia: "Mensual", tipoVuelo: "Especial" })
-        }
-      >
-        Agregar Programa de Vuelo
-      </button>
+    <div className="programas-wrapper">
+      <h1>Programación de Vuelos</h1>
+
+      {error && <div className="error">{error}</div>}
+
+      <table className="programas-tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Número Vuelo</th>
+            <th>Fecha</th>
+            <th>Duración (min)</th>
+            <th>ID Origen</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {programas.map((prog) => (
+            <tr key={prog.id_programa}>
+              <td>{prog.id_programa}</td>
+              <td>{prog.numero_vuelo}</td>
+              <td>{new Date(prog.fecha).toLocaleDateString()}</td>
+              <td>{prog.duracion}</td>
+              <td>{prog.id_aeropuerto_origen}</td>
+              <td>{prog.estado}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default GestionProgramasVuelo;
+export default ProgramasVuelos;

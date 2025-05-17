@@ -1,10 +1,10 @@
-/* Fondo general con efecto glass */
-.usuarios-wrapper {
+/* Fondo general con imagen y efecto glass */
+.vuelos-wrapper {
   min-height: 100vh;
   padding: 4rem 2rem;
   background: 
     linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-    url('../src/images/imgusuarios.jpg'); /* Usa una imagen adecuada */
+    url('../src/images/imgvuelos.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -15,7 +15,7 @@
 }
 
 /* Título principal */
-.usuarios-wrapper h1 {
+.vuelos-wrapper h1 {
   font-size: 2.5rem;
   font-weight: bold;
   color: #1c1c1e;
@@ -24,7 +24,7 @@
 }
 
 /* Caja glassmorphism */
-.usuarios-card {
+.vuelos-card, .buscar-card {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -37,7 +37,7 @@
 }
 
 /* Etiquetas para los campos de entrada */
-.usuarios-card label {
+.vuelos-card label, .buscar-card label {
   font-weight: bold;
   display: block;
   margin-bottom: 0.3rem;
@@ -46,8 +46,9 @@
 }
 
 /* Entradas de datos */
-.usuarios-card input,
-.usuarios-card select {
+.vuelos-card input,
+.buscar-card input,
+.vuelos-card select {
   width: 100%;
   margin-bottom: 0.75rem;
   padding: 0.6rem;
@@ -59,7 +60,8 @@
 }
 
 /* Botones */
-.usuarios-card button {
+.vuelos-card button,
+.buscar-card button {
   padding: 0.6rem 1.2rem;
   margin-top: 0.5rem;
   background-color: #007bff;
@@ -71,12 +73,13 @@
   transition: background-color 0.2s ease;
 }
 
-.usuarios-card button:hover {
+.vuelos-card button:hover,
+.buscar-card button:hover {
   background-color: #0056b3;
 }
 
-/* Tabla de usuarios */
-.usuarios-tabla {
+/* Tabla de vuelos */
+.vuelos-tabla {
   width: 100%;
   max-width: 1500px;
   background: rgba(255, 255, 255, 0.65);
@@ -86,26 +89,25 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.usuarios-tabla th, 
-.usuarios-tabla td {
+.vuelos-tabla th, 
+.vuelos-tabla td {
   padding: 0.75rem 1rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-.usuarios-tabla th {
+.vuelos-tabla th {
   background-color: #f5f5f5;
   color: #333;
   font-size: 1.2rem;
 }
 
-.usuarios-tabla td {
+.vuelos-tabla td {
   background-color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
 }
 
-/* Última fila sin borde inferior */
-.usuarios-tabla tr:last-child td {
+.vuelos-tabla tr:last-child td {
   border-bottom: none;
 }
 
@@ -122,14 +124,29 @@
   margin-bottom: 1rem;
 }
 
+/* Botón de eliminación */
+.btn-eliminar {
+  background-color: #dc3545;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-eliminar:hover {
+  background-color: #b32435;
+}
+
 /* Ajustes responsivos */
 @media (max-width: 768px) {
-  .usuarios-card {
+  .vuelos-card,
+  .buscar-card {
     padding: 1.5rem;
   }
 
-  .usuarios-tabla th,
-  .usuarios-tabla td {
+  .vuelos-tabla th,
+  .vuelos-tabla td {
     padding: 0.5rem;
     font-size: 0.9rem;
   }

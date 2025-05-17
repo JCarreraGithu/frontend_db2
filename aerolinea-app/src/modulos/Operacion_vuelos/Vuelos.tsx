@@ -1,135 +1,205 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import "./Vuelos.css";
 
 type Vuelo = {
-  id: number;
-  aerolinea: string;
-  numeroVuelo: string;
-  origen: string;
-  destino: string;
-  estado: "Programado" | "En curso" | "Finalizado" | "Cancelado";
-  horaSalida: string;
-  horaLlegada: string;
+  id_vuelo: number;
+  id_programa: number;
+  fecha: string;
+  plazas_disponibles: number;
+  id_avion: number;
+  estado: string;
 };
 
-const GestionVuelos = () => {
-  const [vuelos, setVuelos] = useState<Vuelo[]>([
-    { id: 1, aerolinea: "Aerolínea A", numeroVuelo: "AA123", origen: "Ciudad A", destino: "Ciudad B", estado: "Programado", horaSalida: "10:00", horaLlegada: "12:30" },
-    { id: 2, aerolinea: "Aerolínea B", numeroVuelo: "BB456", origen: "Ciudad C", destino: "Ciudad D", estado: "En curso", horaSalida: "15:00", horaLlegada: "18:00" },
-  ]);
+const Vuelos = () => {
+  const [vuelos, setVuelos] = useState<Vuelo[]>([]);
+  const [nuevoVuelo, setNuevoVuelo] = useState({
+    id_programa: 0,
+    fecha: "",
+    plazas_disponibles: 0,
+    id_avion: 0,
+    estado: "activo",
+  });
+  const [busquedaID, setBusquedaID] = useState("");
+  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [datosEditados, setDatosEditados] = useState<Partial<Vuelo>>({});
+  const limpiarMensaje = () => setTimeout(() => setMensaje(null), 3000);
+  const limpiarError = () => setTimeout(() => setError(null), 3000);
 
-  const agregarVuelo = (nuevoVuelo: Omit<Vuelo, "id">) => {
-    setVuelos([...vuelos, { id: Date.now(), ...nuevoVuelo }]);
+  const obtenerVuelos = () => {
+    fetch("http://localhost:3000/api/vuelos")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formateado = data.map((arr: any[]) => ({
+            id_vuelo: arr[0],
+            id_programa: arr[1],
+            fecha: arr[2],
+            plazas_disponibles: arr[3],
+            id_avion: arr[4],
+            estado: arr[5],
+          }));
+          setVuelos(formateado);
+        } else {
+          setError("❌ Error: formato inesperado de la API");
+          limpiarError();
+        }
+      })
+      .catch(() => {
+        setError("❌ Error al cargar vuelos");
+        limpiarError();
+      });
   };
 
-  const editarVuelo = (id: number, datosActualizados: Partial<Vuelo>) => {
-    setVuelos(vuelos.map((v) => (v.id === id ? { ...v, ...datosActualizados } : v)));
+  useEffect(() => {
+    obtenerVuelos();
+  }, []);
+
+  const añadirVuelo = () => {
+    const vueloData = {
+      id_programa: Number(nuevoVuelo.id_programa),
+      fecha: nuevoVuelo.fecha,
+      plazas_disponibles: Number(nuevoVuelo.plazas_disponibles),
+      id_avion: Number(nuevoVuelo.id_avion),
+      estado: nuevoVuelo.estado,
+    };
+
+    console.log("Enviando datos:", vueloData);
+
+    fetch("http://localhost:3000/api/vuelos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(vueloData),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("❌ Error al registrar vuelo");
+        return res.json();
+      })
+      .then(() => {
+        console.log("Vuelo registrado correctamente");
+        setMensaje("✅ Vuelo registrado exitosamente");
+        setNuevoVuelo({ id_programa: 0, fecha: "", plazas_disponibles: 0, id_avion: 0, estado: "activo" });
+        obtenerVuelos();
+        limpiarMensaje();
+      })
+      .catch((err) => {
+        console.error("Error en la solicitud:", err);
+        setError("❌ Error al registrar vuelo");
+        limpiarError();
+      });
   };
 
   const eliminarVuelo = (id: number) => {
-    setVuelos(vuelos.filter((v) => v.id !== id));
+    if (!confirm(`¿Eliminar vuelo con ID ${id}?`)) return;
+    fetch(`http://localhost:3000/api/vuelos/${id}`, { method: "DELETE" })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al eliminar vuelo");
+        obtenerVuelos();
+        setMensaje("🗑️ Vuelo eliminado");
+        limpiarMensaje();
+      })
+      .catch(() => {
+        setError("❌ Error al eliminar vuelo");
+        limpiarError();
+      });
+  };
+
+  const buscarPorID = () => {
+    if (!busquedaID) {
+      obtenerVuelos();
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/Vuelos/${busquedaID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data || !Array.isArray(data)) {
+          setError("❌ Vuelo no encontrado");
+          limpiarError();
+          return;
+        }
+
+        const vuelo = {
+          id_vuelo: data[0],
+          id_programa: data[1],
+          fecha: data[2],
+          plazas_disponibles: data[3],
+          id_avion: data[4],
+          estado: data[5],
+        };
+
+        setVuelos([vuelo]);
+      })
+      .catch(() => {
+        setError("❌ Error al buscar vuelo");
+        limpiarError();
+      });
   };
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Vuelos</h2>
-      <p className="gestion-descripcion">
-        Monitorea todos los vuelos programados, en curso o finalizados. Accede a su estado, itinerario y asignaciones.
-      </p>
-      <div className="tarjetas-container">
-        {vuelos.map((vuelo) => (
-          <div key={vuelo.id} className="tarjeta">
-            {editandoId === vuelo.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={datosEditados.aerolinea || vuelo.aerolinea}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, aerolinea: e.target.value })}
-                  placeholder="Aerolínea"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.numeroVuelo || vuelo.numeroVuelo}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, numeroVuelo: e.target.value })}
-                  placeholder="Número de vuelo"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.origen || vuelo.origen}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, origen: e.target.value })}
-                  placeholder="Origen"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.destino || vuelo.destino}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, destino: e.target.value })}
-                  placeholder="Destino"
-                />
-                <select
-                  value={datosEditados.estado || vuelo.estado}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, estado: e.target.value as "Programado" | "En curso" | "Finalizado" | "Cancelado" })}
-                >
-                  <option value="Programado">Programado</option>
-                  <option value="En curso">En curso</option>
-                  <option value="Finalizado">Finalizado</option>
-                  <option value="Cancelado">Cancelado</option>
-                </select>
-                <input
-                  type="time"
-                  value={datosEditados.horaSalida || vuelo.horaSalida}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, horaSalida: e.target.value })}
-                  placeholder="Hora de salida"
-                />
-                <input
-                  type="time"
-                  value={datosEditados.horaLlegada || vuelo.horaLlegada}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, horaLlegada: e.target.value })}
-                  placeholder="Hora de llegada"
-                />
-                <button
-                  onClick={() => {
-                    editarVuelo(vuelo.id, datosEditados);
-                    setEditandoId(null);
-                    setDatosEditados({});
-                  }}
-                >
-                  Guardar
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3>{vuelo.aerolinea}</h3>
-                <p>Número de vuelo: {vuelo.numeroVuelo}</p>
-                <p>Origen: {vuelo.origen}</p>
-                <p>Destino: {vuelo.destino}</p>
-                <p>Estado: {vuelo.estado}</p>
-                <p>Hora de salida: {vuelo.horaSalida}</p>
-                <p>Hora de llegada: {vuelo.horaLlegada}</p>
-                <button onClick={() => eliminarVuelo(vuelo.id)}>Eliminar</button>
-                <button
-                  onClick={() => {
-                    setEditandoId(vuelo.id);
-                    setDatosEditados(vuelo);
-                  }}
-                >
-                  Editar
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+    <div className="vuelos-wrapper">
+      <h1>✈️ Gestión de Vuelos</h1>
+
+      {mensaje && <p className="mensaje">{mensaje}</p>}
+      {error && <p className="error">{error}</p>}
+
+      {/* FORMULARIO */}
+      <div className="vuelos-card">
+        <h3>➕ Registrar Vuelo</h3>
+        
+        <label htmlFor="id_programa">ID Programa</label>
+        <input id="id_programa" type="number" placeholder="Ejemplo: 61" value={nuevoVuelo.id_programa} onChange={(e) => setNuevoVuelo({ ...nuevoVuelo, id_programa: Number(e.target.value) })} />
+
+        <label htmlFor="fecha">Fecha del vuelo</label>
+        <input id="fecha" type="date" value={nuevoVuelo.fecha} onChange={(e) => setNuevoVuelo({ ...nuevoVuelo, fecha: e.target.value })} />
+
+        <label htmlFor="plazas_disponibles">Plazas disponibles</label>
+        <input id="plazas_disponibles" type="number" placeholder="Ejemplo: 150" value={nuevoVuelo.plazas_disponibles} onChange={(e) => setNuevoVuelo({ ...nuevoVuelo, plazas_disponibles: Number(e.target.value) })} />
+
+        <label htmlFor="id_avion">ID del avión asignado</label>
+        <input id="id_avion" type="number" placeholder="Ejemplo: 70" value={nuevoVuelo.id_avion} onChange={(e) => setNuevoVuelo({ ...nuevoVuelo, id_avion: Number(e.target.value) })} />
+
+        <label htmlFor="estado">Estado del vuelo</label>
+        <select id="estado" value={nuevoVuelo.estado} onChange={(e) => setNuevoVuelo({ ...nuevoVuelo, estado: e.target.value })}>
+          <option value="activo">Activo</option>
+          <option value="cancelado">Cancelado</option>
+          <option value="finalizado">Finalizado</option>
+        </select>
+
+        <button onClick={añadirVuelo}>➕ Añadir</button>
       </div>
-      <button
-        onClick={() =>
-          agregarVuelo({ aerolinea: "Aerolínea C", numeroVuelo: "CC789", origen: "Madrid", destino: "Londres", estado: "Programado", horaSalida: "08:00", horaLlegada: "10:30" })
-        }
-      >
-        Agregar Vuelo
-      </button>
+
+      {/* TABLA */}
+      <table className="vuelos-tabla">
+        <thead>
+          <tr>
+            <th>ID Vuelo</th>
+            <th>ID Programa</th>
+            <th>Fecha</th>
+            <th>Plazas Disponibles</th>
+            <th>ID Avión</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {vuelos.map((vuelo) => (
+            <tr key={vuelo.id_vuelo}>
+              <td>{vuelo.id_vuelo}</td>
+              <td>{vuelo.id_programa}</td>
+              <td>{vuelo.fecha}</td>
+              <td>{vuelo.plazas_disponibles}</td>
+              <td>{vuelo.id_avion}</td>
+              <td>{vuelo.estado}</td>
+              <td>
+                <button className="btn-eliminar" onClick={() => eliminarVuelo(vuelo.id_vuelo)}>❌ Eliminar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default GestionVuelos;
+export default Vuelos;

@@ -10,7 +10,7 @@ const GestionUsuarios = () => {
       titulo: 'Usuarios',
       descripcion:
         'Gestiona los datos personales, roles y estados de todos los usuarios del sistema.',
-      ruta: '/usuarios/crear',
+      ruta: 'dashboard/gestion_usuarios/usuarios/usuarios',
     },
     {
       titulo: 'Visas',

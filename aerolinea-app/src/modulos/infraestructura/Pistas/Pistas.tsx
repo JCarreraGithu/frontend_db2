@@ -1,75 +1,74 @@
-import React, { useEffect, useState } from "react";
-import "./Estilo.css";
+import { useEffect, useState } from "react";
+import "./Estilo.css"; // Crea o adapta este archivo de estilos si es necesario
 
 type Pista = {
-  id: number;
+  id_pista: number;
   nombre: string;
-  estado: string;
-  longitud: number;
-  capacidad: number;
+  disponible: boolean;
+  mantenimiento: string;
 };
 
-const ListaPistas: React.FC = () => {
+const Pistas = () => {
   const [pistas, setPistas] = useState<Pista[]>([]);
-  const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const limpiarError = () => setTimeout(() => setError(null), 3000);
+
+  const obtenerPistas = () => {
     fetch("http://localhost:3000/api/pistas")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener las pistas");
-        return res.json();
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formateado = data.map((arr: any[]) => ({
+            id_pista: arr[0],
+            nombre: arr[1],
+            disponible: arr[2] === "Sí",
+            mantenimiento: arr[3],
+          }));
+          setPistas(formateado);
+        } else {
+          setError("❌ Error: formato inesperado de la API");
+          limpiarError();
+        }
       })
-      .then((data: any[][]) => {
-        const pistasFormateadas: Pista[] = data.map((item) => ({
-          id: item[0],
-          nombre: item[1],
-          estado: item[2],
-          longitud: item[3],
-          capacidad: item[4],
-        }));
-        setPistas(pistasFormateadas);
-        setCargando(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setCargando(false);
+      .catch(() => {
+        setError("❌ Error al cargar pistas");
+        limpiarError();
       });
+  };
+
+  useEffect(() => {
+    obtenerPistas();
   }, []);
 
   return (
-    <div className="pagos-wrapper">
-      <h1>Listado de Pistas</h1>
+    <div className="pistas-wrapper">
+      <h1>🛬 Gestión de Pistas de Aterrizaje y Despegue</h1>
 
-      {cargando && <p className="mensaje">Cargando pistas...</p>}
-      {error && <p className="error">Error: {error}</p>}
+      {error && <p className="error">{error}</p>}
 
-      <div className="pagos-card">
-        <table className="pagos-tabla">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Estado</th>
-              <th>Longitud (m)</th>
-              <th>Capacidad (aviones)</th>
+      <table className="pistas-tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Disponible</th>
+            <th>Mantenimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pistas.map((pista) => (
+            <tr key={pista.id_pista}>
+              <td>{pista.id_pista}</td>
+              <td>{pista.nombre}</td>
+              <td>{pista.disponible ? "Sí" : "No"}</td>
+              <td>{pista.mantenimiento}</td>
             </tr>
-          </thead>
-          <tbody>
-            {pistas.map((pista) => (
-              <tr key={pista.id}>
-                <td>{pista.id}</td>
-                <td>{pista.nombre}</td>
-                <td>{pista.estado}</td>
-                <td>{pista.longitud}</td>
-                <td>{pista.capacidad}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default ListaPistas;
+export default Pistas;
