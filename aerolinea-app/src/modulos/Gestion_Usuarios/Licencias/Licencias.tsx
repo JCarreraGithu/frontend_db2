@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Licencias.css";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 type Licencia = {
   id_licencia: number;
@@ -21,7 +22,7 @@ const Licencias = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerLicencias = () => {
-    fetch("http://localhost:3000/api/licencias")
+    fetch(`${baseUrl}/licencias`)
       .then((res) => res.json())
       .then((data) => {
         if (!Array.isArray(data)) {
@@ -44,6 +45,7 @@ const Licencias = () => {
       })
       .catch(() => {
         setError("❌ Error al cargar licencias");
+        limpiarMensaje();
         limpiarError();
       });
   };
@@ -58,7 +60,7 @@ const Licencias = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/licencias/${busquedaID}`)
+    fetch(`${baseUrl}/licencias/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data.success || !data.data) {
@@ -84,18 +86,17 @@ const Licencias = () => {
   };
 
   return (
-    <div className="licencias-wrapper">
-      <h1>📜 Gestión de Licencias</h1>
+    <div className="licencias-container">
+      <h2>📜 Gestión de Licencias</h2>
 
-      {mensaje && <p className="mensaje">{mensaje}</p>}
-      {error && <p className="error">{error}</p>}
+      {mensaje && <div className="mensaje">{mensaje}</div>}
+      {error && <div className="error">{error}</div>}
 
       {/* BÚSQUEDA */}
-      <div className="licencias-card">
-        <h3>🔍 Buscar Licencia por ID</h3>
+      <div className="busqueda">
+        <label>🔍 Buscar Licencia por ID</label>
         <input
-          type="number"
-          placeholder="ID Licencia"
+          type="text"
           value={busquedaID}
           onChange={(e) => setBusquedaID(e.target.value)}
         />
@@ -104,40 +105,38 @@ const Licencias = () => {
       </div>
 
       {/* TABLA DE LICENCIAS */}
-      <div className="licencias-card">
-        <h3>📋 Lista de Licencias</h3>
-        <table className="licencias-tabla">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>ID Cuenta</th>
-              <th>Descripción</th>
-              <th>Fecha Inicio</th>
-              <th>Fecha Fin</th>
-              <th>Pagada</th>
-              <th>Monto</th>
+      <h3>📋 Lista de Licencias</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Licencia</th>
+            <th>ID Cuenta</th>
+            <th>Descripción</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          {licencias.map((licencia) => (
+            <tr key={licencia.id_licencia}>
+              <td>{licencia.id_licencia}</td>
+              <td>{licencia.id_cuenta}</td>
+              <td>{licencia.descripcion}</td>
+              <td>{licencia.fecha_inicio}</td>
+              <td>{licencia.fecha_fin}</td>
+              <td>{licencia.pagada}</td>
+              <td>{licencia.monto}</td>
             </tr>
-          </thead>
-          <tbody>
-            {licencias.map((licencia) => (
-              <tr key={licencia.id_licencia}>
-                <td>{licencia.id_licencia}</td>
-                <td>{licencia.id_cuenta}</td>
-                <td>{licencia.descripcion}</td>
-                <td>{licencia.fecha_inicio}</td>
-                <td>{licencia.fecha_fin}</td>
-                <td>{licencia.pagada}</td>
-                <td>{licencia.monto}</td>
-              </tr>
-            ))}
-            {licencias.length === 0 && (
-              <tr>
-                <td colSpan={7} style={{ textAlign: "center" }}>No hay licencias registradas</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+          ))}
+          {licencias.length === 0 && (
+            <tr>
+              <td colSpan={7}>No hay licencias registradas</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

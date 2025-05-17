@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Aviones.css";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 type Avion = {
   id_avion: number;
@@ -25,7 +26,7 @@ const Aviones = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerAviones = () => {
-    fetch("http://localhost:3000/api/aviones/All")
+    fetch(`${baseUrl}/aviones/All`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -53,7 +54,7 @@ const Aviones = () => {
   }, []);
 
   const añadirAvion = () => {
-    fetch("http://localhost:3000/api/aviones", {
+    fetch(`${baseUrl}/aviones`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevoAvion),
@@ -81,7 +82,7 @@ const Aviones = () => {
 
   const eliminarAvion = (id: number) => {
     if (!confirm(`¿Eliminar avión con ID ${id}?`)) return;
-    fetch(`http://localhost:3000/api/aviones/${id}`, {
+    fetch(`${baseUrl}/aviones/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -102,7 +103,7 @@ const Aviones = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/aviones/${busquedaID}`)
+    fetch(`${baseUrl}/aviones/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data || !Array.isArray(data)) {

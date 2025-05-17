@@ -1,5 +1,5 @@
 // src/paginas/Inicio.tsx
-import React from 'react';
+
 
 const Inicio = () => {
   const datosUsuario = localStorage.getItem('usuario');

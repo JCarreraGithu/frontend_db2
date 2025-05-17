@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import './Equipaje.css';
-
+import { useEffect, useState } from "react";
+import "./Equipaje.css";
+const baseUrl = import.meta.env.VITE_API_URL; // Asumimos que baseUrl ya tiene "/api"
 
 type EquipajeItem = {
   id: number;
@@ -13,22 +13,28 @@ type EquipajeItem = {
 const Equipaje = () => {
   const [equipajes, setEquipajes] = useState<EquipajeItem[]>([]);
   const [nuevoEquipaje, setNuevoEquipaje] = useState({
-    id_reserva: '',
-    peso: '',
-    dimensiones: '',
-    estado: '',
+    id_reserva: "",
+    peso: "",
+    dimensiones: "",
+    estado: "",
   });
-  const [busquedaID, setBusquedaID] = useState('');
+  const [busquedaID, setBusquedaID] = useState("");
   const [mensaje, setMensaje] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const limpiarMensaje = () => setTimeout(() => setMensaje(null), 3000);
-  const limpiarError = () => setTimeout(() => setError(null), 3000);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setMensaje(null);
+      setError(null);
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [mensaje, error]);
 
   const obtenerEquipajes = () => {
-    fetch('http://localhost:3000/api/equipajes')
-      .then(res => res.json())
-      .then(data => {
+    fetch(`${baseUrl}/equipajes`)  // Usamos baseUrl directamente
+      .then((res) => res.json())
+      .then((data) => {
         const formateados = data.data.map((item: any[]) => ({
           id: item[0],
           id_reserva: item[1],
@@ -39,8 +45,7 @@ const Equipaje = () => {
         setEquipajes(formateados);
       })
       .catch(() => {
-        setError('❌ Error al cargar equipajes');
-        limpiarError();
+        setError("❌ Error al cargar equipajes");
       });
   };
 
@@ -49,41 +54,47 @@ const Equipaje = () => {
   }, []);
 
   const añadirEquipaje = () => {
-    fetch('http://localhost:3000/api/equipajes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    if (
+      !nuevoEquipaje.id_reserva ||
+      !nuevoEquipaje.peso ||
+      !nuevoEquipaje.dimensiones ||
+      !nuevoEquipaje.estado
+    ) {
+      setError("❌ Todos los campos son obligatorios");
+      return;
+    }
+
+    fetch(`${baseUrl}/equipajes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevoEquipaje),
     })
-      .then(res => {
-        if (!res.ok) throw new Error('Error al crear equipaje');
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al crear equipaje");
         return res.json();
       })
       .then(() => {
-        setMensaje('✅ Equipaje insertado exitosamente');
-        setNuevoEquipaje({ id_reserva: '', peso: '', dimensiones: '', estado: '' });
+        setMensaje("✅ Equipaje insertado exitosamente");
+        setNuevoEquipaje({ id_reserva: "", peso: "", dimensiones: "", estado: "" });
         obtenerEquipajes();
-        limpiarMensaje();
       })
-      .catch(err => {
-        setError('❌ Error al insertar equipaje');
-        limpiarError();
+      .catch(() => {
+        setError("❌ Error al insertar equipaje");
       });
   };
 
   const eliminarEquipaje = (id: number) => {
     if (!confirm(`¿Eliminar equipaje con ID ${id}?`)) return;
-    fetch(`http://localhost:3000/api/equipajes/${id}`, {
-      method: 'DELETE',
+    fetch(`${baseUrl}/equipajes/${id}`, {
+      method: "DELETE",
     })
-      .then(res => {
-        if (!res.ok) throw new Error('Error al eliminar');
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al eliminar");
         obtenerEquipajes();
-        setMensaje('🗑️ Equipaje eliminado');
-        limpiarMensaje();
+        setMensaje("🗑️ Equipaje eliminado");
       })
       .catch(() => {
-        setError('❌ Error al eliminar equipaje');
-        limpiarError();
+        setError("❌ Error al eliminar equipaje");
       });
   };
 
@@ -93,12 +104,11 @@ const Equipaje = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/equipajes/${busquedaID}`)
-      .then(res => res.json())
-      .then(data => {
+    fetch(`${baseUrl}/equipajes/${busquedaID}`)
+      .then((res) => res.json())
+      .then((data) => {
         if (!data.success || !data.data || data.data.length === 0) {
-          setError('❌ Equipaje no encontrado');
-          limpiarError();
+          setError("❌ Equipaje no encontrado");
           return;
         }
 
@@ -114,101 +124,109 @@ const Equipaje = () => {
         setEquipajes([equipaje]);
       })
       .catch(() => {
-        setError('❌ Error al buscar equipaje');
-        limpiarError();
+        setError("❌ Error al buscar equipaje");
       });
   };
 
   return (
-  <div className="equipaje-wrapper">
-    <h1>🎒 Gestión de Equipajes</h1>
+    <div className="equipaje-wrapper">
+      <h1>🎒 Gestión de Equipajes</h1>
 
-    {mensaje && <p className="mensaje">{mensaje}</p>}
-    {error && <p className="error">{error}</p>}
+      {mensaje && <p className="mensaje">{mensaje}</p>}
+      {error && <p className="error">{error}</p>}
 
-    {/* FORMULARIO */}
-    <div className="equipaje-card">
-      <h3>➕ Añadir Equipaje</h3>
-      <input
-        type="number"
-        placeholder="ID Reserva"
-        value={nuevoEquipaje.id_reserva}
-        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, id_reserva: e.target.value })}
-      />
-      <input
-        type="number"
-        placeholder="Peso (kg)"
-        value={nuevoEquipaje.peso}
-        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, peso: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Dimensiones"
-        value={nuevoEquipaje.dimensiones}
-        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, dimensiones: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Estado"
-        value={nuevoEquipaje.estado}
-        onChange={e => setNuevoEquipaje({ ...nuevoEquipaje, estado: e.target.value })}
-      />
-      <button onClick={añadirEquipaje}>➕ Añadir</button>
-    </div>
+      {/* FORMULARIO */}
+      <div className="equipaje-card">
+        <h3>➕ Añadir Equipaje</h3>
+        <input
+          type="number"
+          placeholder="ID Reserva"
+          value={nuevoEquipaje.id_reserva}
+          onChange={(e) =>
+            setNuevoEquipaje({ ...nuevoEquipaje, id_reserva: e.target.value })
+          }
+        />
+        <input
+          type="number"
+          placeholder="Peso (kg)"
+          value={nuevoEquipaje.peso}
+          onChange={(e) =>
+            setNuevoEquipaje({ ...nuevoEquipaje, peso: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Dimensiones"
+          value={nuevoEquipaje.dimensiones}
+          onChange={(e) =>
+            setNuevoEquipaje({ ...nuevoEquipaje, dimensiones: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Estado"
+          value={nuevoEquipaje.estado}
+          onChange={(e) =>
+            setNuevoEquipaje({ ...nuevoEquipaje, estado: e.target.value })
+          }
+        />
+        <button onClick={añadirEquipaje}>➕ Añadir</button>
+      </div>
 
-    {/* BÚSQUEDA */}
-    <div className="equipaje-card">
-      <h3>🔍 Buscar Equipaje por ID</h3>
-      <input
-        type="number"
-        placeholder="ID"
-        value={busquedaID}
-        onChange={e => setBusquedaID(e.target.value)}
-      />
-      <button onClick={buscarPorID}>🔎 Buscar</button>
-      <button onClick={obtenerEquipajes}>🔄 Ver Todos</button>
-    </div>
+      {/* BÚSQUEDA */}
+      <div className="equipaje-card">
+        <h3>🔍 Buscar Equipaje por ID</h3>
+        <input
+          type="number"
+          placeholder="ID"
+          value={busquedaID}
+          onChange={(e) => setBusquedaID(e.target.value)}
+        />
+        <button onClick={buscarPorID}>🔎 Buscar</button>
+        <button onClick={obtenerEquipajes}>🔄 Ver Todos</button>
+      </div>
 
-    {/* TABLA */}
-    <div className="equipaje-card">
-      <h3>📋 Lista de Equipajes</h3>
-      <table className="equipaje-tabla">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>ID Reserva</th>
-            <th>Peso</th>
-            <th>Dimensiones</th>
-            <th>Estado</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          {equipajes.map(eq => (
-            <tr key={eq.id}>
-              <td>{eq.id}</td>
-              <td>{eq.id_reserva}</td>
-              <td>{eq.peso}</td>
-              <td>{eq.dimensiones}</td>
-              <td>{eq.estado}</td>
-              <td>
-                <button onClick={() => eliminarEquipaje(eq.id)} style={{ backgroundColor: '#dc3545' }}>
-                  ❌ Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-          {equipajes.length === 0 && (
+      {/* TABLA */}
+      <div className="equipaje-card">
+        <h3>📋 Lista de Equipajes</h3>
+        <table className="equipaje-tabla">
+          <thead>
             <tr>
-              <td colSpan={6} style={{ textAlign: 'center' }}>No hay equipajes</td>
+              <th>ID</th>
+              <th>ID Reserva</th>
+              <th>Peso</th>
+              <th>Dimensiones</th>
+              <th>Estado</th>
+              <th>Acción</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {equipajes.map((eq) => (
+              <tr key={eq.id}>
+                <td>{eq.id}</td>
+                <td>{eq.id_reserva}</td>
+                <td>{eq.peso}</td>
+                <td>{eq.dimensiones}</td>
+                <td>{eq.estado}</td>
+                <td>
+                  <button onClick={() => eliminarEquipaje(eq.id)} style={{ backgroundColor: "#dc3545" }}>
+                    ❌ Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {equipajes.length === 0 && (
+              <tr>
+                <td colSpan={6} style={{ textAlign: "center" }}>
+                  No hay equipajes
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default Equipaje;

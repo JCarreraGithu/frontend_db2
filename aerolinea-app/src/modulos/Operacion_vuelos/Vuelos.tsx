@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Vuelos.css";
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 type Vuelo = {
   id_vuelo: number;
   id_programa: number;
@@ -27,7 +29,7 @@ const Vuelos = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerVuelos = () => {
-    fetch("http://localhost:3000/api/vuelos")
+    fetch(`${baseUrl}/vuelos`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -64,9 +66,7 @@ const Vuelos = () => {
       estado: nuevoVuelo.estado,
     };
 
-    console.log("Enviando datos:", vueloData);
-
-    fetch("http://localhost:3000/api/vuelos", {
+    fetch(`${baseUrl}/vuelos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(vueloData),
@@ -76,14 +76,12 @@ const Vuelos = () => {
         return res.json();
       })
       .then(() => {
-        console.log("Vuelo registrado correctamente");
         setMensaje("✅ Vuelo registrado exitosamente");
         setNuevoVuelo({ id_programa: 0, fecha: "", plazas_disponibles: 0, id_avion: 0, estado: "activo" });
         obtenerVuelos();
         limpiarMensaje();
       })
-      .catch((err) => {
-        console.error("Error en la solicitud:", err);
+      .catch(() => {
         setError("❌ Error al registrar vuelo");
         limpiarError();
       });
@@ -91,7 +89,7 @@ const Vuelos = () => {
 
   const eliminarVuelo = (id: number) => {
     if (!confirm(`¿Eliminar vuelo con ID ${id}?`)) return;
-    fetch(`http://localhost:3000/api/vuelos/${id}`, { method: "DELETE" })
+    fetch(`${baseUrl}/vuelos/${id}`, { method: "DELETE" })
       .then((res) => {
         if (!res.ok) throw new Error("Error al eliminar vuelo");
         obtenerVuelos();
@@ -110,7 +108,7 @@ const Vuelos = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/Vuelos/${busquedaID}`)
+    fetch(`${baseUrl}/vuelos/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data || !Array.isArray(data)) {
@@ -167,6 +165,14 @@ const Vuelos = () => {
         </select>
 
         <button onClick={añadirVuelo}>➕ Añadir</button>
+      </div>
+
+      {/* BUSCAR */}
+      <div className="vuelos-card">
+        <h3>🔍 Buscar Vuelo por ID</h3>
+        <input type="number" placeholder="ID Vuelo" value={busquedaID} onChange={(e) => setBusquedaID(e.target.value)} />
+        <button onClick={buscarPorID}>🔎 Buscar</button>
+        <button onClick={obtenerVuelos}>🔄 Ver Todos</button>
       </div>
 
       {/* TABLA */}

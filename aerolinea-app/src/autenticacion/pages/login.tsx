@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPlaneDeparture } from 'react-icons/fa';
 import './login.css';
+const baseUrl = import.meta.env.VITE_API_URL;
+
 
 const Login = () => {
   const [correo, setCorreo] = useState('');
@@ -12,7 +14,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/usuarios/login', {
+      const response = await fetch(`${baseUrl}/usuarios/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo, contrasena }),

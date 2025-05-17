@@ -1,9 +1,8 @@
+const baseUrl = import.meta.env.VITE_API_URL;
 
-
-
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import "./Pagos.css"; // Asegúrate que el CSS esté bien enlazado
+import "./Pagos.css";
 
 const Pagos = () => {
   const [idFactura, setIdFactura] = useState("");
@@ -19,7 +18,7 @@ const Pagos = () => {
 
   const obtenerPagos = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/pagos");
+      const res = await axios.get(`${baseUrl}/pagos`);
       setPagos(res.data);
     } catch (err) {
       setError("Error al obtener los pagos.");
@@ -36,7 +35,7 @@ const Pagos = () => {
         detalle_pago: detallePago,
       };
 
-      await axios.post("http://localhost:3000/api/pagos", nuevoPago);
+      await axios.post(`${baseUrl}/pagos`, nuevoPago);
       setMensaje("Pago agregado correctamente.");
       setError("");
       limpiarCampos();
@@ -47,9 +46,9 @@ const Pagos = () => {
     }
   };
 
-  const eliminarPago = async (id) => {
+  const eliminarPago = async (id: number | string) => {
     try {
-      await axios.delete("http://localhost:3000/api/pagos/${id}");
+      await axios.delete(`${baseUrl}/pagos/${id}`);
       setMensaje("Pago eliminado correctamente.");
       setError("");
       obtenerPagos();
@@ -61,7 +60,7 @@ const Pagos = () => {
 
   const buscarPagoPorId = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/pagos/${idBuscar}");
+      const res = await axios.get(`${baseUrl}/pagos/${idBuscar}`);
       setPagoEncontrado(res.data);
       setMensaje("");
       setError("");

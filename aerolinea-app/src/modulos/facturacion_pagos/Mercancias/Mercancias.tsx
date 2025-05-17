@@ -1,5 +1,4 @@
-
-
+const baseUrl = import.meta.env.VITE_API_URL;
 import  { useState, useEffect } from 'react';
 import './Mercancias.css';
 
@@ -20,7 +19,7 @@ const Mercancias = () => {
   const [idBuscar, setIdBuscar] = useState('');
   const [mercanciaEncontrada, setMercanciaEncontrada] = useState<Mercancia | null>(null);
 
-  const API_URL = 'http://localhost:3000/api/mercancias';
+  const API_URL = `${baseUrl}/mercancias`;
 
   useEffect(() => {
     obtenerMercancias();
@@ -72,7 +71,7 @@ const Mercancias = () => {
 
   const eliminarMercancia = async (id: number) => {
     try {
-      const res = await fetch('${API_URL}/${id}', {
+      const res = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -91,7 +90,8 @@ const Mercancias = () => {
     setMensaje('');
     setError('');
     try {
-      const res = await fetch('${API_URL}/${idBuscar}');
+      // Cambié las comillas para usar template literals correctamente
+      const res = await fetch(`${API_URL}/${idBuscar}`);
       if (res.ok) {
         const data = await res.json();
         const encontrada: Mercancia = {

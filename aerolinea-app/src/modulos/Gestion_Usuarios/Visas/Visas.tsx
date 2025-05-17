@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Visas.css";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 type Visa = {
   id_visa: number;
@@ -29,7 +30,7 @@ const Visas = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerVisas = () => {
-    fetch("http://localhost:3000/api/visas")
+    fetch(`${baseUrl}/visas`)
       .then((res) => res.json())
       .then((data) => {
         if (!Array.isArray(data)) {
@@ -61,7 +62,7 @@ const Visas = () => {
   }, []);
 
   const agregarVisa = () => {
-    fetch("http://localhost:3000/api/visas", {
+    fetch(`${baseUrl}/visas`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevaVisa),
@@ -92,7 +93,7 @@ const Visas = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/visas/${busquedaID}`)
+    fetch(`${baseUrl}/visas/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data.success || !data.data) {
@@ -101,15 +102,17 @@ const Visas = () => {
           return;
         }
 
-        setVisas([{
-          id_visa: data.data[0],
-          id_usuario: data.data[1],
-          numero_visa: data.data[2],
-          tipo_visa: data.data[3],
-          fecha_emision: new Date(data.data[4]).toLocaleDateString("es-ES"),
-          fecha_vencimiento: new Date(data.data[5]).toLocaleDateString("es-ES"),
-          estado: data.data[6],
-        }]);
+        setVisas([
+          {
+            id_visa: data.data[0],
+            id_usuario: data.data[1],
+            numero_visa: data.data[2],
+            tipo_visa: data.data[3],
+            fecha_emision: new Date(data.data[4]).toLocaleDateString("es-ES"),
+            fecha_vencimiento: new Date(data.data[5]).toLocaleDateString("es-ES"),
+            estado: data.data[6],
+          },
+        ]);
       })
       .catch(() => {
         setError("❌ Error al buscar visa");
@@ -124,18 +127,40 @@ const Visas = () => {
       {mensaje && <p className="mensaje">{mensaje}</p>}
       {error && <p className="error">{error}</p>}
 
-      {/* FORMULARIO */}
+      {/* FORMULARIO REGISTRO */}
       <div className="visas-card">
         <h3>➕ Registrar Visa</h3>
 
         <label htmlFor="id_usuario">ID Usuario</label>
-        <input id="id_usuario" type="number" placeholder="Ejemplo: 22" value={nuevaVisa.id_usuario} onChange={(e) => setNuevaVisa({ ...nuevaVisa, id_usuario: Number(e.target.value) })} />
+        <input
+          id="id_usuario"
+          type="number"
+          placeholder="Ejemplo: 22"
+          value={nuevaVisa.id_usuario}
+          onChange={(e) =>
+            setNuevaVisa({ ...nuevaVisa, id_usuario: Number(e.target.value) })
+          }
+        />
 
         <label htmlFor="numero_visa">Número de Visa</label>
-        <input id="numero_visa" type="text" placeholder="Ejemplo: AB123456789" value={nuevaVisa.numero_visa} onChange={(e) => setNuevaVisa({ ...nuevaVisa, numero_visa: e.target.value })} />
+        <input
+          id="numero_visa"
+          type="text"
+          placeholder="Ejemplo: AB123456789"
+          value={nuevaVisa.numero_visa}
+          onChange={(e) =>
+            setNuevaVisa({ ...nuevaVisa, numero_visa: e.target.value })
+          }
+        />
 
         <label htmlFor="tipo_visa">Tipo de Visa</label>
-        <select id="tipo_visa" value={nuevaVisa.tipo_visa} onChange={(e) => setNuevaVisa({ ...nuevaVisa, tipo_visa: e.target.value })}>
+        <select
+          id="tipo_visa"
+          value={nuevaVisa.tipo_visa}
+          onChange={(e) =>
+            setNuevaVisa({ ...nuevaVisa, tipo_visa: e.target.value })
+          }
+        >
           <option value="turista">Turista</option>
           <option value="trabajo">Trabajo</option>
           <option value="estudiante">Estudiante</option>
@@ -143,13 +168,46 @@ const Visas = () => {
         </select>
 
         <label htmlFor="fecha_emision">Fecha de Emisión</label>
-        <input id="fecha_emision" type="date" value={nuevaVisa.fecha_emision} onChange={(e) => setNuevaVisa({ ...nuevaVisa, fecha_emision: e.target.value })} />
+        <input
+          id="fecha_emision"
+          type="date"
+          value={nuevaVisa.fecha_emision}
+          onChange={(e) =>
+            setNuevaVisa({ ...nuevaVisa, fecha_emision: e.target.value })
+          }
+        />
 
         <label htmlFor="fecha_vencimiento">Fecha de Vencimiento</label>
-        <input id="fecha_vencimiento" type="date" value={nuevaVisa.fecha_vencimiento} onChange={(e) => setNuevaVisa({ ...nuevaVisa, fecha_vencimiento: e.target.value })} />
+        <input
+          id="fecha_vencimiento"
+          type="date"
+          value={nuevaVisa.fecha_vencimiento}
+          onChange={(e) =>
+            setNuevaVisa({ ...nuevaVisa, fecha_vencimiento: e.target.value })
+          }
+        />
 
         <button onClick={agregarVisa}>➕ Registrar</button>
+      </div>
+
+      {/* BÚSQUEDA POR ID */}
+      <div className="visas-card" style={{ marginTop: "20px" }}>
+        <h3>🔍 Buscar Visa por ID</h3>
+        <input
+          type="text"
+          placeholder="ID Visa"
+          value={busquedaID}
+          onChange={(e) => setBusquedaID(e.target.value)}
+        />
         <button onClick={buscarPorID}>🔍 Buscar</button>
+        <button
+          onClick={() => {
+            setBusquedaID("");
+            obtenerVisas();
+          }}
+        >
+          🔄 Ver Todas
+        </button>
       </div>
 
       {/* TABLA DE VISAS */}
@@ -177,6 +235,13 @@ const Visas = () => {
               <td>{visa.estado}</td>
             </tr>
           ))}
+          {visas.length === 0 && (
+            <tr>
+              <td colSpan={7} style={{ textAlign: "center" }}>
+                No hay visas registradas
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

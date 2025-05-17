@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import "./Aeropuertos.css"; // Asegúrate de que este archivo esté en la misma ruta
+import "./Aeropuertos.css";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 type Aeropuerto = {
   id_aeropuerto: number;
@@ -25,7 +26,7 @@ const Aeropuertos = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerAeropuertos = () => {
-    fetch("http://localhost:3000/api/aeropuertos/All")
+    fetch(`${baseUrl}/aeropuertos/All`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -53,7 +54,7 @@ const Aeropuertos = () => {
   }, []);
 
   const añadirAeropuerto = () => {
-    fetch("http://localhost:3000/api/aeropuertos", {
+    fetch(`${baseUrl}/aeropuertos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevoAeropuerto),
@@ -76,7 +77,7 @@ const Aeropuertos = () => {
 
   const eliminarAeropuerto = (id: number) => {
     if (!confirm(`¿Eliminar aeropuerto con ID ${id}?`)) return;
-    fetch(`http://localhost:3000/api/aeropuertos/${id}`, {
+    fetch(`${baseUrl}/aeropuertos/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -97,7 +98,7 @@ const Aeropuertos = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/aeropuertos/${busquedaID}`)
+    fetch(`${baseUrl}/aeropuertos/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data || !Array.isArray(data)) {

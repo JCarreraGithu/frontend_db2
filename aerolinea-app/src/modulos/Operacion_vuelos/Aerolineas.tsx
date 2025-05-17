@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import "./Aerolineas.css"; // Crea o adapta este archivo de estilos si es necesario
+import "./Aerolineas.css";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 type Aerolinea = {
   id_aerolinea: number;
@@ -21,7 +22,7 @@ const Aerolineas = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerAerolineas = () => {
-    fetch("http://localhost:3000/api/aerolineas")
+    fetch(`${baseUrl}/aerolineas`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -47,7 +48,7 @@ const Aerolineas = () => {
   }, []);
 
   const añadirAerolinea = () => {
-    fetch("http://localhost:3000/api/aerolineas", {
+    fetch(`${baseUrl}/aerolineas`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevaAerolinea),
@@ -70,7 +71,7 @@ const Aerolineas = () => {
 
   const eliminarAerolinea = (id: number) => {
     if (!confirm(`¿Eliminar aerolínea con ID ${id}?`)) return;
-    fetch(`http://localhost:3000/api/aerolineas/${id}`, {
+    fetch(`${baseUrl}/aerolineas/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -91,7 +92,7 @@ const Aerolineas = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/aerolineas/${busquedaID}`)
+    fetch(`${baseUrl}/aerolineas/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data || !Array.isArray(data)) {

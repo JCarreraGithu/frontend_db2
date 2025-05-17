@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Pistas.css"; // Crea o adapta este archivo de estilos si es necesario
+const baseUrl = import.meta.env.VITE_API_URL;
 
 type Pista = {
   id_pista: number;
@@ -15,7 +16,7 @@ const Pistas = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerPistas = () => {
-    fetch("http://localhost:3000/api/pistas")
+    fetch(`${baseUrl}/pistas`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Usuarios.css";
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 type Usuario = {
   id_usuario: number;
   nombre: string;
@@ -39,11 +41,11 @@ const Usuarios = () => {
 
   const obtenerUsuarios = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/usuarios");
+      const res = await fetch(`${baseUrl}/usuarios`);
       if (!res.ok) throw new Error(`❌ Error HTTP: ${res.status}`);
 
       const data = await res.json();
-      console.log("Datos recibidos:", data); // Verificar datos en consola
+      console.log("Datos recibidos:", data);
 
       if (!Array.isArray(data)) throw new Error("❌ Respuesta inesperada de la API");
 
@@ -67,7 +69,7 @@ const Usuarios = () => {
 
   const registrarUsuario = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/usuarios/register", {
+      const res = await fetch(`${baseUrl}/usuarios/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevoUsuario),
@@ -85,7 +87,7 @@ const Usuarios = () => {
 
   const iniciarSesion = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/usuarios/login", {
+      const res = await fetch(`${baseUrl}/usuarios/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credenciales),
@@ -113,16 +115,38 @@ const Usuarios = () => {
         <h3>➕ Registrar Usuario</h3>
 
         <label htmlFor="nombre">Nombre Completo</label>
-        <input id="nombre" type="text" placeholder="Ejemplo: Juan Pérez" value={nuevoUsuario.nombre} onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })} />
+        <input
+          id="nombre"
+          type="text"
+          placeholder="Ejemplo: Juan Pérez"
+          value={nuevoUsuario.nombre}
+          onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })}
+        />
 
         <label htmlFor="correo">Correo Electrónico</label>
-        <input id="correo" type="email" placeholder="Ejemplo: juan@example.com" value={nuevoUsuario.correo} onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, correo: e.target.value })} />
+        <input
+          id="correo"
+          type="email"
+          placeholder="Ejemplo: juan@example.com"
+          value={nuevoUsuario.correo}
+          onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, correo: e.target.value })}
+        />
 
         <label htmlFor="contrasena">Contraseña</label>
-        <input id="contrasena" type="password" placeholder="••••••••" value={nuevoUsuario.contrasena} onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, contrasena: e.target.value })} />
+        <input
+          id="contrasena"
+          type="password"
+          placeholder="••••••••"
+          value={nuevoUsuario.contrasena}
+          onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, contrasena: e.target.value })}
+        />
 
         <label htmlFor="tipo_usuario">Tipo de Usuario</label>
-        <select id="tipo_usuario" value={nuevoUsuario.tipo_usuario} onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, tipo_usuario: e.target.value })}>
+        <select
+          id="tipo_usuario"
+          value={nuevoUsuario.tipo_usuario}
+          onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, tipo_usuario: e.target.value })}
+        >
           <option value="admin">Administrador</option>
           <option value="cliente">Cliente</option>
           <option value="staff">Staff</option>
@@ -136,10 +160,22 @@ const Usuarios = () => {
         <h3>🔑 Iniciar Sesión</h3>
 
         <label htmlFor="login_correo">Correo Electrónico</label>
-        <input id="login_correo" type="email" placeholder="Ejemplo: juan@example.com" value={credenciales.correo} onChange={(e) => setCredenciales({ ...credenciales, correo: e.target.value })} />
+        <input
+          id="login_correo"
+          type="email"
+          placeholder="Ejemplo: juan@example.com"
+          value={credenciales.correo}
+          onChange={(e) => setCredenciales({ ...credenciales, correo: e.target.value })}
+        />
 
         <label htmlFor="login_contrasena">Contraseña</label>
-        <input id="login_contrasena" type="password" placeholder="••••••••" value={credenciales.contrasena} onChange={(e) => setCredenciales({ ...credenciales, contrasena: e.target.value })} />
+        <input
+          id="login_contrasena"
+          type="password"
+          placeholder="••••••••"
+          value={credenciales.contrasena}
+          onChange={(e) => setCredenciales({ ...credenciales, contrasena: e.target.value })}
+        />
 
         <button onClick={iniciarSesion}>🔑 Iniciar Sesión</button>
       </div>

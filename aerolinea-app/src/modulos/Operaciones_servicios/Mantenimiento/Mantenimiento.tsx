@@ -1,8 +1,8 @@
-
-
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Estilo.css'; // Usamos los mismos estilos que usas para pagos
+
+const baseUrl = import.meta.env.VITE_API_URL;
 
 interface Mantenimiento {
   id: number;
@@ -18,13 +18,17 @@ const MantenimientoAviones = () => {
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
 
+  // Limpiar mensajes
+  const limpiarMensaje = () => setTimeout(() => setMensaje(''), 3000);
+  const limpiarError = () => setTimeout(() => setError(''), 3000);
+
   useEffect(() => {
     obtenerMantenimientos();
   }, []);
 
   const obtenerMantenimientos = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/mantenimiento/aviones');
+      const res = await axios.get(`${baseUrl}/mantenimiento/aviones`);
       const data = res.data.map((item: any[]) => ({
         id: item[0],
         fecha: item[1],
@@ -34,14 +38,15 @@ const MantenimientoAviones = () => {
       setMantenimientos(data);
     } catch (err) {
       console.error(err);
-      setError('Error al cargar los mantenimientos.');
+      setError('❌ Error al cargar los mantenimientos.');
+      limpiarError();
     }
   };
 
   const buscarMantenimientoPorId = async () => {
     if (!mantenimientoId) return;
     try {
-      const res = await axios.get(`http://localhost:3000/api/mantenimiento/aviones/${mantenimientoId}`);
+      const res = await axios.get(`${baseUrl}/mantenimiento/aviones/${mantenimientoId}`);
       const item = res.data;
       const mantenimiento: Mantenimiento = {
         id: item[0],
@@ -55,21 +60,24 @@ const MantenimientoAviones = () => {
     } catch (err) {
       console.error(err);
       setMantenimientoEncontrado(null);
-      setError(`No se encontró mantenimiento con ID ${mantenimientoId}.`);
+      setError(`❌ No se encontró mantenimiento con ID ${mantenimientoId}.`);
+      limpiarError();
     }
   };
 
   const eliminarMantenimiento = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:3000/api/mantenimiento/aviones/${id}`);
-      setMensaje(`Mantenimiento ${id} eliminado con éxito.`);
+      await axios.delete(`${baseUrl}/mantenimiento/aviones/${id}`);
+      setMensaje(`✅ Mantenimiento ${id} eliminado con éxito.`);
       setError('');
       setMantenimientoEncontrado(null);
       obtenerMantenimientos();
+      limpiarMensaje();
     } catch (err) {
       console.error(err);
-      setError('No se pudo eliminar el mantenimiento.');
+      setError('❌ No se pudo eliminar el mantenimiento.');
       setMensaje('');
+      limpiarError();
     }
   };
 
@@ -88,7 +96,7 @@ const MantenimientoAviones = () => {
           value={mantenimientoId}
           onChange={(e) => setMantenimientoId(e.target.value)}
         />
-        <button onClick={buscarMantenimientoPorId}>Buscar</button>
+        <button onClick={buscarMantenimientoPorId}>🔎 Buscar</button>
       </div>
 
       {mensaje && <div className="mensaje">{mensaje}</div>}
@@ -107,7 +115,7 @@ const MantenimientoAviones = () => {
             onClick={() => eliminarMantenimiento(mantenimientoEncontrado.id)}
             style={{ backgroundColor: '#dc3545' }}
           >
-            Eliminar
+            🗑️ Eliminar
           </button>
         </div>
       )}
@@ -135,7 +143,7 @@ const MantenimientoAviones = () => {
                     onClick={() => eliminarMantenimiento(m.id)}
                     style={{ backgroundColor: '#dc3545' }}
                   >
-                    Eliminar
+                    🗑️ Eliminar
                   </button>
                 </td>
               </tr>
@@ -148,4 +156,3 @@ const MantenimientoAviones = () => {
 };
 
 export default MantenimientoAviones;
-

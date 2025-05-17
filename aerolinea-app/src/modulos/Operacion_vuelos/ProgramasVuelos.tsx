@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './ProgramasVuelos.css';
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 interface ProgramaVuelo {
   id_programa: number;
   numero_vuelo: number;
@@ -15,7 +17,7 @@ const ProgramasVuelos: React.FC = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/programas-vuelo')
+    fetch(`${baseUrl}/programas-vuelo`)
       .then(res => res.json())
       .then((data: any[][]) => {
         const programasFormateados: ProgramaVuelo[] = data.map((fila) => ({
@@ -31,13 +33,13 @@ const ProgramasVuelos: React.FC = () => {
       })
       .catch((err) => {
         console.error('Error al obtener programas:', err);
-        setError('Error al obtener los programas de vuelo.');
+        setError('❌ Error al obtener los programas de vuelo.');
       });
   }, []);
 
   return (
     <div className="programas-wrapper">
-      <h1>Programación de Vuelos</h1>
+      <h1>📅 Programación de Vuelos</h1>
 
       {error && <div className="error">{error}</div>}
 

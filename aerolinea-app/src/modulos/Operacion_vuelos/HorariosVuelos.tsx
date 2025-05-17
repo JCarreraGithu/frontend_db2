@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./HorariosVuelos.css";
+const baseUrl = import.meta.env.VITE_API_URL;
 
 type HorarioVuelo = {
   id_horario: number;
@@ -25,7 +26,7 @@ const HorariosVuelos = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerHorarios = () => {
-    fetch("http://localhost:3000/api/horarios-vuelos")
+    fetch(`${baseUrl}/horarios-vuelos`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -60,9 +61,7 @@ const HorariosVuelos = () => {
       estado: nuevoHorario.estado,
     };
 
-    console.log("Enviando datos:", horarioData);
-
-    fetch("http://localhost:3000/api/horarios-vuelos", {
+    fetch(`${baseUrl}/horarios-vuelos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(horarioData),
@@ -72,9 +71,13 @@ const HorariosVuelos = () => {
         return res.json();
       })
       .then(() => {
-        console.log("Horario registrado correctamente");
         setMensaje("✅ Horario registrado exitosamente");
-        setNuevoHorario({ id_vuelo: 0, hora_salida: "", hora_llegada: "", estado: "Programado" });
+        setNuevoHorario({
+          id_vuelo: 0,
+          hora_salida: "",
+          hora_llegada: "",
+          estado: "Programado",
+        });
         obtenerHorarios();
         limpiarMensaje();
       })
@@ -87,7 +90,9 @@ const HorariosVuelos = () => {
 
   const eliminarHorario = (id: number) => {
     if (!confirm(`¿Eliminar horario con ID ${id}?`)) return;
-    fetch(`http://localhost:3000/api/horarios-vuelos/${id}`, { method: "DELETE" })
+    fetch(`${baseUrl}/horarios-vuelos/${id}`, {
+      method: "DELETE",
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Error al eliminar horario");
         obtenerHorarios();
@@ -106,7 +111,7 @@ const HorariosVuelos = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/horarios-vuelos/${busquedaID}`)
+    fetch(`${baseUrl}/horarios-vuelos/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         if (!data || !Array.isArray(data)) {
@@ -141,24 +146,64 @@ const HorariosVuelos = () => {
       {/* FORMULARIO */}
       <div className="horarios-card">
         <h3>➕ Registrar Horario</h3>
-        
+
         <label htmlFor="id_vuelo">ID Vuelo</label>
-        <input id="id_vuelo" type="number" placeholder="Ejemplo: 33" value={nuevoHorario.id_vuelo} onChange={(e) => setNuevoHorario({ ...nuevoHorario, id_vuelo: Number(e.target.value) })} />
+        <input
+          id="id_vuelo"
+          type="number"
+          placeholder="Ejemplo: 33"
+          value={nuevoHorario.id_vuelo}
+          onChange={(e) =>
+            setNuevoHorario({ ...nuevoHorario, id_vuelo: Number(e.target.value) })
+          }
+        />
 
         <label htmlFor="hora_salida">Hora de salida</label>
-        <input id="hora_salida" type="datetime-local" value={nuevoHorario.hora_salida} onChange={(e) => setNuevoHorario({ ...nuevoHorario, hora_salida: e.target.value })} />
+        <input
+          id="hora_salida"
+          type="datetime-local"
+          value={nuevoHorario.hora_salida}
+          onChange={(e) =>
+            setNuevoHorario({ ...nuevoHorario, hora_salida: e.target.value })
+          }
+        />
 
         <label htmlFor="hora_llegada">Hora de llegada</label>
-        <input id="hora_llegada" type="datetime-local" value={nuevoHorario.hora_llegada} onChange={(e) => setNuevoHorario({ ...nuevoHorario, hora_llegada: e.target.value })} />
+        <input
+          id="hora_llegada"
+          type="datetime-local"
+          value={nuevoHorario.hora_llegada}
+          onChange={(e) =>
+            setNuevoHorario({ ...nuevoHorario, hora_llegada: e.target.value })
+          }
+        />
 
         <label htmlFor="estado">Estado del horario</label>
-        <select id="estado" value={nuevoHorario.estado} onChange={(e) => setNuevoHorario({ ...nuevoHorario, estado: e.target.value })}>
+        <select
+          id="estado"
+          value={nuevoHorario.estado}
+          onChange={(e) =>
+            setNuevoHorario({ ...nuevoHorario, estado: e.target.value })
+          }
+        >
           <option value="Programado">Programado</option>
           <option value="Retrasado">Retrasado</option>
           <option value="Cancelado">Cancelado</option>
         </select>
 
         <button onClick={añadirHorario}>➕ Añadir</button>
+      </div>
+
+      {/* BÚSQUEDA POR ID */}
+      <div className="horarios-card">
+        <h3>🔍 Buscar por ID</h3>
+        <input
+          type="number"
+          placeholder="Ingrese ID de horario"
+          value={busquedaID}
+          onChange={(e) => setBusquedaID(e.target.value)}
+        />
+        <button onClick={buscarPorID}>Buscar</button>
       </div>
 
       {/* TABLA */}
@@ -182,7 +227,12 @@ const HorariosVuelos = () => {
               <td>{horario.hora_llegada}</td>
               <td>{horario.estado}</td>
               <td>
-                <button className="btn-eliminar" onClick={() => eliminarHorario(horario.id_horario)}>❌ Eliminar</button>
+                <button
+                  className="btn-eliminar"
+                  onClick={() => eliminarHorario(horario.id_horario)}
+                >
+                  ❌ Eliminar
+                </button>
               </td>
             </tr>
           ))}

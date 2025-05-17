@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./ProgramacionEstacional.css"; // Asegúrate de tener este archivo de estilos
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 type Vuelo = {
   id_vuelo: number;
   aerolinea: string;
@@ -12,6 +14,7 @@ const GestionVuelos = () => {
   const [vuelos, setVuelos] = useState<Vuelo[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Limpiar error después de 3 segundos
   useEffect(() => {
     if (error) {
       const timeout = setTimeout(() => setError(null), 3000);
@@ -21,11 +24,15 @@ const GestionVuelos = () => {
 
   const obtenerVuelos = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/programacion-estacional");
-      if (!res.ok) throw new Error(`❌ Error HTTP: ${res.status}`);
+      const res = await fetch(`${baseUrl}/programacion-estacional`);
+      if (!res.ok) {
+        throw new Error(`❌ Error HTTP: ${res.status}`);
+      }
 
       const data = await res.json();
-      if (!Array.isArray(data)) throw new Error("❌ Respuesta inesperada de la API");
+      if (!Array.isArray(data)) {
+        throw new Error("❌ Respuesta inesperada de la API");
+      }
 
       const formateado = data.map((arr: any[]) => {
         if (arr.length < 4) throw new Error("❌ Formato incorrecto en los datos");
@@ -44,9 +51,7 @@ const GestionVuelos = () => {
   };
 
   useEffect(() => {
-    const controller = new AbortController();
     obtenerVuelos();
-    return () => controller.abort();
   }, []);
 
   return (
@@ -54,28 +59,31 @@ const GestionVuelos = () => {
       <h1>✈️ Gestión de Vuelos según la Temporada</h1>
 
       {error && <p className="error">{error}</p>}
+
       {vuelos.length === 0 && !error && <p>No hay vuelos programados.</p>}
 
-      <table className="vuelos-tabla">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Aerolínea</th>
-            <th>Temporada</th>
-            <th>Descripción</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vuelos.map((vuelo) => (
-            <tr key={vuelo.id_vuelo}>
-              <td>{vuelo.id_vuelo}</td>
-              <td>{vuelo.aerolinea}</td>
-              <td>{vuelo.temporada}</td>
-              <td>{vuelo.descripcion}</td>
+      {vuelos.length > 0 && (
+        <table className="vuelos-tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Aerolínea</th>
+              <th>Temporada</th>
+              <th>Descripción</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {vuelos.map((vuelo) => (
+              <tr key={vuelo.id_vuelo}>
+                <td>{vuelo.id_vuelo}</td>
+                <td>{vuelo.aerolinea}</td>
+                <td>{vuelo.temporada}</td>
+                <td>{vuelo.descripcion}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
