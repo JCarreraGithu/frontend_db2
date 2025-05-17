@@ -38,7 +38,7 @@ const Reservas = () => {
   const limpiarError = () => setTimeout(() => setError(null), 4000);
 
   const obtenerReservas = () => {
-    fetch("http://localhost:3000/api/reservas")
+    fetch("http://192.168.195.61:3000/api/reservas")
       .then((res) => res.json())
       .then((data) => {
         console.log("Datos recibidos:", data); // DEPURACIÓN
@@ -78,7 +78,7 @@ const Reservas = () => {
   }, []);
 
   const añadirReserva = () => {
-    fetch("http://localhost:3000/api/reservas", {
+    fetch("http://192.168.195.61:3000/api/reservas", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevaReserva),
@@ -113,7 +113,7 @@ const Reservas = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/reservas/${busquedaID}`)
+    fetch(`http://192.168.195.61:3000/api/reservas/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Datos recibidos al buscar ID:", data); // DEPURACIÓN

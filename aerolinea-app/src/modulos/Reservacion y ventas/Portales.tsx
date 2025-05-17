@@ -14,7 +14,7 @@ const Portales: React.FC = () => {
   const [portales, setPortales] = useState<Portal[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/portales')
+    axios.get('http://192.168.195.61:3000/api/portales')
       .then(response => {
         const rawData: any[][] = response.data;
         const parsedData = rawData.map((p: any[]) => ({

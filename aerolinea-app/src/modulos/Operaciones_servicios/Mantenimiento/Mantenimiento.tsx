@@ -1,8 +1,6 @@
-
-
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './Estilo.css'; // Usamos los mismos estilos que usas para pagos
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Mantenimiento.css"; // Usamos los mismos estilos que usas para pagos
 
 interface Mantenimiento {
   id: number;
@@ -13,10 +11,10 @@ interface Mantenimiento {
 
 const MantenimientoAviones = () => {
   const [mantenimientos, setMantenimientos] = useState<Mantenimiento[]>([]);
-  const [mantenimientoId, setMantenimientoId] = useState('');
+  const [mantenimientoId, setMantenimientoId] = useState("");
   const [mantenimientoEncontrado, setMantenimientoEncontrado] = useState<Mantenimiento | null>(null);
-  const [mensaje, setMensaje] = useState('');
-  const [error, setError] = useState('');
+  const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     obtenerMantenimientos();
@@ -24,7 +22,7 @@ const MantenimientoAviones = () => {
 
   const obtenerMantenimientos = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/mantenimiento/aviones');
+      const res = await axios.get("http://localhost:3000/api/mantenimiento/aviones");
       const data = res.data.map((item: any[]) => ({
         id: item[0],
         fecha: item[1],
@@ -34,7 +32,7 @@ const MantenimientoAviones = () => {
       setMantenimientos(data);
     } catch (err) {
       console.error(err);
-      setError('Error al cargar los mantenimientos.');
+      setError("Error al cargar los mantenimientos.");
     }
   };
 
@@ -50,8 +48,8 @@ const MantenimientoAviones = () => {
         descripcion: item[3],
       };
       setMantenimientoEncontrado(mantenimiento);
-      setError('');
-      setMensaje('');
+      setError("");
+      setMensaje("");
     } catch (err) {
       console.error(err);
       setMantenimientoEncontrado(null);
@@ -63,18 +61,18 @@ const MantenimientoAviones = () => {
     try {
       await axios.delete(`http://localhost:3000/api/mantenimiento/aviones/${id}`);
       setMensaje(`Mantenimiento ${id} eliminado con éxito.`);
-      setError('');
+      setError("");
       setMantenimientoEncontrado(null);
       obtenerMantenimientos();
     } catch (err) {
       console.error(err);
-      setError('No se pudo eliminar el mantenimiento.');
-      setMensaje('');
+      setError("No se pudo eliminar el mantenimiento.");
+      setMensaje("");
     }
   };
 
   const formatearFecha = (fecha: string) => {
-    return new Date(fecha).toLocaleDateString('es-ES');
+    return new Date(fecha).toLocaleDateString("es-ES");
   };
 
   return (
@@ -105,7 +103,7 @@ const MantenimientoAviones = () => {
           </ul>
           <button
             onClick={() => eliminarMantenimiento(mantenimientoEncontrado.id)}
-            style={{ backgroundColor: '#dc3545' }}
+            style={{ backgroundColor: "#dc3545" }}
           >
             Eliminar
           </button>
@@ -133,7 +131,7 @@ const MantenimientoAviones = () => {
                 <td>
                   <button
                     onClick={() => eliminarMantenimiento(m.id)}
-                    style={{ backgroundColor: '#dc3545' }}
+                    style={{ backgroundColor: "#dc3545" }}
                   >
                     Eliminar
                   </button>
@@ -148,4 +146,3 @@ const MantenimientoAviones = () => {
 };
 
 export default MantenimientoAviones;
-

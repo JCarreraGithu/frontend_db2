@@ -26,7 +26,7 @@ const Equipaje = () => {
   const limpiarError = () => setTimeout(() => setError(null), 3000);
 
   const obtenerEquipajes = () => {
-    fetch('http://localhost:3000/api/equipajes')
+    fetch('http://192.168.195.61:3000/api/equipajes')
       .then(res => res.json())
       .then(data => {
         const formateados = data.data.map((item: any[]) => ({
@@ -49,7 +49,7 @@ const Equipaje = () => {
   }, []);
 
   const añadirEquipaje = () => {
-    fetch('http://localhost:3000/api/equipajes', {
+    fetch('http://192.168.195.61:3000/api/equipajes', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(nuevoEquipaje),
@@ -72,7 +72,7 @@ const Equipaje = () => {
 
   const eliminarEquipaje = (id: number) => {
     if (!confirm(`¿Eliminar equipaje con ID ${id}?`)) return;
-    fetch(`http://localhost:3000/api/equipajes/${id}`, {
+    fetch(`http://192.168.195.61:3000/api/equipajes/${id}`, {
       method: 'DELETE',
     })
       .then(res => {
@@ -93,7 +93,7 @@ const Equipaje = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/equipajes/${busquedaID}`)
+    fetch(`http://192.168.195.61:3000/api/equipajes/${busquedaID}`)
       .then(res => res.json())
       .then(data => {
         if (!data.success || !data.data || data.data.length === 0) {

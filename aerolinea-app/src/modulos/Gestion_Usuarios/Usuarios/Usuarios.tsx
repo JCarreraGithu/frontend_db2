@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Usuarios.css";
 
-type Usuario = {
-  id_usuario: number;
-  nombre: string;
-  correo: string;
-  tipo_usuario: string;
-};
-
 const Usuarios = () => {
-  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombre: "",
     correo: "",
@@ -37,34 +29,6 @@ const Usuarios = () => {
     }
   }, [error]);
 
-  const obtenerUsuarios = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/usuarios");
-      if (!res.ok) throw new Error(`❌ Error HTTP: ${res.status}`);
-
-      const data = await res.json();
-      console.log("Datos recibidos:", data); // Verificar datos en consola
-
-      if (!Array.isArray(data)) throw new Error("❌ Respuesta inesperada de la API");
-
-      const formateado = data.map((usuario: any) => ({
-        id_usuario: usuario[0] ?? 0,
-        nombre: usuario[1] ?? "Desconocido",
-        correo: usuario[2] ?? "No especificado",
-        tipo_usuario: usuario[3] ?? "Sin tipo",
-      }));
-
-      setUsuarios(formateado);
-    } catch (error) {
-      console.error(error);
-      setError(error instanceof Error ? error.message : "❌ Error al cargar usuarios");
-    }
-  };
-
-  useEffect(() => {
-    obtenerUsuarios();
-  }, []);
-
   const registrarUsuario = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/usuarios/register", {
@@ -77,7 +41,6 @@ const Usuarios = () => {
 
       setMensaje("✅ Usuario registrado exitosamente");
       setNuevoUsuario({ nombre: "", correo: "", contrasena: "", tipo_usuario: "cliente" });
-      obtenerUsuarios();
     } catch (error) {
       setError("❌ Error al registrar usuario");
     }
@@ -106,12 +69,10 @@ const Usuarios = () => {
 
       {mensaje && <p className="mensaje">{mensaje}</p>}
       {error && <p className="error">{error}</p>}
-      {usuarios.length === 0 && !error && <p>No hay usuarios registrados.</p>}
 
       {/* REGISTRAR USUARIO */}
       <div className="usuarios-card">
         <h3>➕ Registrar Usuario</h3>
-
         <label htmlFor="nombre">Nombre Completo</label>
         <input id="nombre" type="text" placeholder="Ejemplo: Juan Pérez" value={nuevoUsuario.nombre} onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })} />
 
@@ -134,7 +95,6 @@ const Usuarios = () => {
       {/* LOGIN */}
       <div className="usuarios-card">
         <h3>🔑 Iniciar Sesión</h3>
-
         <label htmlFor="login_correo">Correo Electrónico</label>
         <input id="login_correo" type="email" placeholder="Ejemplo: juan@example.com" value={credenciales.correo} onChange={(e) => setCredenciales({ ...credenciales, correo: e.target.value })} />
 
@@ -143,28 +103,6 @@ const Usuarios = () => {
 
         <button onClick={iniciarSesion}>🔑 Iniciar Sesión</button>
       </div>
-
-      {/* TABLA DE USUARIOS */}
-      <table className="usuarios-tabla">
-        <thead>
-          <tr>
-            <th>ID Usuario</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Tipo de Usuario</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usuarios.map((usuario) => (
-            <tr key={usuario.id_usuario}>
-              <td>{usuario.id_usuario}</td>
-              <td>{usuario.nombre}</td>
-              <td>{usuario.correo}</td>
-              <td>{usuario.tipo_usuario}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };

@@ -1,9 +1,9 @@
-.pagos-wrapper {
+.objetos-wrapper {
   min-height: 100vh;
   padding: 4rem 2rem;
   background:
     linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-    url('../src/images/imgop.jpg');
+    url('../src/images/imgop.jpg'); 
   background-size: cover;
   background-position: center;
   display: flex;
@@ -13,7 +13,7 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-.pagos-wrapper h1 {
+.objetos-wrapper h1 {
   font-size: 2.5rem;
   font-weight: bold;
   color: #1c1c1e;
@@ -21,7 +21,9 @@
   text-align: center;
 }
 
-.pagos-card {
+.objetos-formulario,
+.objetos-busqueda,
+.objetos-tabla-contenedor {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -29,11 +31,13 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
   width: 100%;
-  max-width: 1500px;
+  max-width: 1200px;
   margin-bottom: 2rem;
 }
 
-.pagos-card input {
+.objetos-formulario input,
+.objetos-formulario select,
+.objetos-busqueda input {
   width: 100%;
   margin-bottom: 0.75rem;
   padding: 0.6rem;
@@ -43,9 +47,9 @@
   font-size: 1rem;
 }
 
-.pagos-card button {
+.objetos-formulario button,
+.objetos-busqueda button {
   padding: 0.6rem 1.2rem;
-  margin-right: 0.5rem;
   background-color: #28a745;
   border: none;
   color: white;
@@ -55,93 +59,60 @@
   transition: background-color 0.2s ease;
 }
 
-.pagos-card button:hover {
+.objetos-busqueda button {
+  background-color: #007bff;
+}
+
+.objetos-formulario button:hover {
   background-color: #1e7e34;
 }
 
-.pagos-tabla {
+.objetos-busqueda button:hover {
+  background-color: #0056b3;
+}
+
+.resultado-busqueda {
+  background-color: rgba(200, 220, 255, 0.4);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: 1px solid #007bff;
+}
+
+.tabla-objetos {
   width: 100%;
-  max-width: 1500px;
-  background: rgba(255, 255, 255, 0.65);
   border-collapse: collapse;
-  border-radius: 1rem;
   overflow: hidden;
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.pagos-tabla th,
-.pagos-tabla td {
+.tabla-objetos th,
+.tabla-objetos td {
   padding: 0.75rem 1rem;
-  text-align: left;
   border-bottom: 1px solid #ddd;
+  text-align: left;
 }
 
-.pagos-tabla th {
+.tabla-objetos th {
   background-color: #f5f5f5;
   color: #333;
 }
 
-.pagos-tabla td {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-.pagos-tabla tr:last-child td {
+.tabla-objetos tr:last-child td {
   border-bottom: none;
 }
 
-.mensaje {
-  color: green;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.error {
-  color: red;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.pago-encontrado {
-  margin-top: 1rem;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  background: rgba(240, 255, 240, 0.6);
-  border: 1px solid #28a745;
-  width: 100%;
-  max-width: 1000px;
-  box-shadow: 0 4px 16px rgba(0, 128, 0, 0.15);
-}
-
-.pago-encontrado h3 {
-  margin-bottom: 0.8rem;
-  color: #155724;
-}
-
-.pago-encontrado ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.pago-encontrado li {
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-  color: #333;
-}
-
-.pago-encontrado button {
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
+.tabla-objetos button {
   background-color: #dc3545;
-  border: none;
   color: white;
-  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
 }
 
-.pago-encontrado button:hover {
+.tabla-objetos button:hover {
   background-color: #c82333;
 }
-
-

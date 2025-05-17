@@ -8,10 +8,6 @@ import GestionFacturacionPagos from '../modulos/facturacion_pagos/GestionFactura
 import GestionInfraestructura from '../modulos/infraestructura/GestionInfraestructura';
 import GestionOperacionesServicios from '../modulos/Operaciones_servicios/GestionOperacionesServicios';
 import GestionReportesSimulacion from '../modulos/reporte y simulacion/GestionReportesSimulacion';
-import ProgramacionMundial from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramaMundial';
-import GestionSimulacionTraficoAereo from '../modulos/reporte y simulacion/ProgramacionMundial/SimulacionTraficoAereo';
-import GestionVuelos from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramacionEstacional';
-
 import Reservas from '../modulos/Reservacion y ventas/Reservas';
 import Aeropuertos from '../modulos/Operacion_vuelos/Aeropuertos';
 import Aerolineas from '../modulos/Operacion_vuelos/Aerolineas';
@@ -28,6 +24,12 @@ import Facturacion from '../modulos/facturacion_pagos/Facturacion/Facturacion';
 import Mercancias from '../modulos/facturacion_pagos/Mercancias/Mercancias';
 import Pagos from '../modulos/facturacion_pagos/Pagos/Pagos';
 import Pistas from '../modulos/infraestructura/Pistas/Pistas';
+import ProgramacionMundial from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramaMundial';
+import ProgramacionEstacional from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramacionEstacional';
+import Mantenimiento from '../modulos/Operaciones_servicios/Mantenimiento/Mantenimiento';
+import Arrestos from '../modulos/Operaciones_servicios/Arrestos/Arrestos';
+import ObjetosPerdidos from '../modulos/Operaciones_servicios/ObjetosPerdidos/ObjetosPerdidos';
+
 
 
 
@@ -61,14 +63,18 @@ export default function DefinicionRutas() {
         <Route path="reservas/reservas" element={<Reservas/>} />
         <Route path="reservas/equipajes" element={<Equipaje/>} />
         <Route path="reservas/portales" element={<Portales/>} />
-        <Route path="requisitos" element={<GestionInfraestructura/>} />
-        <Route path="requisitos/Pistas" element={<Pistas/>} />
-        <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
+        <Route path="infraestructura" element={<GestionInfraestructura/>} />
+        <Route path="infraestructura/Pistas" element={<Pistas/>} />
+          <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
+        <Route path="solicitudes-y-avisos/mantenimiento" element={<Mantenimiento/>} />
+        <Route path="solicitudes-y-avisos/arrestos" element={<Arrestos/>} />
+        <Route path="solicitudes-y-avisos/objetos_perdidos" element={<ObjetosPerdidos/>} />
 
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
-        <Route path="reporte y simulacion/ProgramacionMundial" element={<ProgramacionMundial/>} />
-          <Route path="reporte y simulacion/SimulacionTraficoAereo" element={<GestionSimulacionTraficoAereo/>} />
-            <Route path="reporte y simulacion/ProgramacionEstacional" element={<GestionVuelos/>} />
+        <Route path="vehiculo/ProgramacionMundial" element={<ProgramacionMundial/>} />
+        <Route path="vehiculo/ProgramacionEstacional" element={<ProgramacionEstacional/>} />
+        
+       
 
         <Route path="mis-documentos" element={<GestionFacturacionPagos/>} />
         <Route path="mis-documentos/facturacion" element={<Facturacion/>} />

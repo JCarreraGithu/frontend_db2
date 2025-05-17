@@ -1,101 +1,148 @@
-import { useState } from "react";
+import  { useEffect, useState } from 'react';
+import axios from 'axios';
+import './Arrestos.css';
 
-type Arresto = {
-  id_arresto: number;
-  id_personal: number;
-  detalle: string;
-  fecha_arresto: Date;
-};
+interface Arresto {
+  id: number;
+  personaId: number;
+  motivo: string;
+  fecha: string;
+}
 
-const GestionArrestos = () => {
-  const [arrestos, setArrestos] = useState<Arresto[]>([
-    { id_arresto: 1, id_personal: 201, detalle: "Incidente en zona de embarque", fecha_arresto: new Date() },
-    { id_arresto: 2, id_personal: 202, detalle: "Intervención en área de carga", fecha_arresto: new Date() },
-  ]);
+const Arrestos = () => {
+  const [arrestos, setArrestos] = useState<Arresto[]>([]);
+  const [arrestoId, setArrestoId] = useState('');
+  const [arrestoEncontrado, setArrestoEncontrado] = useState<Arresto | null>(null);
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState('');
 
-  const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [datosEditados, setDatosEditados] = useState<Partial<Arresto>>({});
+  useEffect(() => {
+    obtenerArrestos();
+  }, []);
 
-  const agregarArresto = (nuevoArresto: Omit<Arresto, "id_arresto">) => {
-    setArrestos([...arrestos, { id_arresto: Date.now(), ...nuevoArresto }]);
+  const obtenerArrestos = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/api/arrestos');
+      const data = res.data.map((item: any[]) => ({
+        id: item[0],
+        personaId: item[1],
+        motivo: item[2],
+        fecha: item[3],
+      }));
+      setArrestos(data);
+    } catch (err) {
+      console.error(err);
+      setError('Error al cargar los arrestos.');
+    }
   };
 
-  const editarArresto = (id_arresto: number, datosActualizados: Partial<Arresto>) => {
-    setArrestos(arrestos.map((a) => (a.id_arresto === id_arresto ? { ...a, ...datosActualizados } : a)));
+  const eliminarArresto = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/arrestos/${id}`);
+      setMensaje(`Arresto ${id} eliminado con éxito.`);
+      setError('');
+      setArrestoEncontrado(null);
+      obtenerArrestos();
+    } catch (err) {
+      console.error(err);
+      setError('No se pudo eliminar el arresto.');
+      setMensaje('');
+    }
   };
 
-  const eliminarArresto = (id_arresto: number) => {
-    setArrestos(arrestos.filter((a) => a.id_arresto !== id_arresto));
+  const buscarArrestoPorId = async () => {
+    if (!arrestoId) return;
+    try {
+      const res = await axios.get(`http://localhost:3000/api/arrestos/${arrestoId}`);
+      const item = res.data;
+      const arresto: Arresto = {
+        id: item[0],
+        personaId: item[1],
+        motivo: item[2],
+        fecha: item[3],
+      };
+      setArrestoEncontrado(arresto);
+      setError('');
+      setMensaje('');
+    } catch (err) {
+      console.error(err);
+      setArrestoEncontrado(null);
+      setError(`No se encontró arresto con ID ${arrestoId}.`);
+    }
   };
+
+  const formatearFecha = (fecha: string) =>
+    new Date(fecha).toLocaleDateString('es-ES');
 
   return (
-    <div className="gestion-container">
-      <h2 className="gestion-titulo">Gestión de Arrestos</h2>
-      <p className="gestion-descripcion">
-        Administra el registro de incidentes y acciones de seguridad realizadas por el personal.
-      </p>
-      <div className="tarjetas-container">
-        {arrestos.map((arresto) => (
-          <div key={arresto.id_arresto} className="tarjeta">
-            {editandoId === arresto.id_arresto ? (
-              <div>
-                <input
-                  type="number"
-                  value={datosEditados.id_personal || arresto.id_personal}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, id_personal: Number(e.target.value) })}
-                  placeholder="ID Personal"
-                />
-                <input
-                  type="text"
-                  value={datosEditados.detalle || arresto.detalle}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, detalle: e.target.value })}
-                  placeholder="Detalle del incidente"
-                />
-                <input
-                  type="date"
-                  value={datosEditados.fecha_arresto?.toISOString().split("T")[0] || arresto.fecha_arresto.toISOString().split("T")[0]}
-                  onChange={(e) => setDatosEditados({ ...datosEditados, fecha_arresto: new Date(e.target.value) })}
-                  placeholder="Fecha del arresto"
-                />
-                <button
-                  onClick={() => {
-                    editarArresto(arresto.id_arresto, datosEditados);
-                    setEditandoId(null);
-                    setDatosEditados({});
-                  }}
-                >
-                  Guardar
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3>Arresto {arresto.id_arresto}</h3>
-                <p>ID Personal: {arresto.id_personal}</p>
-                <p>Detalle: {arresto.detalle}</p>
-                <p>Fecha: {arresto.fecha_arresto.toLocaleDateString()}</p>
-                <button onClick={() => eliminarArresto(arresto.id_arresto)}>Eliminar</button>
-                <button
-                  onClick={() => {
-                    setEditandoId(arresto.id_arresto);
-                    setDatosEditados(arresto);
-                  }}
-                >
-                  Editar
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+    <div className="pagos-wrapper">
+      <h1>Arrestos Registrados</h1>
+
+      <div className="pagos-card">
+        <input
+          type="number"
+          placeholder="Ingrese ID de arresto"
+          value={arrestoId}
+          onChange={(e) => setArrestoId(e.target.value)}
+        />
+        <button onClick={buscarArrestoPorId}>Buscar</button>
       </div>
-      <button
-        onClick={() =>
-          agregarArresto({ id_personal: 203, detalle: "Nuevo incidente registrado", fecha_arresto: new Date() })
-        }
-      >
-        Agregar Arresto
-      </button>
+
+      {mensaje && <div className="mensaje">{mensaje}</div>}
+      {error && <div className="error">{error}</div>}
+
+      {arrestoEncontrado && (
+        <div className="pago-encontrado">
+          <h3>Arresto encontrado:</h3>
+          <ul>
+            <li><strong>ID:</strong> {arrestoEncontrado.id}</li>
+            <li><strong>ID Persona:</strong> {arrestoEncontrado.personaId}</li>
+            <li><strong>Motivo:</strong> {arrestoEncontrado.motivo}</li>
+            <li><strong>Fecha:</strong> {formatearFecha(arrestoEncontrado.fecha)}</li>
+          </ul>
+          <button
+            onClick={() => eliminarArresto(arrestoEncontrado.id)}
+            style={{ backgroundColor: '#dc3545' }}
+          >
+            Eliminar
+          </button>
+        </div>
+      )}
+
+      <div className="pagos-card">
+        <table className="pagos-tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>ID Persona</th>
+              <th>Motivo</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {arrestos.map((a) => (
+              <tr key={a.id}>
+                <td>{a.id}</td>
+                <td>{a.personaId}</td>
+                <td>{a.motivo}</td>
+                <td>{formatearFecha(a.fecha)}</td>
+                <td>
+                  <button
+                    onClick={() => eliminarArresto(a.id)}
+                    style={{ backgroundColor: '#dc3545' }}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default GestionArrestos;
+export default Arrestos;
+

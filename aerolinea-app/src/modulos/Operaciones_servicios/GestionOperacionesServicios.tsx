@@ -6,30 +6,27 @@ const GestionOperacionesServicios = () => {
 
   const opciones = [
     {
-      titulo: 'Pistas',
-      descripcion: 'Administra las pistas de aterrizaje y despegue. Incluye su disponibilidad, mantenimiento y señalización.',
-      ruta: '/operaciones-servicios/pistas',
+      titulo: 'Mantenimiento',
+      descripcion: 'Gestión y supervisión de trabajos de mantenimiento en el aeropuerto.',
+      ruta: '/dashboard/solicitudes-y-avisos/mantenimiento',
+    },
+    
+    
+    {
+      titulo: 'Arrestos',
+      descripcion: 'Registro y control de personas detenidas dentro del aeropuerto.',
+      ruta: '/dashboard/solicitudes-y-avisos/arrestos',
     },
     {
-      titulo: 'Mantenimiento de Pistas',
-      descripcion: 'Controla los trabajos de mantenimiento programado o emergente en pistas y zonas de rodaje.',
-      ruta: '/operaciones-servicios/mantenimiento-pistas',
-    },
-    {
-      titulo: 'Carros',
-      descripcion: 'Gestión de vehículos operativos dentro del aeropuerto: logística, asignaciones y mantenimiento.',
-      ruta: '/operaciones-servicios/carros',
-    },
-    {
-      titulo: 'Transporte',
-      descripcion: 'Administra los medios de transporte internos y externos: autobuses, pasarelas y trenes aeroportuarios.',
-      ruta: '/operaciones-servicios/transporte',
+      titulo: 'Objetos Perdidos',
+      descripcion: 'Administración de objetos perdidos y recuperados por los usuarios.',
+      ruta: '/dashboard/solicitudes-y-avisos/objetos_perdidos',
     },
   ];
 
   return (
     <div className="ops-wrapper">
-      <h2 className="ops-titulo">Operaciones y Servicios Aeroportuarios</h2>
+      <h2 className="ops-titulo">Operaciones y Servicios</h2>
       <div className="ops-grid">
         {opciones.map((opcion, idx) => (
           <div key={idx} className="tarjeta-ops" onClick={() => navigate(opcion.ruta)}>
