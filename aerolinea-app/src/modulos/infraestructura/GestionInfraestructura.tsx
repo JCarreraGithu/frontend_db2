@@ -8,7 +8,7 @@ const GestionInfraestructura = () => {
     {
       titulo: 'Pistas',
       descripcion: 'Administra las pistas de aterrizaje y despegue. Incluye su disponibilidad, mantenimiento y señalización.',
-      ruta: '/infraestructura/pistas',
+      ruta: '/dashboard/requisitos/pistas',
     },
     {
       titulo: 'Mantenimiento de Pistas',

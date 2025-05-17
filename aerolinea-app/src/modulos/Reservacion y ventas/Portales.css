@@ -1,9 +1,16 @@
-/* src/components/Portales.css */
 
 .portales-container {
+   min-height: 100vh;
+  padding: 4rem 2rem;
+  background: 
+    linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('../src/images/imgvent.jpg'); /* O cambia la imagen si quieres */
+  background-size: cover;
+  background-position: center;
   display: flex;
   justify-content: center;
-  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  backdrop-filter: blur(8px);
 }
 
 .portales-card {
