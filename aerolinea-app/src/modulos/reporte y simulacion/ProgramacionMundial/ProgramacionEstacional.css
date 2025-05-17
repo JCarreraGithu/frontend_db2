@@ -1,0 +1,122 @@
+/* Fondo general con imagen y efecto glass */
+.vuelos-wrapper {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('../src/images/imgvent.jpg'); /* Usa una imagen adecuada */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Título principal */
+.vuelos-wrapper h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1c1c1e;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Caja glassmorphism */
+.vuelos-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 1500px;
+  margin-bottom: 2rem;
+}
+
+/* Entradas */
+.vuelos-card input,
+.vuelos-card select {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+}
+
+/* Botones */
+.vuelos-card button {
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.vuelos-card button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabla de vuelos */
+.vuelos-tabla {
+  width: 100%;
+  max-width: 1500px;
+  background: rgba(255, 255, 255, 0.65);
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.vuelos-tabla th,
+.vuelos-tabla td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.vuelos-tabla th {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.vuelos-tabla td {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.vuelos-tabla tr:last-child td {
+  border-bottom: none;
+}
+
+/* Botón eliminar personalizado */
+.btn-eliminar {
+  background-color: #dc3545;
+}
+
+.btn-eliminar:hover {
+  background-color: #a71d2a;
+}
+
+/* Mensajes */
+.mensaje {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+

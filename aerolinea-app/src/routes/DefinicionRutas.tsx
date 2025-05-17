@@ -24,6 +24,9 @@ import Facturacion from '../modulos/facturacion_pagos/Facturacion/Facturacion';
 import Mercancias from '../modulos/facturacion_pagos/Mercancias/Mercancias';
 import Pagos from '../modulos/facturacion_pagos/Pagos/Pagos';
 import Pistas from '../modulos/infraestructura/Pistas/Pistas';
+import ProgramacionMundial from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramaMundial';
+
+
 
 
 export default function DefinicionRutas() {
@@ -55,12 +58,13 @@ export default function DefinicionRutas() {
         <Route path="reservas/reservas" element={<Reservas/>} />
         <Route path="reservas/equipajes" element={<Equipaje/>} />
         <Route path="reservas/portales" element={<Portales/>} />
-        
-        <Route path="requisitos" element={<GestionInfraestructura/>} />
-        <Route path="requisitos/Pistas" element={<Pistas/>} />
-
+        <Route path="infraestructura" element={<GestionInfraestructura/>} />
+        <Route path="infraestructura/Pistas" element={<Pistas/>} />
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
+
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
+        <Route path="vehiculo/ProgramacionMundial" element={<ProgramacionMundial/>} />
+
         <Route path="mis-documentos" element={<GestionFacturacionPagos/>} />
         <Route path="mis-documentos/facturacion" element={<Facturacion/>} />
         <Route path="mis-documentos/mercancias" element={<Mercancias/>} />

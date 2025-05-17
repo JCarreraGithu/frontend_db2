@@ -1,16 +1,18 @@
+
+
 import { useEffect, useState } from "react";
-import "./ProgramaMundial.css"; // Asegúrate de tener este archivo de estilos
+import "./Estilo.css"; // Asegúrate de tener este archivo de estilos
 
 type Vuelo = {
   id_vuelo: number;
-  aerolínea: string;
+  aerolinea: string;
   origen: string;
   destino: string;
-  fecha_salida: string;
-  estado: string; // Programado, En vuelo, Cancelado
+  frecuencia: string; // Diaria, Semanal, Mensual, etc.
+  temporada: string; // Alta, Baja, Media, etc.
 };
 
-const ProgramacionMundial = () => {
+const GestionVuelos = () => {
   const [vuelos, setVuelos] = useState<Vuelo[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,21 +20,21 @@ const ProgramacionMundial = () => {
 
   const obtenerVuelos = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/vuelos");
+      const res = await fetch("http://localhost:3000/api/programacion-estacional");
       if (!res.ok) throw new Error(`❌ Error HTTP: ${res.status}`);
 
       const data = await res.json();
       if (!Array.isArray(data)) throw new Error("❌ Respuesta inesperada de la API");
 
       const formateado = data.map((arr: any[]) => {
-        if (arr.length < 5) throw new Error("❌ Formato incorrecto en los datos");
+        if (arr.length < 6) throw new Error("❌ Formato incorrecto en los datos");
         return {
           id_vuelo: arr[0],
-          aerolínea: arr[1],
+          aerolinea: arr[1],
           origen: arr[2],
           destino: arr[3],
-          fecha_salida: arr[4],
-          estado: arr[5],
+          frecuencia: arr[4],
+          temporada: arr[5],
         };
       });
 
@@ -49,7 +51,7 @@ const ProgramacionMundial = () => {
 
   return (
     <div className="vuelos-wrapper">
-      <h1>🌍 Programación Mundial de Vuelos</h1>
+      <h1>✈️ Gestión de Vuelos según la Temporada</h1>
 
       {error && <p className="error">{error}</p>}
 
@@ -60,19 +62,19 @@ const ProgramacionMundial = () => {
             <th>Aerolínea</th>
             <th>Origen</th>
             <th>Destino</th>
-            <th>Fecha de Salida</th>
-            <th>Estado</th>
+            <th>Frecuencia</th>
+            <th>Temporada</th>
           </tr>
         </thead>
         <tbody>
           {vuelos.map((vuelo) => (
             <tr key={vuelo.id_vuelo}>
               <td>{vuelo.id_vuelo}</td>
-              <td>{vuelo.aerolínea}</td>
+              <td>{vuelo.aerolinea}</td>
               <td>{vuelo.origen}</td>
               <td>{vuelo.destino}</td>
-              <td>{vuelo.fecha_salida}</td>
-              <td>{vuelo.estado}</td>
+              <td>{vuelo.frecuencia}</td>
+              <td>{vuelo.temporada}</td>
             </tr>
           ))}
         </tbody>
@@ -81,5 +83,5 @@ const ProgramacionMundial = () => {
   );
 };
 
-export default ProgramacionMundial;
+export default GestionVuelos;
 
