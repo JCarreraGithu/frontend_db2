@@ -23,6 +23,7 @@ import Licencias from '../modulos/Gestion_Usuarios/Licencias/Licencias';
 import Facturacion from '../modulos/facturacion_pagos/Facturacion/Facturacion';
 import Mercancias from '../modulos/facturacion_pagos/Mercancias/Mercancias';
 import Pagos from '../modulos/facturacion_pagos/Pagos/Pagos';
+import Pistas from '../modulos/infraestructura/Pistas/Pistas';
 
 
 export default function DefinicionRutas() {
@@ -54,7 +55,10 @@ export default function DefinicionRutas() {
         <Route path="reservas/reservas" element={<Reservas/>} />
         <Route path="reservas/equipajes" element={<Equipaje/>} />
         <Route path="reservas/portales" element={<Portales/>} />
+        
         <Route path="requisitos" element={<GestionInfraestructura/>} />
+        <Route path="requisitos/Pistas" element={<Pistas/>} />
+
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
         <Route path="mis-documentos" element={<GestionFacturacionPagos/>} />
