@@ -19,6 +19,8 @@ import Escalas from '../modulos/Operacion_vuelos/Escalas';
 import Equipaje from '../modulos/Reservacion y ventas/Equipaje';
 import Portales from '../modulos/Reservacion y ventas/Portales';
 import Usuarios from '../modulos/Gestion_Usuarios/Usuarios/Usuarios';
+import Visas from '../modulos/Gestion_Usuarios/Visas/Visas';
+import Licencias from '../modulos/Gestion_Usuarios/Licencias/Licencias';
 
 
 export default function DefinicionRutas() {
@@ -36,6 +38,9 @@ export default function DefinicionRutas() {
       >
         {/* Subrutas dentro del Dashboard */}
         <Route path="gestion-usuarios" element={<GestionUsuarios />} />
+        <Route path="gestion-usuarios/usuarios" element={<Usuarios />} />
+        <Route path="gestion-usuarios/Visas" element={<Visas/>} />
+        <Route path="gestion-usuarios/Licencias" element={<Licencias/>} />
         <Route path="contribuyentes" element={<GestionOperaciones/>} />  
         <Route path="contribuyentes/Aeropuertos" element={<Aeropuertos/>} />   
         <Route path="contribuyentes/Aerolineas" element={<Aerolineas/>} /> 
@@ -52,7 +57,7 @@ export default function DefinicionRutas() {
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
         <Route path="mis-documentos" element={<GestionFacturacionPagos/>} />
-        <Route path="gestion-usuarios/usuarios" element={<Usuarios />} />
+
       </Route>
 
       {/* Ruta raíz */}

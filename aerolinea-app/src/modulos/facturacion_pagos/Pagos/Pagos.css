@@ -1,10 +1,9 @@
-/* Fondo general con imagen y efecto glass */
-.reservas-wrapper {
+.pagos-wrapper {
   min-height: 100vh;
   padding: 4rem 2rem;
-  background: 
+  background:
     linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-    url('../src/images/imgvent.jpg'); /* Usa una imagen similar a otros módulos */
+    url('../src/images/imgvent.jpg'); 
   background-size: cover;
   background-position: center;
   display: flex;
@@ -14,8 +13,7 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Título principal */
-.reservas-wrapper h1 {
+.pagos-wrapper h1 {
   font-size: 2.5rem;
   font-weight: bold;
   color: #1c1c1e;
@@ -23,8 +21,7 @@
   text-align: center;
 }
 
-/* Caja glassmorphism */
-.reservas-card {
+.pagos-card {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -36,8 +33,7 @@
   margin-bottom: 2rem;
 }
 
-/* Entradas */
-.reservas-card input {
+.pagos-card input {
   width: 100%;
   margin-bottom: 0.75rem;
   padding: 0.6rem;
@@ -47,11 +43,10 @@
   font-size: 1rem;
 }
 
-/* Botones */
-.reservas-card button {
+.pagos-card button {
   padding: 0.6rem 1.2rem;
   margin-right: 0.5rem;
-  background-color: #007bff;
+  background-color: #28a745;
   border: none;
   color: white;
   border-radius: 8px;
@@ -60,12 +55,11 @@
   transition: background-color 0.2s ease;
 }
 
-.reservas-card button:hover {
-  background-color: #0056b3;
+.pagos-card button:hover {
+  background-color: #1e7e34;
 }
 
-/* Tabla de reservas */
-.reservas-tabla {
+.pagos-tabla {
   width: 100%;
   max-width: 1500px;
   background: rgba(255, 255, 255, 0.65);
@@ -75,49 +69,54 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.reservas-tabla th,
-.reservas-tabla td {
+.pagos-tabla th,
+.pagos-tabla td {
   padding: 0.75rem 1rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-.reservas-tabla th {
+.pagos-tabla th {
   background-color: #f5f5f5;
   color: #333;
 }
 
-.reservas-tabla td {
+.pagos-tabla td {
   background-color: rgba(255, 255, 255, 0.9);
 }
 
-/* Estado de reserva */
-.pendiente {
-  font-weight: bold;
-  color: orange;
+.pagos-tabla tr:last-child td {
+  border-bottom: none;
 }
 
-.confirmada {
-  font-weight: bold;
-  color: green;
-}
-
-.cancelada {
-  font-weight: bold;
-  color: red;
-}
-
-/* Mensajes */
 .mensaje {
-  color: #ff9800;
+  color: green;
   font-weight: bold;
   margin-bottom: 1rem;
-  text-align: center;
 }
 
 .error {
   color: red;
   font-weight: bold;
   margin-bottom: 1rem;
-  text-align: center;
+}
+.pago-encontrado {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: rgba(200, 255, 200, 0.3);
+  border: 1px solid green;
+}
+
+.pago-encontrado h3 {
+  margin-bottom: 0.5rem;
+}
+
+.pago-encontrado ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.pago-encontrado li {
+  margin-bottom: 0.3rem;
 }

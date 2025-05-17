@@ -32,21 +32,23 @@ const Visas = () => {
     fetch("http://localhost:3000/api/visas")
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data)) {
-          const formateado = data.map((arr: any[]) => ({
-            id_visa: arr[0],
-            id_usuario: arr[1],
-            numero_visa: arr[2],
-            tipo_visa: arr[3],
-            fecha_emision: arr[4],
-            fecha_vencimiento: arr[5],
-            estado: arr[6],
-          }));
-          setVisas(formateado);
-        } else {
+        if (!Array.isArray(data)) {
           setError("❌ Error: formato inesperado de la API");
           limpiarError();
+          return;
         }
+
+        const formateado = data.map((arr: any) => ({
+          id_visa: arr[0],
+          id_usuario: arr[1],
+          numero_visa: arr[2],
+          tipo_visa: arr[3],
+          fecha_emision: new Date(arr[4]).toLocaleDateString("es-ES"),
+          fecha_vencimiento: new Date(arr[5]).toLocaleDateString("es-ES"),
+          estado: arr[6],
+        }));
+
+        setVisas(formateado);
       })
       .catch(() => {
         setError("❌ Error al cargar visas");
@@ -64,39 +66,22 @@ const Visas = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevaVisa),
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("❌ Error al registrar visa");
-        return res.json();
-      })
+      .then((res) => res.json())
       .then(() => {
         setMensaje("✅ Visa registrada exitosamente");
-        setNuevaVisa({ id_usuario: 0, numero_visa: "", tipo_visa: "turista", fecha_emision: "", fecha_vencimiento: "", estado: "pendiente" });
+        setNuevaVisa({
+          id_usuario: 0,
+          numero_visa: "",
+          tipo_visa: "turista",
+          fecha_emision: "",
+          fecha_vencimiento: "",
+          estado: "pendiente",
+        });
         obtenerVisas();
         limpiarMensaje();
       })
       .catch(() => {
         setError("❌ Error al registrar visa");
-        limpiarError();
-      });
-  };
-
-  const actualizarVisa = (id: number) => {
-    fetch(`http://localhost:3000/api/visas/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nuevaVisa),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("❌ Error al actualizar visa");
-        return res.json();
-      })
-      .then(() => {
-        setMensaje("✅ Visa actualizada correctamente");
-        obtenerVisas();
-        limpiarMensaje();
-      })
-      .catch(() => {
-        setError("❌ Error al actualizar visa");
         limpiarError();
       });
   };
@@ -110,23 +95,21 @@ const Visas = () => {
     fetch(`http://localhost:3000/api/visas/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
-        if (!data || !Array.isArray(data)) {
+        if (!data.success || !data.data) {
           setError("❌ Visa no encontrada");
           limpiarError();
           return;
         }
 
-        const visa = {
-          id_visa: data[0],
-          id_usuario: data[1],
-          numero_visa: data[2],
-          tipo_visa: data[3],
-          fecha_emision: data[4],
-          fecha_vencimiento: data[5],
-          estado: data[6],
-        };
-
-        setVisas([visa]);
+        setVisas([{
+          id_visa: data.data[0],
+          id_usuario: data.data[1],
+          numero_visa: data.data[2],
+          tipo_visa: data.data[3],
+          fecha_emision: new Date(data.data[4]).toLocaleDateString("es-ES"),
+          fecha_vencimiento: new Date(data.data[5]).toLocaleDateString("es-ES"),
+          estado: data.data[6],
+        }]);
       })
       .catch(() => {
         setError("❌ Error al buscar visa");
@@ -166,6 +149,7 @@ const Visas = () => {
         <input id="fecha_vencimiento" type="date" value={nuevaVisa.fecha_vencimiento} onChange={(e) => setNuevaVisa({ ...nuevaVisa, fecha_vencimiento: e.target.value })} />
 
         <button onClick={agregarVisa}>➕ Registrar</button>
+        <button onClick={buscarPorID}>🔍 Buscar</button>
       </div>
 
       {/* TABLA DE VISAS */}

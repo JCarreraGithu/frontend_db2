@@ -1,10 +1,10 @@
 /* Fondo general con imagen y efecto glass */
-.reservas-wrapper {
+.licencias-wrapper {
   min-height: 100vh;
   padding: 4rem 2rem;
   background: 
     linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-    url('../src/images/imgvent.jpg'); /* Usa una imagen similar a otros módulos */
+    url('../src/images/imgvent.jpg'); /* Usa una imagen similar a otras secciones */
   background-size: cover;
   background-position: center;
   display: flex;
@@ -15,7 +15,7 @@
 }
 
 /* Título principal */
-.reservas-wrapper h1 {
+.licencias-wrapper h1 {
   font-size: 2.5rem;
   font-weight: bold;
   color: #1c1c1e;
@@ -24,7 +24,7 @@
 }
 
 /* Caja glassmorphism */
-.reservas-card {
+.licencias-card {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -37,7 +37,7 @@
 }
 
 /* Entradas */
-.reservas-card input {
+.licencias-card input {
   width: 100%;
   margin-bottom: 0.75rem;
   padding: 0.6rem;
@@ -48,7 +48,7 @@
 }
 
 /* Botones */
-.reservas-card button {
+.licencias-card button {
   padding: 0.6rem 1.2rem;
   margin-right: 0.5rem;
   background-color: #007bff;
@@ -60,12 +60,12 @@
   transition: background-color 0.2s ease;
 }
 
-.reservas-card button:hover {
+.licencias-card button:hover {
   background-color: #0056b3;
 }
 
-/* Tabla de reservas */
-.reservas-tabla {
+/* Tabla de licencias */
+.licencias-tabla {
   width: 100%;
   max-width: 1500px;
   background: rgba(255, 255, 255, 0.65);
@@ -75,49 +75,46 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.reservas-tabla th,
-.reservas-tabla td {
+.licencias-tabla th,
+.licencias-tabla td {
   padding: 0.75rem 1rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-.reservas-tabla th {
+.licencias-tabla th {
   background-color: #f5f5f5;
   color: #333;
 }
 
-.reservas-tabla td {
+.licencias-tabla td {
   background-color: rgba(255, 255, 255, 0.9);
 }
 
-/* Estado de reserva */
-.pendiente {
-  font-weight: bold;
-  color: orange;
+.licencias-tabla tr:last-child td {
+  border-bottom: none;
 }
 
-.confirmada {
+/* Estado pagado */
+.licencias-tabla .pagada {
   font-weight: bold;
   color: green;
 }
 
-.cancelada {
+.licencias-tabla .no-pagada {
   font-weight: bold;
   color: red;
 }
 
 /* Mensajes */
 .mensaje {
-  color: #ff9800;
+  color: green;
   font-weight: bold;
   margin-bottom: 1rem;
-  text-align: center;
 }
 
 .error {
   color: red;
   font-weight: bold;
   margin-bottom: 1rem;
-  text-align: center;
 }

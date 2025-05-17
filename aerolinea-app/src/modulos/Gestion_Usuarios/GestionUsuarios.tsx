@@ -16,19 +16,14 @@ const GestionUsuarios = () => {
       titulo: 'Visas',
       descripcion:
         'Registra y controla las visas otorgadas a pasajeros, personal o visitantes.',
-      ruta: '/dashboard/Gestion_Usuarios/Visas',
+      ruta: '/dashboard/gestion-usuarios/Visas',
     },
-    {
-      titulo: 'Cuentas',
-      descripcion:
-        'Administra las cuentas, credenciales, y opciones de seguridad de acceso.',
-      ruta: '/usuarios/roles',
-    },
+   
     {
       titulo: 'Licencias',
       descripcion:
         'Controla las licencias y certificaciones del personal operativo.',
-      ruta: '/usuarios/licencias',
+      ruta: '/dashboard/gestion-usuarios/Licencias',
     },
   ];
 
