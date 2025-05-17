@@ -29,6 +29,7 @@ import SimulacionFlujoPasajeros from '../modulos/reporte y simulacion/Simulacion
 import ProgramaEstacional from '../modulos/reporte y simulacion/ProgramacionEstacional/ProgramaEstacional';
 import GestionInformacion from '../modulos/reporte y simulacion/GestionInformacion/GestionInformacion';
 import ProgramacionMundial from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramaMundial';
+import SimulacionTraficoAereo from '../modulos/reporte y simulacion/SimulacionTraficoAereo/SimulacionTraficoAereo';
 
 
 
@@ -76,7 +77,7 @@ export default function DefinicionRutas() {
         <Route path="reporte y simulacion/ProgramacionEstacional" element={<ProgramaEstacional/>} />
         <Route path="reporte y simulacion/GestionInformacion" element={<GestionInformacion/>} />
         <Route path="reporte y simulacion/ProgramacionMundial" element={<ProgramacionMundial/>} />
-     
+        <Route path="reporte y simulacion/SimulacionTraficoAereo" element={<SimulacionTraficoAereo/>} />
       </Route>
 
       {/* Ruta raíz */}
