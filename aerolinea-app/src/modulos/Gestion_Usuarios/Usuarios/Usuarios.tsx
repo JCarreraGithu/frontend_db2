@@ -23,77 +23,81 @@ const Usuarios = () => {
   const [mensaje, setMensaje] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const limpiarMensaje = () => setTimeout(() => setMensaje(null), 3000);
-  const limpiarError = () => setTimeout(() => setError(null), 3000);
+  useEffect(() => {
+    if (mensaje) {
+      const timeout = setTimeout(() => setMensaje(null), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [mensaje]);
 
-  const obtenerUsuarios = () => {
-    fetch("http://localhost:3000/api/usuarios")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          const formateado = data.map((arr: [number, string, string, string]) => ({
-            id_usuario: arr[0],
-            nombre: arr[1],
-            correo: arr[2],
-            tipo_usuario: arr[3],
-          }));
-          setUsuarios(formateado);
-        } else {
-          setError("❌ Error: formato inesperado de la API");
-          limpiarError();
-        }
-      })
-      .catch(() => {
-        setError("❌ Error al cargar usuarios");
-        limpiarError();
-      });
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => setError(null), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
+
+  const obtenerUsuarios = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/usuarios");
+      if (!res.ok) throw new Error(`❌ Error HTTP: ${res.status}`);
+
+      const data = await res.json();
+      console.log("Datos recibidos:", data); // Verificar datos en consola
+
+      if (!Array.isArray(data)) throw new Error("❌ Respuesta inesperada de la API");
+
+      const formateado = data.map((usuario: any) => ({
+        id_usuario: usuario[0] ?? 0,
+        nombre: usuario[1] ?? "Desconocido",
+        correo: usuario[2] ?? "No especificado",
+        tipo_usuario: usuario[3] ?? "Sin tipo",
+      }));
+
+      setUsuarios(formateado);
+    } catch (error) {
+      console.error(error);
+      setError(error instanceof Error ? error.message : "❌ Error al cargar usuarios");
+    }
   };
 
   useEffect(() => {
     obtenerUsuarios();
   }, []);
 
-  const registrarUsuario = () => {
-    fetch("http://localhost:3000/api/usuarios/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nuevoUsuario),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("❌ Error al registrar usuario");
-        return res.json();
-      })
-      .then(() => {
-        setMensaje("✅ Usuario registrado exitosamente");
-        setNuevoUsuario({ nombre: "", correo: "", contrasena: "", tipo_usuario: "cliente" });
-        obtenerUsuarios();
-        limpiarMensaje();
-      })
-      .catch(() => {
-        setError("❌ Error al registrar usuario");
-        limpiarError();
+  const registrarUsuario = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/usuarios/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevoUsuario),
       });
+
+      if (!res.ok) throw new Error("❌ Error al registrar usuario");
+
+      setMensaje("✅ Usuario registrado exitosamente");
+      setNuevoUsuario({ nombre: "", correo: "", contrasena: "", tipo_usuario: "cliente" });
+      obtenerUsuarios();
+    } catch (error) {
+      setError("❌ Error al registrar usuario");
+    }
   };
 
-  const iniciarSesion = () => {
-    fetch("http://localhost:3000/api/usuarios/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credenciales),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("❌ Error en login");
-        return res.json();
-      })
-      .then(() => {
-        setMensaje("✅ Login exitoso");
-        setCredenciales({ correo: "", contrasena: "" });
-        limpiarMensaje();
-      })
-      .catch(() => {
-        setError("❌ Credenciales incorrectas");
-        limpiarError();
+  const iniciarSesion = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/usuarios/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credenciales),
       });
+
+      if (!res.ok) throw new Error("❌ Error en login");
+
+      setMensaje("✅ Login exitoso");
+      setCredenciales({ correo: "", contrasena: "" });
+    } catch (error) {
+      setError("❌ Credenciales incorrectas");
+    }
   };
 
   return (
@@ -102,6 +106,7 @@ const Usuarios = () => {
 
       {mensaje && <p className="mensaje">{mensaje}</p>}
       {error && <p className="error">{error}</p>}
+      {usuarios.length === 0 && !error && <p>No hay usuarios registrados.</p>}
 
       {/* REGISTRAR USUARIO */}
       <div className="usuarios-card">

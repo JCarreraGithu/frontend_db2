@@ -1,22 +1,23 @@
-
-
 import { useEffect, useState } from "react";
 import "./ProgramacionEstacional.css"; // Asegúrate de tener este archivo de estilos
 
 type Vuelo = {
   id_vuelo: number;
   aerolinea: string;
-  origen: string;
-  destino: string;
-  frecuencia: string; // Diaria, Semanal, Mensual, etc.
-  temporada: string; // Alta, Baja, Media, etc.
+  temporada: string;
+  descripcion: string;
 };
 
 const GestionVuelos = () => {
   const [vuelos, setVuelos] = useState<Vuelo[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const limpiarError = () => setTimeout(() => setError(null), 3000);
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => setError(null), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
 
   const obtenerVuelos = async () => {
     try {
@@ -27,26 +28,25 @@ const GestionVuelos = () => {
       if (!Array.isArray(data)) throw new Error("❌ Respuesta inesperada de la API");
 
       const formateado = data.map((arr: any[]) => {
-        if (arr.length < 6) throw new Error("❌ Formato incorrecto en los datos");
+        if (arr.length < 4) throw new Error("❌ Formato incorrecto en los datos");
         return {
           id_vuelo: arr[0],
-          aerolinea: arr[1],
-          origen: arr[2],
-          destino: arr[3],
-          frecuencia: arr[4],
-          temporada: arr[5],
+          aerolinea: `Aerolínea ${arr[1]}`, // Si los valores son códigos, puedes mapearlos a nombres reales
+          temporada: arr[2],
+          descripcion: arr[3],
         };
       });
 
       setVuelos(formateado);
     } catch (error) {
       setError(error instanceof Error ? error.message : "❌ Error al cargar vuelos");
-      limpiarError();
     }
   };
 
   useEffect(() => {
+    const controller = new AbortController();
     obtenerVuelos();
+    return () => controller.abort();
   }, []);
 
   return (
@@ -54,16 +54,15 @@ const GestionVuelos = () => {
       <h1>✈️ Gestión de Vuelos según la Temporada</h1>
 
       {error && <p className="error">{error}</p>}
+      {vuelos.length === 0 && !error && <p>No hay vuelos programados.</p>}
 
       <table className="vuelos-tabla">
         <thead>
           <tr>
             <th>ID</th>
             <th>Aerolínea</th>
-            <th>Origen</th>
-            <th>Destino</th>
-            <th>Frecuencia</th>
             <th>Temporada</th>
+            <th>Descripción</th>
           </tr>
         </thead>
         <tbody>
@@ -71,10 +70,8 @@ const GestionVuelos = () => {
             <tr key={vuelo.id_vuelo}>
               <td>{vuelo.id_vuelo}</td>
               <td>{vuelo.aerolinea}</td>
-              <td>{vuelo.origen}</td>
-              <td>{vuelo.destino}</td>
-              <td>{vuelo.frecuencia}</td>
               <td>{vuelo.temporada}</td>
+              <td>{vuelo.descripcion}</td>
             </tr>
           ))}
         </tbody>
@@ -84,4 +81,3 @@ const GestionVuelos = () => {
 };
 
 export default GestionVuelos;
-
