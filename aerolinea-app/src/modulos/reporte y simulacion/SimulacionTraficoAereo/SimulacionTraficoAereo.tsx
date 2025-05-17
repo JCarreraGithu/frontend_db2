@@ -1,4 +1,6 @@
 import { useState } from "react";
+import "./Estilo.css"; // Asegúrate de tener este archivo de estilos
+
 
 type SimulacionTraficoAereo = {
   id_simulacion: number;

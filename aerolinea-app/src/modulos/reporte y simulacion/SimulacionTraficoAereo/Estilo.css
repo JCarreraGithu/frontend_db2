@@ -1,0 +1,75 @@
+/* Fondo general con imagen y efecto glass */
+.gestion-container {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('../src/images/imgvent.jpg'); /* Usa una imagen adecuada */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Título principal */
+.gestion-titulo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1c1c1e;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Caja glassmorphism */
+.tarjeta {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+/* Entradas */
+.tarjeta input {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+}
+
+/* Botones */
+.tarjeta button {
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.tarjeta button:hover {
+  background-color: #0056b3;
+}
+
+/* Botón eliminar personalizado */
+.btn-eliminar {
+  background-color: #dc3545;
+}
+
+.btn-eliminar:hover {
+  background-color: #a71d2a;
+}
