@@ -12,12 +12,9 @@ const GestionReportesSimulacion = () => {
     { titulo: 'Simulación Tráfico Aéreo', 
       descripcion: 'Ejecuta simulaciones del tráfico aéreo para prever cuellos de botella y saturación.',
        ruta: '/dashboard/reporte y simulacion/SimulacionTraficoAereo' },
-    { titulo: 'Simulación Flujo Pasajeros', 
-      descripcion: 'Analiza el flujo de pasajeros en diferentes escenarios para optimizar espacios y servicios.', 
-      ruta: '/dashboard/reporte y simulacion/SimulacionFlujoPasajeros' },
-    { titulo: 'Simulación Impacto Financiero', 
-      descripcion: 'Modela el impacto económico de decisiones estratégicas o imprevistos en la operación.',
-       ruta: '/reportes/simulacion-impacto-financiero' },
+   { titulo: 'Programación Estacional', 
+      descripcion: 'Configura horarios y frecuencias de vuelo según la temporada.',
+       ruta: '/dashboard/reporte y simulacion/ProgramacionEstacional' },
   ];
 
   return (

@@ -1,7 +1,7 @@
 
 
 import { useEffect, useState } from "react";
-import "./Estilo.css"; // Asegúrate de tener este archivo de estilos
+import "./ProgramacionEstacional.css"; // Asegúrate de tener este archivo de estilos
 
 type Vuelo = {
   id_vuelo: number;
