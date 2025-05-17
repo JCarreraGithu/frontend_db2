@@ -28,6 +28,7 @@ import Mantenimiento from '../modulos/Operaciones_servicios/Mantenimiento/Manten
 import SimulacionFlujoPasajeros from '../modulos/reporte y simulacion/SimulacionFlujoPasajeros/SimulacionFlujoPasajeros';
 import ProgramaEstacional from '../modulos/reporte y simulacion/ProgramacionEstacional/ProgramaEstacional';
 import GestionInformacion from '../modulos/reporte y simulacion/GestionInformacion/GestionInformacion';
+import ProgramacionMundial from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramaMundial';
 
 
 
@@ -74,6 +75,7 @@ export default function DefinicionRutas() {
         <Route path="reporte y simulacion/SimulacionFlujoPasajeros" element={<SimulacionFlujoPasajeros/>} />
         <Route path="reporte y simulacion/ProgramacionEstacional" element={<ProgramaEstacional/>} />
         <Route path="reporte y simulacion/GestionInformacion" element={<GestionInformacion/>} />
+        <Route path="reporte y simulacion/ProgramacionMundial" element={<ProgramacionMundial/>} />
      
       </Route>
 
