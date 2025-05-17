@@ -25,6 +25,7 @@ import Pistas from '../modulos/infraestructura/Pistas/Pistas';
 import Usuarios from '../modulos/Gestion_Usuarios/Usuarios/Usuarios';
 import Arrestos from '../modulos/Operaciones_servicios/Arrestos/Arrestos';
 import Mantenimiento from '../modulos/Operaciones_servicios/Mantenimiento/Mantenimiento';
+import SimulacionFlujoPasajeros from '../modulos/reporte y simulacion/SimulacionFlujoPasajeros/SimulacionFlujoPasajeros';
 
 
 
@@ -68,6 +69,7 @@ export default function DefinicionRutas() {
         <Route path="mis-documentos/mercancias" element={<Mercancias/>} />
         <Route path="infraestructura/pistas" element={<Pistas/>} />
         <Route path="gestion_usuario/usuarios" element={<Usuarios/>} />
+        <Route path="reporte y simulacion/SimulacionFlujoPasajeros" element={<SimulacionFlujoPasajeros/>} />
       </Route>
 
       {/* Ruta raíz */}
