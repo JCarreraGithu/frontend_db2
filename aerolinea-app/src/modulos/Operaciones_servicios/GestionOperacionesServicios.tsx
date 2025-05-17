@@ -10,21 +10,8 @@ const GestionOperacionesServicios = () => {
       descripcion: 'Gestión y supervisión de trabajos de mantenimiento en el aeropuerto.',
       ruta: '/dashboard/solicitudes-y-avisos/mantenimiento',
     },
-    {
-      titulo: 'Operaciones Terrestres',
-      descripcion: 'Administración de operaciones que ocurren en tierra: carga, vehículos, zonas de rodaje.',
-      ruta: '/dashboard/operaciones_terrestres',
-    },
-    {
-      titulo: 'Operaciones Aéreas',
-      descripcion: 'Control de las operaciones en pista, llegadas, salidas y coordinación aérea.',
-      ruta: '/dashboard/solicitudes-y-avisos/operaciones_aereas',
-    },
-    {
-      titulo: 'Personal',
-      descripcion: 'Gestión del personal operativo y administrativo del aeropuerto.',
-      ruta: '/dashboard/solicitudes-y-avisos/personal',
-    },
+    
+    
     {
       titulo: 'Arrestos',
       descripcion: 'Registro y control de personas detenidas dentro del aeropuerto.',

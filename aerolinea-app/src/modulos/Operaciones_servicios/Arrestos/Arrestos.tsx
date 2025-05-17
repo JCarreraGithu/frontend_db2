@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Estilo.css';
+import './Arrestos.css';
 
 interface Arresto {
   id: number;

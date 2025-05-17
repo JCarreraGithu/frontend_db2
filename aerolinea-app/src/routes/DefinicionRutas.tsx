@@ -30,6 +30,7 @@ import ProgramaEstacional from '../modulos/reporte y simulacion/ProgramacionEsta
 import GestionInformacion from '../modulos/reporte y simulacion/GestionInformacion/GestionInformacion';
 import ProgramacionMundial from '../modulos/reporte y simulacion/ProgramacionMundial/ProgramaMundial';
 import SimulacionTraficoAereo from '../modulos/reporte y simulacion/SimulacionTraficoAereo/SimulacionTraficoAereo';
+import ObjetosPerdidos from '../modulos/Operaciones_servicios/ObjetosPerdidos/ObjetosPerdidos';
 
 
 
@@ -66,6 +67,7 @@ export default function DefinicionRutas() {
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
         <Route path="solicitudes-y-avisos/mantenimiento" element={<Mantenimiento/>} />
         <Route path="solicitudes-y-avisos/arrestos" element={<Arrestos/>} />
+        <Route path="solicitudes-y-avisos/objetos_perdidos" element={<ObjetosPerdidos/>} />
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
         <Route path="mis-documentos" element={<GestionFacturacionPagos/>} />
         <Route path="mis-documentos/facturacion" element={<Facturacion/>} />
@@ -79,7 +81,7 @@ export default function DefinicionRutas() {
         <Route path="reporte y simulacion/ProgramacionMundial" element={<ProgramacionMundial/>} />
         <Route path="reporte y simulacion/SimulacionTraficoAereo" element={<SimulacionTraficoAereo/>} />
       </Route>
-
+solicitudes-y-avisos/objetos_perdidos
       {/* Ruta raíz */}
       <Route
         path="/"

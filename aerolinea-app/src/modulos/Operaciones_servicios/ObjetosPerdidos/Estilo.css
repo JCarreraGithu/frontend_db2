@@ -1,0 +1,118 @@
+.objetos-wrapper {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url('../src/images/imgop.jpg'); 
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.objetos-wrapper h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1c1c1e;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.objetos-formulario,
+.objetos-busqueda,
+.objetos-tabla-contenedor {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 2rem;
+}
+
+.objetos-formulario input,
+.objetos-formulario select,
+.objetos-busqueda input {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+}
+
+.objetos-formulario button,
+.objetos-busqueda button {
+  padding: 0.6rem 1.2rem;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.objetos-busqueda button {
+  background-color: #007bff;
+}
+
+.objetos-formulario button:hover {
+  background-color: #1e7e34;
+}
+
+.objetos-busqueda button:hover {
+  background-color: #0056b3;
+}
+
+.resultado-busqueda {
+  background-color: rgba(200, 220, 255, 0.4);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: 1px solid #007bff;
+}
+
+.tabla-objetos {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-objetos th,
+.tabla-objetos td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.tabla-objetos th {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.tabla-objetos tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-objetos button {
+  background-color: #dc3545;
+  color: white;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tabla-objetos button:hover {
+  background-color: #c82333;
+}
