@@ -35,11 +35,7 @@ const GestionOperaciones = () => {
       descripcion: 'Gestiona los horarios de salida y llegada, franjas horarias asignadas y ventanas de mantenimiento aeroportuario.',
       ruta: '/dashboard/contribuyentes/HorariosVuelos',
     },
-    {
-      titulo: 'Escalas Técnicas',
-      descripcion: 'Registra y supervisa las escalas técnicas que requieren mantenimiento, abastecimiento o inspección en vuelos de largo recorrido.',
-      ruta: '/dashboard/contribuyentes/Escalas',
-    },
+    
   ];
 
   return (

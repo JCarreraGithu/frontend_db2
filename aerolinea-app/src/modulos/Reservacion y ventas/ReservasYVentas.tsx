@@ -20,11 +20,7 @@ const GestionReservasVentas = () => {
       descripcion: 'Configura y supervisa los portales digitales para reservas, compras y consultas en línea.',
       ruta: '/dashboard/reservas/portales',
     },
-    {
-      titulo: 'Check-In',
-      descripcion: 'Gestiona el proceso de registro previo al vuelo: asignación de asientos, impresión de pases de abordar y verificación de documentos.',
-      ruta: '/reservas/checkin',
-    },
+    
   ];
 
   return (

@@ -41,30 +41,33 @@ const Reservas = () => {
     fetch("http://localhost:3000/api/reservas")
       .then((res) => res.json())
       .then((data) => {
+        console.log("Datos recibidos:", data); // DEPURACIÓN
+
         if (!Array.isArray(data)) {
           setError("❌ Error: formato inesperado de la API");
           limpiarError();
           return;
         }
 
-        const formateado = data.map((arr: any) => ({
-          id_reserva: arr[0],
-          id_usuario: arr[1],
-          id_vuelo: arr[2],
-          asiento: arr[3],
-          estado_reserva: arr[4],
-          fecha_reserva: new Date(arr[5]).toLocaleDateString("es-ES"),
-          modalidad_venta: arr[6],
-          id_portal: arr[7],
-          id_visa: arr[8],
-          pasaporte: arr[9],
-          checkin_status: arr[10],
-          fecha_checkin: arr[11] ? new Date(arr[11]).toLocaleDateString("es-ES") : "No registrado",
+        const formateado = data.map((reserva: any) => ({
+          id_reserva: reserva.ID_RESERVA,
+          id_usuario: reserva.ID_USUARIO,
+          id_vuelo: reserva.ID_VUELO,
+          asiento: reserva.ASIENTO,
+          estado_reserva: reserva.ESTADO_RESERVA,
+          fecha_reserva: new Date(reserva.FECHA_RESERVA).toLocaleDateString("es-ES"),
+          modalidad_venta: reserva.MODALIDAD_VENTA,
+          id_portal: reserva.ID_PORTAL,
+          id_visa: reserva.ID_VISA,
+          pasaporte: reserva.PASAPORTE,
+          checkin_status: reserva.CHECKIN_STATUS,
+          fecha_checkin: reserva.FECHA_CHECKIN ? new Date(reserva.FECHA_CHECKIN).toLocaleDateString("es-ES") : "No registrado",
         }));
 
         setReservas(formateado);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Error al obtener reservas:", err);
         setError("❌ Error al cargar reservas");
         limpiarError();
       });
@@ -97,7 +100,8 @@ const Reservas = () => {
         obtenerReservas();
         limpiarMensaje();
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Error al crear reserva:", err);
         setError("❌ Error al crear reserva");
         limpiarError();
       });
@@ -112,6 +116,8 @@ const Reservas = () => {
     fetch(`http://localhost:3000/api/reservas/${busquedaID}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("Datos recibidos al buscar ID:", data); // DEPURACIÓN
+
         if (!data.success || !data.data) {
           setError("❌ Reserva no encontrada");
           limpiarError();
@@ -119,21 +125,22 @@ const Reservas = () => {
         }
 
         setReservas([{
-          id_reserva: data.data[0],
-          id_usuario: data.data[1],
-          id_vuelo: data.data[2],
-          asiento: data.data[3],
-          estado_reserva: data.data[4],
-          fecha_reserva: new Date(data.data[5]).toLocaleDateString("es-ES"),
-          modalidad_venta: data.data[6],
-          id_portal: data.data[7],
-          id_visa: data.data[8],
-          pasaporte: data.data[9],
-          checkin_status: data.data[10],
-          fecha_checkin: data.data[11] ? new Date(data.data[11]).toLocaleDateString("es-ES") : "No registrado",
-        }]);
+          id_reserva: data.data.ID_RESERVA,
+          id_usuario: data.data.ID_USUARIO,
+          id_vuelo: data.data.ID_VUELO,
+          asiento: data.data.ASIENTO,
+          estado_reserva: data.data.ESTADO_RESERVA,
+          fecha_reserva: new Date(data.data.FECHA_RESERVA).toLocaleDateString("es-ES"),
+          modalidad_venta: data.data.MODALIDAD_VENTA,
+          id_portal: data.data.ID_PORTAL,
+          id_visa: data.data.ID_VISA,
+          pasaporte: data.data.PASAPORTE,
+          checkin_status: data.data.CHECKIN_STATUS,
+          fecha_checkin: data.data.FECHA_CHECKIN ? new Date(data.data.FECHA_CHECKIN).toLocaleDateString("es-ES") : "No registrado",
+        }, ...reservas]);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Error al buscar reserva:", err);
         setError("❌ Error al buscar reserva");
         limpiarError();
       });
@@ -163,7 +170,7 @@ const Reservas = () => {
         <button onClick={obtenerReservas}>🔄 Ver Todas</button>
       </div>
 
-      {/* TABLA */}
+      {/* TABLA DE RESERVAS */}
       <div className="reservas-card">
         <h3>📋 Lista de Reservas</h3>
         <table className="reservas-tabla">
@@ -180,18 +187,22 @@ const Reservas = () => {
             </tr>
           </thead>
           <tbody>
-            {reservas.map((reserva) => (
-              <tr key={reserva.id_reserva}>
-                <td>{reserva.id_reserva}</td>
-                <td>{reserva.id_usuario}</td>
-                <td>{reserva.id_vuelo}</td>
-                <td>{reserva.asiento}</td>
-                <td>{reserva.estado_reserva}</td>
-                <td>{reserva.fecha_reserva}</td>
-                <td>{reserva.modalidad_venta}</td>
-                <td>{reserva.checkin_status}</td>
-              </tr>
-            ))}
+            {reservas.length > 0 ? (
+              reservas.map((reserva) => (
+                <tr key={reserva.id_reserva}>
+                  <td>{reserva.id_reserva}</td>
+                  <td>{reserva.id_usuario}</td>
+                  <td>{reserva.id_vuelo}</td>
+                  <td>{reserva.asiento}</td>
+                  <td>{reserva.estado_reserva}</td>
+                  <td>{reserva.fecha_reserva}</td>
+                  <td>{reserva.modalidad_venta}</td>
+                  <td>{reserva.checkin_status}</td>
+                </tr>
+              ))
+            ) : (
+              <tr><td colSpan={8} style={{ textAlign: "center", color: "red" }}>❌ No hay reservas disponibles</td></tr>
+            )}
           </tbody>
         </table>
       </div>

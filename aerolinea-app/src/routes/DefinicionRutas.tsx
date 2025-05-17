@@ -15,12 +15,14 @@ import Aviones from '../modulos/Operacion_vuelos/Aviones';
 import ProgramaVuelos from '../modulos/Operacion_vuelos/ProgramasVuelos';
 import Vuelos from '../modulos/Operacion_vuelos/Vuelos';
 import HorariosVuelos from '../modulos/Operacion_vuelos/HorariosVuelos';
-import Escalas from '../modulos/Operacion_vuelos/Escalas';
 import Equipaje from '../modulos/Reservacion y ventas/Equipaje';
 import Portales from '../modulos/Reservacion y ventas/Portales';
 import Usuarios from '../modulos/Gestion_Usuarios/Usuarios/Usuarios';
 import Visas from '../modulos/Gestion_Usuarios/Visas/Visas';
 import Licencias from '../modulos/Gestion_Usuarios/Licencias/Licencias';
+import Facturacion from '../modulos/facturacion_pagos/Facturacion/Facturacion';
+import Mercancias from '../modulos/facturacion_pagos/Mercancias/Mercancias';
+import Pagos from '../modulos/facturacion_pagos/Pagos/Pagos';
 
 
 export default function DefinicionRutas() {
@@ -48,7 +50,6 @@ export default function DefinicionRutas() {
         <Route path="contribuyentes/ProgramasVuelos" element={<ProgramaVuelos/>} />       
         <Route path="contribuyentes/Vuelos" element={<Vuelos/>} />
         <Route path="contribuyentes/HorariosVuelos" element={<HorariosVuelos/>} />        
-        <Route path="contribuyentes/Escalas" element={<Escalas/>} /> 
         <Route path="Reservas" element={<GestionReservasVentas/>} />
         <Route path="reservas/reservas" element={<Reservas/>} />
         <Route path="reservas/equipajes" element={<Equipaje/>} />
@@ -57,6 +58,9 @@ export default function DefinicionRutas() {
         <Route path="solicitudes-y-avisos" element={<GestionOperacionesServicios/>} />
         <Route path="vehiculos" element={<GestionReportesSimulacion/>} />
         <Route path="mis-documentos" element={<GestionFacturacionPagos/>} />
+        <Route path="mis-documentos/facturacion" element={<Facturacion/>} />
+        <Route path="mis-documentos/mercancias" element={<Mercancias/>} />
+        <Route path="mis-documentos/pagos" element={<Pagos/>} />
 
       </Route>
 

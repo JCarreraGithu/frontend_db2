@@ -1,3 +1,6 @@
+
+
+
 import './GestionFacturacionPagos.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,19 +9,19 @@ const GestionFacturacionPagos = () => {
 
   const opciones = [
     {
-      titulo: 'Facturación',
+      titulo: 'Facturacion',
       descripcion: 'Emisión y gestión de facturas para pasajeros, aerolíneas y servicios especiales. Incluye validación fiscal y reportes.',
-      ruta: '/pagos/facturacion',
+      ruta: '/dashboard/mis-documentos/facturacion',
     },
     {
       titulo: 'Pagos',
       descripcion: 'Controla los métodos de pago, transacciones, cancelaciones y devoluciones tanto en línea como presenciales.',
-      ruta: '/pagos/pagos',
+      ruta: '/dashboard/mis-documentos/pagos',
     },
     {
-      titulo: 'Mercancías',
+      titulo: 'Mercancias',
       descripcion: 'Gestión de cobros por transporte de mercancías, almacenaje y servicios logísticos asociados.',
-      ruta: '/pagos/mercancias',
+      ruta: '/dashboard/mis-documentos/mercancias',
     },
   ];
 
