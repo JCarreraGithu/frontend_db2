@@ -10,21 +10,8 @@ const GestionInfraestructura = () => {
       descripcion: 'Administra las pistas de aterrizaje y despegue. Incluye su disponibilidad, mantenimiento y señalización.',
       ruta: '/dashboard/infraestructura/Pistas',
     },
-    {
-      titulo: 'Mantenimiento de Pistas',
-      descripcion: 'Controla los trabajos de mantenimiento programado o emergente en pistas y zonas de rodaje.',
-      ruta: '/infraestructura/mantenimiento-pistas',
-    },
-    {
-      titulo: 'Carros',
-      descripcion: 'Gestión de vehículos operativos dentro del aeropuerto: logística, asignaciones y mantenimiento.',
-      ruta: '/infraestructura/carros',
-    },
-    {
-      titulo: 'Transporte',
-      descripcion: 'Administra los medios de transporte internos y externos: autobuses, pasarelas y trenes aeroportuarios.',
-      ruta: '/infraestructura/transporte',
-    },
+    
+    
   ];
 
   return (
