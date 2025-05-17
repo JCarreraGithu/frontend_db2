@@ -27,6 +27,7 @@ import Arrestos from '../modulos/Operaciones_servicios/Arrestos/Arrestos';
 import Mantenimiento from '../modulos/Operaciones_servicios/Mantenimiento/Mantenimiento';
 import SimulacionFlujoPasajeros from '../modulos/reporte y simulacion/SimulacionFlujoPasajeros/SimulacionFlujoPasajeros';
 import ProgramaEstacional from '../modulos/reporte y simulacion/ProgramacionEstacional/ProgramaEstacional';
+import GestionInformacion from '../modulos/reporte y simulacion/GestionInformacion/GestionInformacion';
 
 
 
@@ -72,6 +73,7 @@ export default function DefinicionRutas() {
         <Route path="gestion_usuario/usuarios" element={<Usuarios/>} />
         <Route path="reporte y simulacion/SimulacionFlujoPasajeros" element={<SimulacionFlujoPasajeros/>} />
         <Route path="reporte y simulacion/ProgramacionEstacional" element={<ProgramaEstacional/>} />
+        <Route path="reporte y simulacion/GestionInformacion" element={<GestionInformacion/>} />
      
       </Route>
 

@@ -18,7 +18,7 @@ const GestionVuelos = () => {
 
   const obtenerVuelos = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/vuelos");
+      const res = await fetch("http://localhost:3000/api/programacion-estacional");
       if (!res.ok) throw new Error(`❌ Error HTTP: ${res.status}`);
 
       const data = await res.json();
